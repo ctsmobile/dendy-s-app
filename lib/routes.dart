@@ -3,9 +3,12 @@ class RouteConstant {
   static const String welcomeScreen = '/welcomeScreen';
   static const String loginScreen = '/loginScreen';
   static const String dashboardScreen = '/dashboardScreen';
-  static const String orderDetailsScreen = '/orderDetailsScreen';
-  static const String locationDetailsScreen = '/locationDetailsScreen';
-  static const String updateOrderStatusScreen = '/updateOrderStatusScreen';
+  static const String completeJobDetailsScreen = '/completeJobDetailsScreen';
+  static const String pendingDetailsScreen = '/pendingDetailsScreen';
+  static const String pendingJobDetailsScreen = '/pendingJobDetailsScreen';
+  static const String uploadImageScreen = '/uploadImageScreen';
+  static const String uploadImagesViewScreen = '/uploadImagesViewScreen';
+  static const String viewAllImagesScreen = '/viewAllImagesScreen';
   static const String markAsCollectedScreen = '/markAsCollectedScreen';
   static const String myMapScreen = '/myMapScreen';
 }

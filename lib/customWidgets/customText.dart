@@ -42,7 +42,7 @@ class CustomText extends StatelessWidget {
                   overflow: textOverflow),
               color: textColor,
               decoration: textUnderLined ? TextDecoration.underline : null,
-              decorationColor: Colors.grey,
+              decorationColor: grayColor,
               decorationThickness: 2,
               fontSize: fontSize,
               fontWeight: fontWeight)

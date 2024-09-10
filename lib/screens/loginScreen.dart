@@ -65,8 +65,6 @@ class LoginScreen extends StatelessWidget {
                   Image.asset(
                     '${baseImagePath}Rectangle.png',
                     fit: BoxFit.cover,
-                    // height: Utils.height! / 3,
-                    // width: Utils.width! / 1.5,
                   ),
                   TextField(
                     style: GoogleFonts.amaranth(

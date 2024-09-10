@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:dendy_app/customWidgets/customBottomBar.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/screens/tab_item.dart';
 import 'package:dendy_app/screens/tabbarview.dart';
 import 'package:dendy_app/utils/appcolors.dart';
-import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
