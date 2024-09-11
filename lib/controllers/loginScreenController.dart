@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 class LoginScreenController extends GetxController {
   var isDataLoading = false.obs;
   var passwordVisible = false.obs;
+  var emailValidationText = ''.obs;
+  var passwordValidationText = ''.obs;
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
 
@@ -28,29 +30,42 @@ class LoginScreenController extends GetxController {
     super.dispose();
   }
 
-  String? emailValidation(String? value) {
-    print("email==> $value");
+  String? emailValidation() {
+    emailValidationText.value = '';
+    passwordValidationText.value = '';
     RegExp regex = RegExp(
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-    if (value == null || value.isEmpty) {
-      return 'Please fill this field';
-    } else if (!regex.hasMatch(value)) {
-      return 'Enter Valid Email';
+    if (emailController.text.isEmpty) {
+      emailValidationText.value = 'Please enter email!';
+    } else if (!regex.hasMatch(emailController.text)) {
+      emailValidationText.value = 'Enter Valid Email';
     }
-    return null;
+
+    if (passwordController.text.isEmpty) {
+      passwordValidationText.value = 'Please enter password!';
+    }
   }
 
   String? passwordValidation(String? value) {
     print("pass==> $value");
-    if (value == null || value.isEmpty) {
-      return 'Please fill this field';
-    }
-    return null;
   }
 
   Future login() async {
-    isLoginTap.value = true;
-    if (loginFormKey.currentState!.validate()) {
+    emailValidationText.value = '';
+    passwordValidationText.value = '';
+    RegExp regex = RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    if (emailController.text.isEmpty) {
+      emailValidationText.value = 'Please enter email!';
+    } else if (!regex.hasMatch(emailController.text)) {
+      emailValidationText.value = 'Enter Valid Email';
+    }
+
+    if (passwordController.text.isEmpty) {
+      passwordValidationText.value = 'Please enter password!';
+    }
+    if (emailValidationText.value == '' && passwordValidationText.value == '') {
+      isLoginTap.value = true;
       // await loginApi(emailController.text, passwordController.text)
       //     .then((auth) {
       //   if (auth != null) {
@@ -68,8 +83,6 @@ class LoginScreenController extends GetxController {
       //     isLoginTap.value = false;
       //   }
       // });
-    } else {
-      isLoginTap.value = false;
     }
   }
 

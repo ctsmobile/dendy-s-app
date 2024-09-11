@@ -96,7 +96,7 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: CommonBottomBar(
-          index: 1,
+          index: 0,
         ),
       ),
     );

@@ -7,8 +7,8 @@ class RouteConstant {
   static const String pendingDetailsScreen = '/pendingDetailsScreen';
   static const String pendingJobDetailsScreen = '/pendingJobDetailsScreen';
   static const String uploadImageScreen = '/uploadImageScreen';
+  static const String imageEditorScreen = '/imageEditorScreen';
   static const String uploadImagesViewScreen = '/uploadImagesViewScreen';
   static const String viewAllImagesScreen = '/viewAllImagesScreen';
-  static const String markAsCollectedScreen = '/markAsCollectedScreen';
-  static const String myMapScreen = '/myMapScreen';
+  static const String profileScreen = '/profileScreen';
 }

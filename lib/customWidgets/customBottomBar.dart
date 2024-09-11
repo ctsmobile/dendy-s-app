@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:dendy_app/routes.dart';
+import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,41 +15,40 @@ class CommonBottomBar extends StatelessWidget {
     Utils.width = MediaQuery.of(context).size.width;
     Utils.height = MediaQuery.of(context).size.height;
     return Container(
-      height: 100,
+      height: 70,
       decoration: BoxDecoration(
+          color: appThemeColor,
           image: DecorationImage(
               image: AssetImage('${baseImagePath}footer.png'),
               alignment: Alignment.bottomCenter)),
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, top: 20, right: 10),
+        padding: const EdgeInsets.only(left: 10, top: 5, right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             index == 0
                 ? _commonTabWithIndex(
-                    imagePath: '${baseImagePath}scan.png', tabName: 'My Map')
-                : _commonTab(
-                    tabName: 'My Map',
                     imagePath: '${baseImagePath}scan.png',
-                    navigationPath: RouteConstant.myMapScreen,
+                  )
+                : _commonTab(
+                    imagePath: '${baseImagePath}scan2.png',
+                    navigationPath: RouteConstant.completeJobDetailsScreen,
                   ),
             index == 1
                 ? _commonTabWithIndex(
-                    imagePath: '${baseImagePath}clock.png',
-                    tabName: 'My Orders')
+                    imagePath: '${baseImagePath}active.png',
+                  )
                 : _commonTab(
-                    tabName: 'My Orders',
-                    imagePath: '${baseImagePath}clock.png',
-                    navigationPath: RouteConstant.dashboardScreen,
+                    imagePath: '${baseImagePath}inactive.png',
+                    navigationPath: RouteConstant.pendingJobDetailsScreen,
                   ),
             index == 2
                 ? _commonTabWithIndex(
-                    imagePath: '${baseImagePath}profile.png',
-                    tabName: 'Unassigned')
+                    imagePath: '${baseImagePath}profile2.png',
+                  )
                 : _commonTab(
-                    tabName: 'Unassigned',
                     imagePath: '${baseImagePath}profile.png',
-                    navigationPath: RouteConstant.myMapScreen,
+                    navigationPath: RouteConstant.profileScreen,
                   ),
           ],
         ),
@@ -56,17 +56,17 @@ class CommonBottomBar extends StatelessWidget {
     );
   }
 
-  Widget _commonTabWithIndex(
-      {required String imagePath, required String tabName}) {
+  Widget _commonTabWithIndex({
+    required String imagePath,
+  }) {
     return Image.asset(
       imagePath,
-      height: Utils.height! / 7,
+      height: Utils.height! / 6,
       width: Utils.width! / 7,
     );
   }
 
   Widget _commonTab({
-    required String tabName,
     required String imagePath,
     required String navigationPath,
   }) {
@@ -81,43 +81,4 @@ class CommonBottomBar extends StatelessWidget {
       },
     );
   }
-}
-
-class CustomShapeBorder extends ShapeBorder {
-  const CustomShapeBorder();
-
-  @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) =>
-      _getPath(rect);
-
-  @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) =>
-      _getPath(rect);
-
-  _getPath(Rect rect) {
-    print(
-        "rrr${rect.height} rect.topLeft.dx${rect.topLeft.dx} rect.topLeft.dy${rect.topLeft.dy}");
-    final r = rect.height / 5;
-    final radius = Radius.circular(r);
-    final offset = Rect.fromCircle(center: Offset.zero, radius: r);
-    return Path()
-      ..moveTo(rect.topLeft.dx, rect.topLeft.dy)
-      ..relativeArcToPoint(offset.bottomRight, clockwise: false, radius: radius)
-      ..lineTo(rect.centerRight.dx - r, rect.centerRight.dy - r - 10)
-      ..relativeArcToPoint(offset.topRight, clockwise: false, radius: radius)
-      ..addRect(rect);
-  }
-
-  @override
-  EdgeInsetsGeometry get dimensions {
-    return EdgeInsets.all(0);
-  }
-
-  @override
-  ShapeBorder scale(double t) {
-    return CustomShapeBorder();
-  }
-
-  @override
-  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {}
 }

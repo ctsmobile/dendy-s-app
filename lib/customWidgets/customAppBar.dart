@@ -9,33 +9,34 @@ import 'package:get/get.dart';
 class MyAppBar extends StatelessWidget {
   final String title;
   final bool isLeading;
-  MyAppBar({required this.title, this.isLeading = true});
+  final List<Widget>? actionsWidget;
+  MyAppBar({required this.title, this.actionsWidget, this.isLeading = true});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: AppBar(
-        backgroundColor: appThemeColor,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        leading: isLeading
-            ? IconButton(
-                icon: Image.asset(
-                  '${baseImagePath}back.png',
-                  height: Utils.height! / 12,
-                  width: Utils.width! / 12,
-                ), // Custom Icon
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            : SizedBox(),
-        title: CustomText(
-          text: title,
-          textColor: purpleColor,
-          fontSize: 24,
-        ),
-      ),
+          backgroundColor: appThemeColor,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          leading: isLeading
+              ? IconButton(
+                  icon: Image.asset(
+                    '${baseImagePath}back.png',
+                    height: Utils.height! / 12,
+                    width: Utils.width! / 12,
+                  ), // Custom Icon
+                  onPressed: () {
+                    Get.back();
+                  },
+                )
+              : SizedBox(),
+          title: CustomText(
+            text: title,
+            textColor: purpleColor,
+            fontSize: 24,
+          ),
+          actions: actionsWidget),
     );
   }
 }

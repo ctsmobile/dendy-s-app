@@ -1,16 +1,20 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:dendy_app/controllers/uploadImagesController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadImageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final UploadImageController controller = Get.put(UploadImageController());
+
     return Scaffold(
       backgroundColor: appThemeColor,
       appBar: PreferredSize(
@@ -38,7 +42,11 @@ class UploadImageScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                   color: purpleColor),
               child: CupertinoButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.onImageButtonPressed(
+                    ImageSource.camera,
+                  );
+                },
                 child:
                     // controller.isLoginTap.value
                     //     ? Loader(

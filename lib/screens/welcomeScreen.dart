@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:dendy_app/customWidgets/customText.dart';
+import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -23,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
                   '${baseImagePath}small.png',
                   fit: BoxFit.cover,
                   height: Utils.height! / 2.5,
-                  width: Utils.width! / 1.5,
+                  // width: Utils.width! / 1.5,
                 ),
               ),
               SizedBox(
@@ -48,12 +50,14 @@ class WelcomeScreen extends StatelessWidget {
       ),
       floatingActionButton: Container(
         margin: const EdgeInsets.only(top: 40),
-        height: 64,
-        width: 64,
+        height: 50,
+        width: 50,
         child: FloatingActionButton(
             backgroundColor: purpleColor,
             elevation: 4,
-            onPressed: () => debugPrint("Add Button pressed"),
+            onPressed: () {
+              Get.offAllNamed(RouteConstant.loginScreen);
+            },
             shape: RoundedRectangleBorder(
               side: const BorderSide(width: 3, color: purpleColor),
               borderRadius: BorderRadius.circular(100),
@@ -61,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
             child: Icon(
               Icons.arrow_forward_ios,
               color: whiteColor,
-              size: 32,
+              size: 28,
             )),
       ),
     );

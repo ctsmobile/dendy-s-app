@@ -1,9 +1,11 @@
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/screens/dashboardScreen.dart';
 import 'package:dendy_app/screens/completeJobDetailsScreen.dart';
+import 'package:dendy_app/screens/imageEditorScreen.dart';
 import 'package:dendy_app/screens/loginScreen.dart';
 import 'package:dendy_app/screens/pendingDetailsScreen.dart';
 import 'package:dendy_app/screens/pendingJobDetailsScreen.dart';
+import 'package:dendy_app/screens/profileScreen.dart';
 import 'package:dendy_app/screens/splashScreen.dart';
 import 'package:dendy_app/screens/uploadImageScreen.dart';
 import 'package:dendy_app/screens/uploadImagesViewScreen.dart';
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: "Dendy's App",
         debugShowCheckedModeBanner: false,
-        initialRoute: RouteConstant.completeJobDetailsScreen,
+        initialRoute: RouteConstant.splashScreen,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: appThemeColor),
           useMaterial3: true,
@@ -89,5 +91,13 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.pendingJobDetailsScreen,
     page: () => PendingJobDetailsScreen(),
+  ),
+  GetPage(
+    name: RouteConstant.profileScreen,
+    page: () => ProfileScreen(),
+  ),
+  GetPage(
+    name: RouteConstant.imageEditorScreen,
+    page: () => ImageEditorScreen(),
   ),
 ];

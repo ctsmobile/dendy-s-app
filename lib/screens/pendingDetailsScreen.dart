@@ -3,10 +3,12 @@
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
+import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timer_builder/timer_builder.dart';
 
@@ -334,7 +336,9 @@ class PendingDetailsScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                       color: purpleColor),
                   child: CupertinoButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAllNamed(RouteConstant.uploadImageScreen);
+                    },
                     child:
                         // controller.isLoginTap.value
                         //     ? Loader(
