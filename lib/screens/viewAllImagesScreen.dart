@@ -32,9 +32,9 @@ class ViewAllImagesScreen extends StatelessWidget {
                   // physics: ScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
-                      mainAxisExtent: Utils.height! / 6,
-                      mainAxisSpacing: 30,
-                      crossAxisSpacing: 10
+                      mainAxisExtent: Utils.height! / 7.3,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20
                       // childAspectRatio: 4 / 4.5,
                       ),
                   itemBuilder: (BuildContext context, int index) {
@@ -52,8 +52,8 @@ class ViewAllImagesScreen extends StatelessWidget {
                           child: Image.asset(
                             '${baseImagePath}image5.png',
                             fit: BoxFit.cover,
-                            width: Utils.width! / 3.2,
-                            height: Utils.height! / 5.95,
+                            width: Utils.width! / 4.7,
+                            height: Utils.height! / 7.3,
 
                             // Utils.height! / 3,
                           ),

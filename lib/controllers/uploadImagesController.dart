@@ -14,6 +14,7 @@ import 'dart:ui' as ui;
 class UploadImageController extends GetxController {
   var isDataLoading = false.obs;
   late PainterController imageController;
+  var whichJob = 'null'.obs;
   ui.Image? backgroundImage;
   FocusNode textFocusNode = FocusNode();
   final ImagePicker _picker = ImagePicker();
@@ -26,6 +27,8 @@ class UploadImageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    whichJob.value = Get.arguments.toString();
+
     FocusManager.instance.primaryFocus?.unfocus();
   }
 

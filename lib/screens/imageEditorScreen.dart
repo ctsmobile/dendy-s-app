@@ -85,7 +85,11 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
               backgroundColor: purpleColor,
               elevation: 4,
               onPressed: () {
-                Get.offAllNamed(RouteConstant.loginScreen);
+                Get.back();
+                Get.back();
+
+                Get.toNamed(RouteConstant.uploadImagesViewScreen,
+                    arguments: controller.whichJob.value);
               },
               shape: RoundedRectangleBorder(
                 side: const BorderSide(width: 3, color: purpleColor),

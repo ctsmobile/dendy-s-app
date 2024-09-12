@@ -13,7 +13,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: appThemeColor,
         appBar: AppBar(
@@ -70,9 +70,6 @@ class DashboardScreen extends StatelessWidget {
                 unselectedLabelColor: grayColor,
                 tabs: [
                   TabItem2(
-                    title: 'Active Jobs',
-                  ),
-                  TabItem2(
                     title: 'Pending Jobs',
                   ),
                   TabItem2(
@@ -87,7 +84,7 @@ class DashboardScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: TabBarView(
             children: [
-              TabBarVieww(),
+              // TabBarVieww(),
               TabBarVieww(),
               TabBarVieww(
                 isCompletedJobs: true,

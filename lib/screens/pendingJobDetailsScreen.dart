@@ -7,8 +7,11 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timer_builder/timer_builder.dart';
+
+import '../routes.dart';
 
 class PendingJobDetailsScreen extends StatelessWidget {
   const PendingJobDetailsScreen({super.key});
@@ -20,7 +23,8 @@ class PendingJobDetailsScreen extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70),
           child: MyAppBar(
-            title: 'Details',
+            title: 'Active Job',
+            isLeading: false,
           )),
       body: SingleChildScrollView(
         child: Padding(
@@ -36,9 +40,8 @@ class PendingJobDetailsScreen extends StatelessWidget {
                         alignment: AlignmentDirectional.topCenter,
                         children: [
                           Card(
-                              elevation: 7,
+                              elevation: 3,
                               color: appThemeColor,
-                              shadowColor: innerShadowColor,
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(top: 130.0, left: 20),
@@ -56,10 +59,223 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                             text: 'Customer Info',
                                             textColor: purpleColor,
                                           ),
-                                          Image.asset(
-                                            '${baseImagePath}info.png',
-                                            height: 20,
-                                            width: 20,
+                                          GestureDetector(
+                                            child: Image.asset(
+                                              '${baseImagePath}info.png',
+                                              height: 20,
+                                              width: 20,
+                                            ),
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                isScrollControlled: true,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              15.0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Expanded(
+                                                                child:
+                                                                    CustomText(
+                                                                  text:
+                                                                      'Customer Info',
+                                                                  textColor:
+                                                                      purpleColor,
+                                                                  maxLines: 1,
+                                                                  textOverflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            10.0),
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}close.png',
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      30,
+                                                                  width: Utils
+                                                                          .width! /
+                                                                      10,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    70,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}profilee.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              CustomText(
+                                                                text: 'Alex',
+                                                                maxLines: 1,
+                                                                textOverflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    100,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}calender.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              CustomText(
+                                                                text:
+                                                                    '04-09-2024',
+                                                                maxLines: 1,
+                                                                textOverflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    100,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}watch.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              CustomText(
+                                                                text: '10:00',
+                                                                maxLines: 1,
+                                                                textOverflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    100,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}phone.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              CustomText(
+                                                                text:
+                                                                    '+1 9876543210',
+                                                                maxLines: 1,
+                                                                textOverflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    100,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}sent.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              Expanded(
+                                                                child:
+                                                                    CustomText(
+                                                                  text:
+                                                                      '904 E. California Street. Ontario. CA. 91761.',
+                                                                  maxLines: 1,
+                                                                  textOverflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -78,10 +294,153 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                             text: 'Assigned Employees',
                                             textColor: purpleColor,
                                           ),
-                                          Image.asset(
-                                            '${baseImagePath}info.png',
-                                            height: 20,
-                                            width: 20,
+                                          GestureDetector(
+                                            child: Image.asset(
+                                              '${baseImagePath}info.png',
+                                              height: 20,
+                                              width: 20,
+                                            ),
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                isScrollControlled: true,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              15.0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Expanded(
+                                                                child:
+                                                                    CustomText(
+                                                                  text:
+                                                                      'Assigned Employees',
+                                                                  textColor:
+                                                                      purpleColor,
+                                                                  maxLines: 1,
+                                                                  textOverflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            10.0),
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}close.png',
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      30,
+                                                                  width: Utils
+                                                                          .width! /
+                                                                      10,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    70,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}addProfile.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  CustomText(
+                                                                    text:
+                                                                        'Aman',
+                                                                    maxLines: 1,
+                                                                    textOverflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  ),
+                                                                  CustomText(
+                                                                    text:
+                                                                        ' (Team Lead)',
+                                                                    maxLines: 1,
+                                                                    textColor:
+                                                                        purpleColor,
+                                                                    textOverflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    100,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 0.7,
+                                                                child:
+                                                                    Image.asset(
+                                                                  '${baseImagePath}addProfile.png',
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: Utils
+                                                                        .width! /
+                                                                    30,
+                                                              ),
+                                                              CustomText(
+                                                                text: 'Jerry',
+                                                                maxLines: 1,
+                                                                textOverflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    100,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -121,6 +480,7 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                           );
                                         },
                                         shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Row(
@@ -132,40 +492,41 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                                 textColor: grayColor,
                                               ),
                                               Container(
-                                                  height: 35,
-                                                  width: 35,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: whiteColor,
-                                                        width: 2),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: innerShadowColor,
-                                                      ),
-                                                      BoxShadow(
-                                                          color: appThemeColor
-                                                              .withOpacity(0.7),
-                                                          spreadRadius: -2.0,
-                                                          blurRadius: 5.0,
-                                                          offset: Offset(0, 2)),
-                                                      BoxShadow(
-                                                          color: appThemeColor
-                                                              .withOpacity(0.7),
-                                                          spreadRadius: -2.0,
-                                                          blurRadius: 5.0,
-                                                          offset: Offset(0, 2)),
-                                                    ],
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Image.asset(
-                                                        '${baseImagePath}check.png'),
-                                                  ))
+                                                height: 35,
+                                                width: 35,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: whiteColor,
+                                                      width: 2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: innerShadowColor,
+                                                    ),
+                                                    BoxShadow(
+                                                        color: appThemeColor
+                                                            .withOpacity(0.7),
+                                                        spreadRadius: -2.0,
+                                                        blurRadius: 5.0,
+                                                        offset: Offset(0, 2)),
+                                                    BoxShadow(
+                                                        color: appThemeColor
+                                                            .withOpacity(0.7),
+                                                        spreadRadius: -2.0,
+                                                        blurRadius: 5.0,
+                                                        offset: Offset(0, 2)),
+                                                  ],
+                                                ),
+                                                // child: Padding(
+                                                //   padding:
+                                                //       const EdgeInsets.all(
+                                                //           8.0),
+                                                //   child: Image.asset(
+                                                //       '${baseImagePath}check.png'),
+                                                // )
+                                              )
                                             ],
                                           );
                                         },
@@ -218,7 +579,7 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                width: Utils.width! / 1.8,
+                                width: Utils.width! / 1.7,
                                 height: 90,
                                 margin: const EdgeInsets.only(
                                   left: 10,
@@ -281,21 +642,21 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         SizedBox(
-                                          width: 8,
+                                          width: 18,
                                         ),
                                         CustomText(
                                           text: 'HOUR',
                                           fontSize: 12,
                                         ),
                                         SizedBox(
-                                          width: 30,
+                                          width: 27,
                                         ),
                                         CustomText(
                                           text: 'MINUTE',
                                           fontSize: 12,
                                         ),
                                         SizedBox(
-                                          width: 26,
+                                          width: 25,
                                         ),
                                         Expanded(
                                           child: CustomText(
@@ -334,16 +695,13 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                 boxShadow: [
                                   BoxShadow(
                                       color: innerShadowColor.withOpacity(0.9),
-                                      offset: Offset(0, -2)),
+                                      offset: Offset(-1, -2)),
                                   BoxShadow(
                                       color: innerShadowColor.withOpacity(0.9),
-                                      offset: Offset(2, 0)),
-                                  BoxShadow(
-                                      color: innerShadowColor.withOpacity(0.5),
-                                      offset: Offset(-2, 0)),
+                                      offset: Offset(1, -2)),
                                   BoxShadow(
                                       color: appThemeColor,
-                                      spreadRadius: -1.0,
+                                      spreadRadius: 1.0,
                                       blurRadius: 1.0,
                                       offset: Offset(0, 0)),
                                 ],
@@ -358,24 +716,21 @@ class PendingJobDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                    bottom: 32,
+                    bottom: 36,
                     child: Container(
                       width: Utils.width! / 1.4,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: purpleColor),
                       child: CupertinoButton(
-                        onPressed: () {},
-                        child:
-                            // controller.isLoginTap.value
-                            //     ? Loader(
-                            //         color: whiteColor,
-                            //       )
-                            //     :
-                            CustomText(
+                        onPressed: () {
+                          // Get.toNamed(RouteConstant.uploadImageScreen,
+                          //     arguments: 'finishJob');
+                        },
+                        child: CustomText(
                           text: "Upload Completion Images",
                           textColor: appThemeColor,
-                          fontSize: 22,
+                          fontSize: 20,
                           maxLines: 1,
                           textOverflow: TextOverflow.ellipsis,
                         ),

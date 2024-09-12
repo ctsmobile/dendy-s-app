@@ -3,10 +3,12 @@
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customBottomBar.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
+import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -34,9 +36,8 @@ class ProfileScreen extends StatelessWidget {
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Card(
-                          elevation: 7,
+                          elevation: 3,
                           color: appThemeColor,
-                          shadowColor: innerShadowColor,
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: 15.0, left: 20, right: 10),
@@ -149,16 +150,13 @@ class ProfileScreen extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                   color: innerShadowColor.withOpacity(0.9),
-                                  offset: Offset(0, -2)),
+                                  offset: Offset(-1, -2)),
                               BoxShadow(
                                   color: innerShadowColor.withOpacity(0.9),
-                                  offset: Offset(2, 0)),
-                              BoxShadow(
-                                  color: innerShadowColor.withOpacity(0.5),
-                                  offset: Offset(-2, 0)),
+                                  offset: Offset(1, -2)),
                               BoxShadow(
                                   color: appThemeColor,
-                                  spreadRadius: -1.0,
+                                  spreadRadius: 1.0,
                                   blurRadius: 1.0,
                                   offset: Offset(0, 0)),
                             ],
@@ -175,20 +173,16 @@ class ProfileScreen extends StatelessWidget {
               Positioned(
                 bottom: 30,
                 child: Container(
-                  width: 200,
+                  width: 210,
                   // height: 50,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: purpleColor),
                   child: CupertinoButton(
-                    onPressed: () {},
-                    child:
-                        // controller.isLoginTap.value
-                        //     ? Loader(
-                        //         color: whiteColor,
-                        //       )
-                        //     :
-                        Center(
+                    onPressed: () {
+                      Get.offAllNamed(RouteConstant.loginScreen);
+                    },
+                    child: Center(
                       child: Text(
                         "Logout",
                         style: GoogleFonts.amaranth(

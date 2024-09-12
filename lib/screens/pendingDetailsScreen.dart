@@ -36,9 +36,8 @@ class PendingDetailsScreen extends StatelessWidget {
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Card(
-                          elevation: 7,
+                          elevation: 3,
                           color: appThemeColor,
-                          shadowColor: innerShadowColor,
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: 15.0, left: 10, right: 10),
@@ -304,16 +303,13 @@ class PendingDetailsScreen extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                   color: innerShadowColor.withOpacity(0.9),
-                                  offset: Offset(0, -2)),
+                                  offset: Offset(-1, -2)),
                               BoxShadow(
                                   color: innerShadowColor.withOpacity(0.9),
-                                  offset: Offset(2, 0)),
-                              BoxShadow(
-                                  color: innerShadowColor.withOpacity(0.5),
-                                  offset: Offset(-2, 0)),
+                                  offset: Offset(1, -2)),
                               BoxShadow(
                                   color: appThemeColor,
-                                  spreadRadius: -1.0,
+                                  spreadRadius: 1.0,
                                   blurRadius: 1.0,
                                   offset: Offset(0, 0)),
                             ],
@@ -330,14 +326,13 @@ class PendingDetailsScreen extends StatelessWidget {
               Positioned(
                 bottom: 30,
                 child: Container(
-                  width: 200,
-                  // height: 50,
+                  width: 210,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: purpleColor),
                   child: CupertinoButton(
                     onPressed: () {
-                      Get.offAllNamed(RouteConstant.uploadImageScreen);
+                      // Get.toNamed(RouteConstant.uploadImageScreen);
                     },
                     child:
                         // controller.isLoginTap.value

@@ -125,7 +125,11 @@ class TabBarVieww extends StatelessWidget {
                         ],
                       )),
                   onTap: () {
-                    Get.toNamed(RouteConstant.pendingDetailsScreen);
+                    if (isCompletedJobs) {
+                      // Get.toNamed(RouteConstant.completeJobDetailsScreen);
+                    } else {
+                      Get.toNamed(RouteConstant.pendingDetailsScreen);
+                    }
                   },
                 );
               }),

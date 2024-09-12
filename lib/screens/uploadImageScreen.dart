@@ -21,7 +21,6 @@ class UploadImageScreen extends StatelessWidget {
           preferredSize: const Size.fromHeight(70),
           child: MyAppBar(
             title: 'Upload Images',
-            isLeading: false,
           )),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

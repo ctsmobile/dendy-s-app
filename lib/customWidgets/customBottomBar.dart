@@ -15,11 +15,11 @@ class CommonBottomBar extends StatelessWidget {
     Utils.width = MediaQuery.of(context).size.width;
     Utils.height = MediaQuery.of(context).size.height;
     return Container(
-      height: 70,
+      height: 80,
       decoration: BoxDecoration(
           color: appThemeColor,
           image: DecorationImage(
-              image: AssetImage('${baseImagePath}footer.png'),
+              image: AssetImage('${baseImagePath}footer2.png'),
               alignment: Alignment.bottomCenter)),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, top: 5, right: 10),
@@ -32,14 +32,14 @@ class CommonBottomBar extends StatelessWidget {
                   )
                 : _commonTab(
                     imagePath: '${baseImagePath}scan2.png',
-                    navigationPath: RouteConstant.completeJobDetailsScreen,
+                    navigationPath: RouteConstant.dashboardScreen,
                   ),
             index == 1
                 ? _commonTabWithIndex(
-                    imagePath: '${baseImagePath}active.png',
+                    imagePath: '${baseImagePath}active2.png',
                   )
                 : _commonTab(
-                    imagePath: '${baseImagePath}inactive.png',
+                    imagePath: '${baseImagePath}active2.png',
                     navigationPath: RouteConstant.pendingJobDetailsScreen,
                   ),
             index == 2

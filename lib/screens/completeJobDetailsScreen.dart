@@ -423,7 +423,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                               height: Utils.height! / 60,
                             ),
                             SizedBox(
-                              height: Utils.height! / 5.95,
+                              height: Utils.height! / 7.3,
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 20.0),
                                 child: ListView.separated(
@@ -452,8 +452,8 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                         child: Image.asset(
                                           '${baseImagePath}image5.png',
                                           fit: BoxFit.cover,
-                                          width: Utils.width! / 3.2,
-                                          height: Utils.height! / 5.95,
+                                          width: Utils.width! / 4,
+                                          height: Utils.height! / 7.3,
 
                                           // Utils.height! / 3,
                                         ),
@@ -571,7 +571,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                               height: Utils.height! / 60,
                             ),
                             SizedBox(
-                              height: Utils.height! / 5.95,
+                              height: Utils.height! / 7.3,
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 20.0),
                                 child: ListView.separated(
@@ -600,8 +600,8 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                         child: Image.asset(
                                           '${baseImagePath}image5.png',
                                           fit: BoxFit.cover,
-                                          width: Utils.width! / 3.2,
-                                          height: Utils.height! / 5.95,
+                                          width: Utils.width! / 4,
+                                          height: Utils.height! / 7.3,
 
                                           // Utils.height! / 3,
                                         ),
@@ -655,7 +655,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: Utils.width! / 1.8,
+                        width: Utils.width! / 1.7,
                         height: 90,
                         margin: const EdgeInsets.only(
                           left: 10,
@@ -718,21 +718,21 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 8,
+                                  width: 18,
                                 ),
                                 CustomText(
                                   text: 'HOUR',
                                   fontSize: 12,
                                 ),
                                 SizedBox(
-                                  width: 30,
+                                  width: 27,
                                 ),
                                 CustomText(
                                   text: 'MINUTE',
                                   fontSize: 12,
                                 ),
                                 SizedBox(
-                                  width: 26,
+                                  width: 25,
                                 ),
                                 Expanded(
                                   child: CustomText(

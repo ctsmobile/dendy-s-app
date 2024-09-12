@@ -87,6 +87,7 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.uploadImagesViewScreen,
     page: () => UploadeImagesViewScreen(),
+    // binding: UploadImagesViewController(),
   ),
   GetPage(
     name: RouteConstant.pendingJobDetailsScreen,
