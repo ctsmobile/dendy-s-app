@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900401400850",
+    "project_id": "dendyapp",
+    "storage_bucket": "dendyapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900401400850:android:009ff627dcc767f8d55ccb",
+        "android_client_info": {
+          "package_name": "com.example.dendy_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9EOJo4kwBp94F9wW5jKdS77o05jJRVpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

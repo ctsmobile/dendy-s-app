@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
@@ -126,7 +128,7 @@ class TabBarVieww extends StatelessWidget {
                       )),
                   onTap: () {
                     if (isCompletedJobs) {
-                      // Get.toNamed(RouteConstant.completeJobDetailsScreen);
+                      Get.toNamed(RouteConstant.completeJobDetailsScreen);
                     } else {
                       Get.toNamed(RouteConstant.pendingDetailsScreen);
                     }

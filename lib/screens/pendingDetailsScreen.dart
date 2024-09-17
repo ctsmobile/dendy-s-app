@@ -332,7 +332,7 @@ class PendingDetailsScreen extends StatelessWidget {
                       color: purpleColor),
                   child: CupertinoButton(
                     onPressed: () {
-                      // Get.toNamed(RouteConstant.uploadImageScreen);
+                      Get.toNamed(RouteConstant.uploadImageScreen);
                     },
                     child:
                         // controller.isLoginTap.value
