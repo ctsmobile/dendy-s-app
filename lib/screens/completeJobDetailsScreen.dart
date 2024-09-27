@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, avoid_print
 
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
@@ -14,6 +14,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("jjjj${Utils.width}");
     return Scaffold(
       backgroundColor: appThemeColor,
       appBar: PreferredSize(
@@ -655,8 +656,8 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: Utils.width! / 1.7,
-                        height: 90,
+                        width: Utils.width! / 1.8,
+                        height: 86,
                         margin: const EdgeInsets.only(
                           left: 10,
                           right: 10,
@@ -718,21 +719,21 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 18,
+                                  width: Utils.width! / 21.7,
                                 ),
                                 CustomText(
                                   text: 'HOUR',
                                   fontSize: 12,
                                 ),
                                 SizedBox(
-                                  width: 27,
+                                  width: Utils.width! / 14.5,
                                 ),
                                 CustomText(
                                   text: 'MINUTE',
                                   fontSize: 12,
                                 ),
                                 SizedBox(
-                                  width: 25,
+                                  width: Utils.width! / 15.65,
                                 ),
                                 Expanded(
                                   child: CustomText(

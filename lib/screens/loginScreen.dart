@@ -189,8 +189,8 @@ class LoginScreen extends StatelessWidget {
                       onPressed: controller.isLoginTap.value
                           ? null
                           : () {
-                              // controller.login();
-                              Get.offAllNamed(RouteConstant.dashboardScreen);
+                              controller.login();
+                              // Get.offAllNamed(RouteConstant.dashboardScreen);
                             },
                       child: controller.isLoginTap.value
                           ? Loader(

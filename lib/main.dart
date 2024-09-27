@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/screens/dashboardScreen.dart';
 import 'package:dendy_app/screens/completeJobDetailsScreen.dart';
@@ -16,22 +17,24 @@ import 'package:dendy_app/screens/viewAllImagesScreen.dart';
 import 'package:dendy_app/screens/welcomeScreen.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //     options: FirebaseOptions(
-  //   apiKey: 'AIzaSyA9EOJo4kwBp94F9wW5jKdS77o05jJRVpo',
-  //   appId: '1:900401400850:android:009ff627dcc767f8d55ccb',
-  //   messagingSenderId: '900401400850',
-  //   projectId: 'dendyapp',
-  //   storageBucket: 'dendyapp.appspot.com',
-  // ));
-  // await FirebaseAPI().initNotifications();
+  WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+    apiKey: 'AIzaSyA9EOJo4kwBp94F9wW5jKdS77o05jJRVpo',
+    appId: '1:900401400850:android:009ff627dcc767f8d55ccb',
+    messagingSenderId: '900401400850',
+    projectId: 'dendyapp',
+    storageBucket: 'dendyapp.appspot.com',
+  ));
+  await FirebaseAPI().initNotifications();
+
   // await SystemChrome.setPreferredOrientations(
   //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());

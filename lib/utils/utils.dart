@@ -21,3 +21,4 @@ List names = [
   'System Exchange',
   'Filter Cleaning',
 ];
+const String baseUrl = 'https://dendyapp.chawtechsolutions.ch/api/';

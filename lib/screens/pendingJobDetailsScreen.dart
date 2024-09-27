@@ -589,8 +589,8 @@ class PendingJobDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  width: Utils.width! / 1.7,
-                                  height: 90,
+                                  width: Utils.width! / 1.8,
+                                  height: 86,
                                   margin: const EdgeInsets.only(
                                     left: 10,
                                     right: 10,

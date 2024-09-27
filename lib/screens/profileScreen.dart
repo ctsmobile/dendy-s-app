@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
 
+import 'package:dendy_app/controllers/profileController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customBottomBar.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
@@ -16,6 +17,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController controller = Get.put(ProfileController());
+
     return Scaffold(
       backgroundColor: appThemeColor,
       appBar: PreferredSize(
@@ -187,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
                         color: purpleColor),
                     child: CupertinoButton(
                       onPressed: () {
-                        Get.offAllNamed(RouteConstant.loginScreen);
+                        controller.logout();
                       },
                       child: Center(
                         child: Text(
