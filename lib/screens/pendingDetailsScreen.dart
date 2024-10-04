@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
 
+import 'package:dendy_app/Model/pendingJobListModel.dart';
+import 'package:dendy_app/controllers/dashboardController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
-import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
@@ -10,10 +11,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:timer_builder/timer_builder.dart';
 
-class PendingDetailsScreen extends StatelessWidget {
+class PendingDetailsScreen extends StatefulWidget {
   const PendingDetailsScreen({super.key});
+
+  @override
+  State<PendingDetailsScreen> createState() => _PendingDetailsScreenState();
+}
+
+class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
+  late PendingJobs pendingJobDetails;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pendingJobDetails = Get.arguments['pendingJobDetail'];
+    print("pendingJobDetails$pendingJobDetails");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +71,7 @@ class PendingDetailsScreen extends StatelessWidget {
                                           children: [
                                             Expanded(
                                               child: CustomText(
-                                                text:
-                                                    'Exhaust Hood System Cleaning',
+                                                text: pendingJobDetails.name,
                                                 textColor: purpleColor,
                                                 maxLines: 1,
                                                 textOverflow:
@@ -82,7 +95,9 @@ class PendingDetailsScreen extends StatelessWidget {
                                               width: Utils.width! / 30,
                                             ),
                                             CustomText(
-                                              text: 'Alex',
+                                              text: pendingJobDetails
+                                                  .customer.name
+                                                  .toString(),
                                               maxLines: 1,
                                               textOverflow:
                                                   TextOverflow.ellipsis,
@@ -104,7 +119,8 @@ class PendingDetailsScreen extends StatelessWidget {
                                               width: Utils.width! / 30,
                                             ),
                                             CustomText(
-                                              text: '04-09-2024 | 10:00',
+                                              text:
+                                                  '${pendingJobDetails.customer.createdAt.toString()} | 10:00',
                                               maxLines: 1,
                                               textOverflow:
                                                   TextOverflow.ellipsis,
@@ -126,7 +142,9 @@ class PendingDetailsScreen extends StatelessWidget {
                                               width: Utils.width! / 30,
                                             ),
                                             CustomText(
-                                              text: '+1 9876543210',
+                                              text: pendingJobDetails
+                                                  .customer.contactNumber
+                                                  .toString(),
                                               maxLines: 1,
                                               textOverflow:
                                                   TextOverflow.ellipsis,
@@ -149,8 +167,9 @@ class PendingDetailsScreen extends StatelessWidget {
                                             ),
                                             Expanded(
                                               child: CustomText(
-                                                text:
-                                                    '904 E. California Street. Ontario. CA. 91761.',
+                                                text: pendingJobDetails
+                                                    .customer.location
+                                                    .toString(),
                                                 maxLines: 1,
                                                 textOverflow:
                                                     TextOverflow.ellipsis,
@@ -172,58 +191,83 @@ class PendingDetailsScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Transform.scale(
-                                              scale: 0.7,
-                                              child: Image.asset(
-                                                '${baseImagePath}addProfile.png',
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: Utils.width! / 30,
-                                            ),
-                                            Row(
-                                              children: [
-                                                CustomText(
-                                                  text: 'Aman',
-                                                  maxLines: 1,
-                                                  textOverflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                CustomText(
-                                                  text: ' (Team Lead)',
-                                                  maxLines: 1,
-                                                  textColor: purpleColor,
-                                                  textOverflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: Utils.height! / 100,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Transform.scale(
-                                              scale: 0.7,
-                                              child: Image.asset(
-                                                '${baseImagePath}addProfile.png',
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: Utils.width! / 30,
-                                            ),
-                                            CustomText(
-                                              text: 'Jerry',
-                                              maxLines: 1,
-                                              textOverflow:
-                                                  TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
+                                        ListView.separated(
+                                            itemCount:
+                                                pendingJobDetails.users.length,
+                                            separatorBuilder: (context, index) {
+                                              return SizedBox(
+                                                height: 10,
+                                              );
+                                            },
+                                            shrinkWrap: true,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 0.7,
+                                                    child: Image.asset(
+                                                      '${baseImagePath}addProfile.png',
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: Utils.width! / 30,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      CustomText(
+                                                        text: pendingJobDetails
+                                                            .users[index]
+                                                            .employeeId
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        textOverflow:
+                                                            TextOverflow
+                                                                .ellipsis,
+                                                      ),
+                                                      pendingJobDetails
+                                                                  .users[index]
+                                                                  .crewLead ==
+                                                              1
+                                                          ? CustomText(
+                                                              text:
+                                                                  ' (Team Lead)',
+                                                              maxLines: 1,
+                                                              textColor:
+                                                                  purpleColor,
+                                                              textOverflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            )
+                                                          : SizedBox()
+                                                    ],
+                                                  ),
+                                                ],
+                                              );
+                                            }),
+
+                                        // SizedBox(
+                                        //   height: Utils.height! / 100,
+                                        // ),
+                                        // Row(
+                                        //   children: [
+                                        //     Transform.scale(
+                                        //       scale: 0.7,
+                                        //       child: Image.asset(
+                                        //         '${baseImagePath}addProfile.png',
+                                        //       ),
+                                        //     ),
+                                        //     SizedBox(
+                                        //       width: Utils.width! / 30,
+                                        //     ),
+                                        //     CustomText(
+                                        //       text: 'Jerry',
+                                        //       maxLines: 1,
+                                        //       textOverflow:
+                                        //           TextOverflow.ellipsis,
+                                        //     ),
+                                        //   ],
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -248,7 +292,8 @@ class PendingDetailsScreen extends StatelessWidget {
                                           height: Utils.height! / 30,
                                         ),
                                         ListView.separated(
-                                          itemCount: 4,
+                                          itemCount:
+                                              pendingJobDetails.tasks.length,
                                           separatorBuilder: (context, index) {
                                             return SizedBox(
                                               height: 10,
@@ -263,7 +308,9 @@ class PendingDetailsScreen extends StatelessWidget {
                                                       .spaceBetween,
                                               children: [
                                                 CustomText(
-                                                  text: names[index],
+                                                  text: pendingJobDetails
+                                                      .tasks[index].taskName
+                                                      .toString(),
                                                   textColor: grayColor,
                                                 ),
                                               ],

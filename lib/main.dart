@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dendy_app/bindings/dashboardBindings.dart';
+import 'package:dendy_app/bindings/loginBinding.dart';
 import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/screens/dashboardScreen.dart';
@@ -7,7 +9,7 @@ import 'package:dendy_app/screens/completeJobDetailsScreen.dart';
 import 'package:dendy_app/screens/imageEditorScreen.dart';
 import 'package:dendy_app/screens/loginScreen.dart';
 import 'package:dendy_app/screens/pendingDetailsScreen.dart';
-import 'package:dendy_app/screens/pendingJobDetailsScreen.dart';
+import 'package:dendy_app/screens/activeJobScreen.dart';
 import 'package:dendy_app/screens/profileScreen.dart';
 import 'package:dendy_app/screens/splashScreen.dart';
 
@@ -58,7 +60,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: "Dendy's App",
         debugShowCheckedModeBanner: false,
-        initialRoute: RouteConstant.splashScreen,
+        initialRoute: GetStorage().read('user_id') != null
+            ? RouteConstant.dashboardScreen
+            : RouteConstant.splashScreen,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: appThemeColor),
           useMaterial3: true,
@@ -77,13 +81,13 @@ List<GetPage> getPages = [
     page: () => const WelcomeScreen(),
   ),
   GetPage(
-    name: RouteConstant.loginScreen,
-    page: () => const LoginScreen(),
-  ),
+      name: RouteConstant.loginScreen,
+      page: () => const LoginScreen(),
+      binding: LoginBinding()),
   GetPage(
-    name: RouteConstant.dashboardScreen,
-    page: () => const DashboardScreen(),
-  ),
+      name: RouteConstant.dashboardScreen,
+      page: () => const DashboardScreen(),
+      binding: DashboardBinding()),
   GetPage(
     name: RouteConstant.completeJobDetailsScreen,
     page: () => const CompleteJobDetailsScreen(),

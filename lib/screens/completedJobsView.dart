@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dendy_app/Model/pendingJobListModel.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
@@ -7,9 +8,13 @@ import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TabBarVieww extends StatelessWidget {
+class CompletedJobsView extends StatelessWidget {
   final bool isCompletedJobs;
-  const TabBarVieww({super.key, this.isCompletedJobs = false});
+  final PendingJobListModel pendingJobListModel;
+  const CompletedJobsView(
+      {super.key,
+      required this.pendingJobListModel,
+      this.isCompletedJobs = false});
 
   @override
   Widget build(BuildContext context) {
