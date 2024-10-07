@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, curly_braces_in_flow_control_structures, use_super_parameters
 
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:dendy_app/controllers/uploadImagesController.dart';
@@ -12,10 +13,13 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_painter_v2/flutter_painter.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class ImageEditorScreen extends StatefulWidget {
   static const Color red = Color(0xFFFF0000);
@@ -84,12 +88,42 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
           child: FloatingActionButton(
               backgroundColor: purpleColor,
               elevation: 4,
-              onPressed: () {
+              onPressed: () async {
                 Get.back();
-                Get.back();
+                // Get.back();
+                if (Get.put(UploadImageController()).backgroundImage == null)
+                  return;
+                final backgroundImageSize = Size(
+                    Get.put(UploadImageController())
+                        .backgroundImage!
+                        .width
+                        .toDouble(),
+                    Get.put(UploadImageController())
+                        .backgroundImage!
+                        .height
+                        .toDouble());
+                final imageFuture = Get.put(UploadImageController())
+                    .imageController
+                    .renderImage(backgroundImageSize)
+                    .then<Uint8List?>((ui.Image image) => image.pngBytes);
+                // Await the result of the Future
+                Uint8List? imageData = await imageFuture;
+                XFile? xFile;
+                // You need to convert Uint8List to XFile or handle the upload differently
+                if (imageData != null) {
+                  // Convert Uint8List to XFile (assuming you know the file path)
+                  final tempDir = await getTemporaryDirectory();
+                  var uuid = Uuid();
+                  final file = File('${tempDir.path}/${uuid.v4()}.png');
+                  await file.writeAsBytes(imageData);
 
-                Get.toNamed(RouteConstant.uploadImagesViewScreen,
-                    arguments: controller.whichJob.value);
+                  xFile = XFile(file.path);
+                }
+                // Now you can call the uploadImage method
+                controller.uploadImage(xFile!);
+
+                // Get.toNamed(RouteConstant.uploadImagesViewScreen,
+                //     arguments: controller.whichJob.value);
               },
               shape: RoundedRectangleBorder(
                 side: const BorderSide(width: 3, color: purpleColor),

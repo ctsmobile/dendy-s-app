@@ -111,7 +111,7 @@ List<GetPage> getPages = [
   ),
   GetPage(
     name: RouteConstant.pendingJobDetailsScreen,
-    page: () => PendingJobDetailsScreen(),
+    page: () => ActiveJobScreen(),
   ),
   GetPage(
     name: RouteConstant.profileScreen,

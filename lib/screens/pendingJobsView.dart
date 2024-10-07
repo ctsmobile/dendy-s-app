@@ -7,6 +7,7 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class PendingJobsView extends StatelessWidget {
   final bool isCompletedJobs;
@@ -151,6 +152,10 @@ class PendingJobsView extends StatelessWidget {
                           if (isCompletedJobs) {
                             Get.toNamed(RouteConstant.completeJobDetailsScreen);
                           } else {
+                            GetStorage().write(
+                                'jobId',
+                                pendingJobListModel!.pendingJob[index].id
+                                    .toString());
                             Get.toNamed(RouteConstant.pendingDetailsScreen,
                                 arguments: {
                                   "pendingJobDetail":

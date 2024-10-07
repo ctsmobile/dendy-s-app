@@ -71,7 +71,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                           children: [
                                             Expanded(
                                               child: CustomText(
-                                                text: pendingJobDetails.name,
+                                                text: pendingJobDetails.name!,
                                                 textColor: purpleColor,
                                                 maxLines: 1,
                                                 textOverflow:
@@ -302,18 +302,11 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            return Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                CustomText(
-                                                  text: pendingJobDetails
-                                                      .tasks[index].taskName
-                                                      .toString(),
-                                                  textColor: grayColor,
-                                                ),
-                                              ],
+                                            return CustomText(
+                                              text: pendingJobDetails
+                                                  .tasks[index].taskName
+                                                  .toString(),
+                                              textColor: grayColor,
                                             );
                                           },
                                         ),

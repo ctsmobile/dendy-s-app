@@ -36,14 +36,14 @@ class PendingJobListModel {
 
 class PendingJobs {
   int id;
-  String name;
+  String? name;
   String? date;
-  String time;
+  String? time;
   int customerId;
-  String jobLocation;
-  String jobLat;
-  String jobLng;
-  String status;
+  String? jobLocation;
+  String? jobLat;
+  String? jobLng;
+  String? status;
   DateTime createdAt;
   dynamic updatedAt;
   Customer customer;
@@ -89,12 +89,12 @@ class PendingJobs {
 
 class Customer {
   int id;
-  String name;
-  String email;
-  String contactNumber;
-  String location;
-  String lat;
-  String lng;
+  String? name;
+  String? email;
+  String? contactNumber;
+  String? location;
+  String? lat;
+  String? lng;
   String? createdAt;
   String? updatedAt;
 
@@ -132,7 +132,7 @@ class Customer {
 class Task {
   int id;
   int jobId;
-  String taskName;
+  String? taskName;
   DateTime createdAt;
   DateTime? updatedAt;
 

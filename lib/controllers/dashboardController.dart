@@ -33,6 +33,7 @@ class DashboardController extends GetxController {
           isDataLoading.value = false;
         } else {
           pendingJobListModel = pendingJob;
+          // getCompletedJobListApi();
           isDataLoading.value = false;
         }
       } else {
@@ -47,6 +48,24 @@ class DashboardController extends GetxController {
       return await post
           .get(
         'job/list/pending',
+      )
+          .then((dynamic res) async {
+        print("pendingJob$res");
+        return PendingJobListModel.fromJson(res!);
+      });
+    } catch (e) {
+      log('Error in pendingJob is $e');
+    } finally {
+      isDataLoading(false);
+    }
+  }
+
+  Future<PendingJobListModel?> getCompletedJobListApi() async {
+    try {
+      Post post = Post();
+      return await post
+          .get(
+        'job/list/completed',
       )
           .then((dynamic res) async {
         print("pendingJob$res");

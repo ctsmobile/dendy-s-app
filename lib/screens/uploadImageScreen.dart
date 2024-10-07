@@ -2,6 +2,7 @@
 
 import 'package:dendy_app/controllers/uploadImagesController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
+import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
@@ -46,32 +47,30 @@ class UploadImageScreen extends StatelessWidget {
                     ImageSource.camera,
                   );
                 },
-                child:
-                    // controller.isLoginTap.value
-                    //     ? Loader(
-                    //         color: whiteColor,
-                    //       )
-                    //     :
-                    Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Transform.scale(
-                      scale: 0.7,
-                      child: Image.asset(
-                        '${baseImagePath}upload2.png',
-                        fit: BoxFit.cover,
+                child: controller.isImageProcessing.value
+                    ? Loader(
+                        color: whiteColor,
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Transform.scale(
+                            scale: 0.7,
+                            child: Image.asset(
+                              '${baseImagePath}upload2.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(
+                            width: Utils.width! / 50,
+                          ),
+                          CustomText(
+                            text: 'Upload Images',
+                            fontSize: 20,
+                            textColor: whiteColor,
+                          )
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      width: Utils.width! / 50,
-                    ),
-                    CustomText(
-                      text: 'Upload Images',
-                      fontSize: 20,
-                      textColor: whiteColor,
-                    )
-                  ],
-                ),
               ),
             ),
           ],

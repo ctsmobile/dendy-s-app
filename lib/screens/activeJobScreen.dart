@@ -10,14 +10,12 @@ import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:timer_builder/timer_builder.dart';
 
 import '../routes.dart';
 
-class PendingJobDetailsScreen extends StatelessWidget {
-  const PendingJobDetailsScreen({super.key});
+class ActiveJobScreen extends StatelessWidget {
+  const ActiveJobScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,21 +1,25 @@
-// ignore_for_file: body_might_complete_normally_nullable
+// // ignore_for_file: body_might_complete_normally_nullable
 
-import 'package:get/get.dart';
+// import 'dart:io';
 
-class UploadImagesViewController extends GetxController {
-  var isDataLoading = false.obs;
+// import 'package:get/get.dart';
 
-  var whichJob = 'null'.obs;
+// class UploadImagesViewController extends GetxController {
+//   var isDataLoading = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    whichJob.value = Get.arguments.toString();
-  }
+//   var whichJob = 'null'.obs;
+//   late File imagePath;
 
-  @override
-  void dispose() {
-    Get.delete<UploadImagesViewController>();
-    super.dispose();
-  }
-}
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     // whichJob.value = Get.arguments.toString();
+//     imagePath = Get.arguments['imagePath'];
+//   }
+
+//   @override
+//   void dispose() {
+//     Get.delete<UploadImagesViewController>();
+//     super.dispose();
+//   }
+// }

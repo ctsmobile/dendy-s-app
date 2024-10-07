@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dendy_app/controllers/uploadImagesController.dart';
 import 'package:dendy_app/controllers/uploadImagesViewController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
+import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
@@ -16,8 +18,7 @@ class UploadeImagesViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UploadImagesViewController controller =
-        Get.put(UploadImagesViewController());
+    final UploadImageController controller = Get.put(UploadImageController());
 
     return Obx(() => Scaffold(
           backgroundColor: appThemeColor,
@@ -33,7 +34,7 @@ class UploadeImagesViewScreen extends StatelessWidget {
                 children: [
                   GridView.builder(
                       shrinkWrap: true,
-                      itemCount: 6,
+                      itemCount: controller.filePaths.length + 1,
                       padding: EdgeInsets.only(
                         top: 0,
                       ),
@@ -77,8 +78,8 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
-                                        child: Image.asset(
-                                          '${baseImagePath}image5.png',
+                                        child: Image.file(
+                                          controller.filePaths[index - 1],
                                           fit: BoxFit.cover,
                                           width: Utils.width! / 4,
                                           height: Utils.height! / 7.3,
@@ -87,15 +88,23 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Transform.scale(
-                                        scale: 0.5,
-                                        child: Image.asset(
-                                            '${baseImagePath}delete.png')),
+                                    GestureDetector(
+                                      child: Transform.scale(
+                                          scale: 0.5,
+                                          child: Image.asset(
+                                              '${baseImagePath}delete.png')),
+                                      onTap: () {
+                                        controller.filePaths
+                                            .removeAt(index - 1);
+                                        controller.fileNames
+                                            .removeAt(index - 1);
+                                      },
+                                    ),
                                   ],
                                 ),
                           onTap: () {
                             if (index == 0) {
-                              Get.toNamed(RouteConstant.uploadImageScreen);
+                              Get.back();
                             } else {
                               showGeneralDialog(
                                 context: context,
@@ -119,8 +128,9 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                                     const BorderRadius.all(
                                                   Radius.circular(10),
                                                 ),
-                                                child: Image.asset(
-                                                  '${baseImagePath}image5.png',
+                                                child: Image.file(
+                                                  controller
+                                                      .filePaths[index - 1],
                                                   fit: BoxFit.cover,
                                                   width: Utils.width! -
                                                       50, // Dialog width
@@ -157,22 +167,21 @@ class UploadeImagesViewScreen extends StatelessWidget {
                   if (controller.whichJob.value == 'finishJob') {
                     Get.offAllNamed(RouteConstant.dashboardScreen);
                   } else {
-                    Get.offAllNamed(RouteConstant.pendingJobDetailsScreen);
+                    controller.startJobApii();
+                    // Get.offAllNamed(RouteConstant.pendingJobDetailsScreen);
                   }
                 },
-                child:
-                    // controller.isLoginTap.value
-                    //     ? Loader(
-                    //         color: whiteColor,
-                    //       )
-                    //     :
-                    CustomText(
-                  text: controller.whichJob.value == 'finishJob'
-                      ? 'Finish Job'
-                      : 'Start Job',
-                  fontSize: 20,
-                  textColor: whiteColor,
-                ),
+                child: controller.isUploadImageLoading.value
+                    ? Loader(
+                        color: whiteColor,
+                      )
+                    : CustomText(
+                        text: controller.whichJob.value == 'finishJob'
+                            ? 'Finish Job'
+                            : 'Start Job',
+                        fontSize: 20,
+                        textColor: whiteColor,
+                      ),
               ),
             ),
           ),
