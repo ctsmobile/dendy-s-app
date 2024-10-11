@@ -10,7 +10,9 @@ import 'package:get/get.dart';
 class DashboardController extends GetxController {
   var isDataLoading = false.obs;
   late PendingJobListModel pendingJobListModel;
+  late PendingJobListModel completedJobListModel;
   late PendingJobs pendingJobDetails;
+  late PendingJobs completeJobDetails;
   @override
   void onInit() {
     super.onInit();
@@ -25,16 +27,24 @@ class DashboardController extends GetxController {
 
   Future getPendingJobList() async {
     isDataLoading.value = true;
-    await getPendingJobListApi().then((pendingJob) {
+    await getPendingJobListApi().then((pendingJob) async {
       if (pendingJob != null) {
         if (!pendingJob.status) {
-          Get.snackbar('login', pendingJob.message,
-              backgroundColor: purpleColor, colorText: whiteColor);
-          isDataLoading.value = false;
+          Get.snackbar('pendingJob', pendingJob.message,
+              backgroundColor: redColor, colorText: whiteColor);
         } else {
           pendingJobListModel = pendingJob;
-          // getCompletedJobListApi();
-          isDataLoading.value = false;
+          await getCompletedJobListApi().then((completeJob) {
+            if (completeJob != null) {
+              if (!completeJob.status) {
+                Get.snackbar('completeJob', completeJob.message,
+                    backgroundColor: purpleColor, colorText: whiteColor);
+              } else {
+                completedJobListModel = completeJob;
+              }
+            }
+            isDataLoading.value = false;
+          });
         }
       } else {
         isDataLoading.value = false;
@@ -56,7 +66,7 @@ class DashboardController extends GetxController {
     } catch (e) {
       log('Error in pendingJob is $e');
     } finally {
-      isDataLoading(false);
+      // isDataLoading(false);
     }
   }
 
@@ -68,11 +78,11 @@ class DashboardController extends GetxController {
         'job/list/completed',
       )
           .then((dynamic res) async {
-        print("pendingJob$res");
+        print("completedJob$res");
         return PendingJobListModel.fromJson(res!);
       });
     } catch (e) {
-      log('Error in pendingJob is $e');
+      log('Error in completedJob is $e');
     } finally {
       isDataLoading(false);
     }

@@ -10,6 +10,7 @@ import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../routes.dart';
 
@@ -46,7 +47,7 @@ class UploadeImagesViewScreen extends StatelessWidget {
                           crossAxisSpacing: 20
                           // childAspectRatio: 4 / 4.5,
                           ),
-                      itemBuilder: (BuildContext context, int index) {
+                      itemBuilder: (BuildContext context2, int index) {
                         return GestureDetector(
                           child: index == 0
                               ? Container(
@@ -109,38 +110,33 @@ class UploadeImagesViewScreen extends StatelessWidget {
                               showGeneralDialog(
                                 context: context,
                                 barrierDismissible: true,
-                                barrierLabel: 'h',
+                                barrierLabel: 'Dismiss',
                                 pageBuilder: (_, __, ___) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: Center(
-                                      child: Container(
-                                        // Dialog background
-                                        width:
-                                            Utils.width! - 50, // Dialog width
-                                        height: 400, // Dialog height
+                                  return Center(
+                                    child: SizedBox(
+                                      // Dialog background
+                                      width: Utils.width! - 50, // Dialog width
+                                      height: 400, // Dialog height
 
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                                child: Image.file(
-                                                  controller
-                                                      .filePaths[index - 1],
-                                                  fit: BoxFit.cover,
-                                                  width: Utils.width! -
-                                                      50, // Dialog width
-                                                  height: 400,
-
-                                                  // Utils.height! / 3,
-                                                ),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(10),
                                               ),
-                                            ],
-                                          ),
+                                              child: Image.file(
+                                                controller.filePaths[index - 1],
+                                                fit: BoxFit.cover,
+                                                width: Utils.width! -
+                                                    50, // Dialog width
+                                                height: 400,
+
+                                                // Utils.height! / 3,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -164,11 +160,22 @@ class UploadeImagesViewScreen extends StatelessWidget {
                   color: purpleColor),
               child: CupertinoButton(
                 onPressed: () {
-                  if (controller.whichJob.value == 'finishJob') {
-                    Get.offAllNamed(RouteConstant.dashboardScreen);
+                  if (GetStorage().read('finishJob') == true) {
+                    if (controller.filePaths.isEmpty) {
+                      Get.snackbar(
+                          'Sorry', 'Please upload atleat one final picture',
+                          backgroundColor: redColor, colorText: whiteColor);
+                    } else {
+                      // controller.finishJobApi();
+                    }
                   } else {
-                    controller.startJobApii();
-                    // Get.offAllNamed(RouteConstant.pendingJobDetailsScreen);
+                    if (controller.filePaths.isEmpty) {
+                      Get.snackbar(
+                          'Sorry', 'Please upload atleat one initial picture',
+                          backgroundColor: redColor, colorText: whiteColor);
+                    } else {
+                      controller.startJobApi();
+                    }
                   }
                 },
                 child: controller.isUploadImageLoading.value
@@ -176,7 +183,7 @@ class UploadeImagesViewScreen extends StatelessWidget {
                         color: whiteColor,
                       )
                     : CustomText(
-                        text: controller.whichJob.value == 'finishJob'
+                        text: GetStorage().read('finishJob') == true
                             ? 'Finish Job'
                             : 'Start Job',
                         fontSize: 20,

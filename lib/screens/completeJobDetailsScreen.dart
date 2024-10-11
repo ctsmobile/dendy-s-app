@@ -21,6 +21,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
           preferredSize: const Size.fromHeight(70),
           child: MyAppBar(
             title: 'Details',
+            isLeading: Navigator.canPop(context) ? true : false,
           )),
       body: SingleChildScrollView(
         child: Padding(
@@ -717,30 +718,39 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                               );
                             }),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  width: Utils.width! / 21.7,
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: Utils.width! < 380
+                                          ? 7
+                                          : Utils.width! < 395
+                                              ? 10
+                                              : 15.0),
+                                  child: CustomText(
+                                    text: 'HOUR',
+                                    fontSize: 12,
+                                  ),
                                 ),
-                                CustomText(
-                                  text: 'HOUR',
-                                  fontSize: 12,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5.0),
+                                  child: CustomText(
+                                    text: 'MINUTE',
+                                    fontSize: 12,
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: Utils.width! / 14.5,
-                                ),
-                                CustomText(
-                                  text: 'MINUTE',
-                                  fontSize: 12,
-                                ),
-                                SizedBox(
-                                  width: Utils.width! / 15.65,
-                                ),
-                                Expanded(
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 3.0,
+                                  ),
                                   child: CustomText(
                                     text: 'SECOND',
                                     fontSize: 12,
                                     maxLines: 1,
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 1,
                                 ),
                               ],
                             )

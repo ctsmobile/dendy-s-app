@@ -6,5 +6,6 @@ const grayColor = Color(0xFF686868);
 const innerShadowColor = Color(0xFFA6B4C8);
 
 const whiteColor = Colors.white;
+const redColor = Colors.red;
 const transparentColor = Colors.transparent;
 const blackColor = Color(0xFF000000);

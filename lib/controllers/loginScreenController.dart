@@ -17,11 +17,11 @@ class LoginScreenController extends GetxController {
   var passwordVisible = false.obs;
   var emailValidationText = ''.obs;
   var passwordValidationText = ''.obs;
-  final passwordController = TextEditingController(text: 'Dendy@321');
-  final emailController = TextEditingController(text: 'robert@yopmail.com');
+  // final passwordController = TextEditingController(text: 'Dendy@321');
+  // final emailController = TextEditingController(text: 'robert@yopmail.com');
 
-  //   final passwordController = TextEditingController();
-  // final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
 
   final loginFormKey = GlobalKey<FormState>();
 
@@ -82,7 +82,7 @@ class LoginScreenController extends GetxController {
         if (auth != null) {
           if (!auth.status) {
             Get.snackbar('login', auth.message,
-                backgroundColor: purpleColor, colorText: whiteColor);
+                backgroundColor: redColor, colorText: whiteColor);
             isLoginTap.value = false;
           } else {
             isLoginTap.value = false;

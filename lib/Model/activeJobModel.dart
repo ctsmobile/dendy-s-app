@@ -44,7 +44,7 @@ class Datum {
   DateTime updatedAt;
   Customer customer;
   List<Task> tasks;
-  List<User> users;
+  List<User> employees;
 
   Datum({
     required this.id,
@@ -60,7 +60,7 @@ class Datum {
     required this.updatedAt,
     required this.customer,
     required this.tasks,
-    required this.users,
+    required this.employees,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -77,7 +77,8 @@ class Datum {
         updatedAt: DateTime.parse(json["updated_at"]),
         customer: Customer.fromJson(json["customer"]),
         tasks: List<Task>.from(json["tasks"].map((x) => Task.fromJson(x))),
-        users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
+        employees:
+            List<User>.from(json["employees"].map((x) => User.fromJson(x))),
       );
 }
 

@@ -5,7 +5,7 @@ class RouteConstant {
   static const String dashboardScreen = '/dashboardScreen';
   static const String completeJobDetailsScreen = '/completeJobDetailsScreen';
   static const String pendingDetailsScreen = '/pendingDetailsScreen';
-  static const String pendingJobDetailsScreen = '/pendingJobDetailsScreen';
+  static const String activeJobScreen = '/activeJobScreen';
   static const String uploadImageScreen = '/uploadImageScreen';
   static const String imageEditorScreen = '/imageEditorScreen';
   static const String uploadImagesViewScreen = '/uploadImagesViewScreen';

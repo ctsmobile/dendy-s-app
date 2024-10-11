@@ -23,7 +23,7 @@ class UploadImageController extends GetxController {
   var isImageProcessing = false.obs;
   var isUploadImageLoading = false.obs;
   late PainterController imageController;
-  var whichJob = 'null'.obs;
+
   var file = File("").obs;
   var fileName = "".obs;
   ui.Image? backgroundImage;
@@ -40,7 +40,8 @@ class UploadImageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    whichJob.value = Get.arguments.toString();
+
+    print("object");
     filePaths.value = [];
     fileNames.value = [];
     FocusManager.instance.primaryFocus?.unfocus();
@@ -147,6 +148,7 @@ class UploadImageController extends GetxController {
       print("token$token");
       filePaths.add(file.value);
       fileNames.add(fileName.value);
+      Get.back();
       Get.toNamed(RouteConstant.uploadImagesViewScreen,
           arguments: {"imagePath": '${file.value}'});
       // dio.Response response = await Dio().post(baseUrl + "job/startjob/1",
@@ -178,7 +180,7 @@ class UploadImageController extends GetxController {
     }
   }
 
-  Future<dio.Response?> startJobApii() async {
+  Future<dio.Response?> startJobApi() async {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
@@ -199,6 +201,8 @@ class UploadImageController extends GetxController {
       var token = GetStorage().read('access_token');
       print("token: $token");
       var jobId = GetStorage().read('jobId');
+      print("jobId: $jobId");
+
       // Make the API call
       dio.Response response = await Dio().post(
         baseUrl + "job/startjob/$jobId",
@@ -214,11 +218,11 @@ class UploadImageController extends GetxController {
         print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
         print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
         Get.snackbar('Success', response.data['message'],
-            backgroundColor: Colors.purple,
+            backgroundColor: purpleColor,
             dismissDirection: DismissDirection.horizontal,
             colorText: whiteColor);
 
-        Get.offAllNamed(RouteConstant.pendingJobDetailsScreen);
+        Get.offAllNamed(RouteConstant.activeJobScreen);
         return response;
       } else {
         log("BODY DATA UPLOAD PHOTO: ${response.data}");
@@ -234,49 +238,59 @@ class UploadImageController extends GetxController {
     }
   }
 
-  Future<dio.Response?> startJobApi(XFile image) async {
+  Future<dio.Response?> finishJobApi() async {
     try {
       isUploadImageLoading(true);
-      print(
-          "PATH2,${dio.MultipartFile.fromFile(file.value.path, filename: fileName.value)}");
-      dio.FormData params = dio.FormData.fromMap({
-        'image[]': await dio.MultipartFile.fromFile(file.value.path,
-            filename: fileName.value)
-      });
+      // Prepare FormData to hold multiple images
+      dio.FormData params = dio.FormData();
+      print("filePaths.length${filePaths.length}");
+      print("fileNames.length${fileNames.length}");
+      // Iterate through selected images and add them to FormData
+      for (int i = 0; i < filePaths.length; i++) {
+        var fileName = fileNames[i]; // Get the file name
+        var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,
+            filename: fileName);
+        params.files
+            .add(MapEntry('image[]', multipartFile)); // Add image to FormData
+        // Store the file name
+      }
 
-      print("params$params");
-      print("file.value.path${file.value.path}");
-      print("file.value.path${fileName.value}");
+      print("params: $params");
       var token = GetStorage().read('access_token');
-      print("token$token");
-      filePaths.add(file.value);
-      fileNames.add(fileName.value);
-      Get.toNamed(RouteConstant.uploadImagesViewScreen,
-          arguments: {"imagePath": '${file.value}'});
-      dio.Response response = await Dio().post(baseUrl + "job/startjob/1",
-          data: params,
-          options: Options(headers: {
-            "Authorization": "Bearer $token",
-          }));
+      print("token: $token");
+      var jobId = GetStorage().read('jobId');
+      print("jobId: $jobId");
 
-      print("response.data${response}");
-      print("response${response}");
+      // Make the API call
+      dio.Response response = await Dio().post(
+        baseUrl + "job/completejob/$jobId",
+        data: params,
+        options: Options(headers: {
+          "Authorization": "Bearer $token",
+        }),
+      );
 
+      // print("response.data: ${response.data}");
       if (response.data['status'] == true) {
-        log("BODY DATA UPLOAD PHOTO,${response.data}");
-        // filePath.value = response.data['data']['file_path'];
-        print("BODY DATA STATUS UPLOAD PHOTO,${response.data['status']}");
-        print("BODY DATA MESSAGE UPLOAD PHOTO,${response.data['message']}");
+        log("BODY DATA UPLOAD PHOTO: ${response.data}");
+        print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
+        print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
+        Get.snackbar('Success', response.data['message'],
+            backgroundColor: purpleColor,
+            dismissDirection: DismissDirection.horizontal,
+            colorText: whiteColor);
+
+        Get.offAllNamed(RouteConstant.dashboardScreen);
         return response;
       } else {
-        log("BODY DATA UPLOAD PHOTO,${response.data}");
-        print("BODY DATA STATUS UPLOAD PHOTO,${response.data['status']}");
-        print("BODY DATA MESSAGE UPLOAD PHOTO,${response.data['message']}");
+        log("BODY DATA UPLOAD PHOTO: ${response.data}");
+        print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
+        print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
         return response;
       }
     } catch (e) {
-      log('Error while getting data is $e');
-      print('Error while getting data is $e');
+      log('Error while getting data: $e');
+      print('Error while getting data: $e');
     } finally {
       isUploadImageLoading(false);
     }

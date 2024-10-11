@@ -10,6 +10,7 @@ import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PendingDetailsScreen extends StatefulWidget {
@@ -21,12 +22,17 @@ class PendingDetailsScreen extends StatefulWidget {
 
 class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
   late PendingJobs pendingJobDetails;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     pendingJobDetails = Get.arguments['pendingJobDetail'];
-    print("pendingJobDetails$pendingJobDetails");
+
+    print("user_id${GetStorage().read('user_id')}");
+    print(pendingJobDetails.team_lead.toString());
+    print(
+        checkSameDate(pendingJobDetails.date.toString().replaceAll('-', ':')));
   }
 
   @override
@@ -120,7 +126,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                             ),
                                             CustomText(
                                               text:
-                                                  '${pendingJobDetails.customer.createdAt.toString()} | 10:00',
+                                                  '${pendingJobDetails.date.toString()} | ${pendingJobDetails.time.toString().split(':').sublist(0, 2).join(':')}',
                                               maxLines: 1,
                                               textOverflow:
                                                   TextOverflow.ellipsis,
@@ -192,14 +198,16 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                     child: Column(
                                       children: [
                                         ListView.separated(
-                                            itemCount:
-                                                pendingJobDetails.users.length,
+                                            itemCount: pendingJobDetails
+                                                .employees.length,
                                             separatorBuilder: (context, index) {
                                               return SizedBox(
                                                 height: 10,
                                               );
                                             },
                                             shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Row(
@@ -217,8 +225,9 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                     children: [
                                                       CustomText(
                                                         text: pendingJobDetails
-                                                            .users[index]
-                                                            .employeeId
+                                                            .employees[index]
+                                                            .jobuser
+                                                            .name
                                                             .toString(),
                                                         maxLines: 1,
                                                         textOverflow:
@@ -226,7 +235,8 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                                 .ellipsis,
                                                       ),
                                                       pendingJobDetails
-                                                                  .users[index]
+                                                                  .employees[
+                                                                      index]
                                                                   .crewLead ==
                                                               1
                                                           ? CustomText(
@@ -300,6 +310,8 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                             );
                                           },
                                           shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             return CustomText(
@@ -369,18 +381,32 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                   width: 210,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: purpleColor),
+                      color: GetStorage().read('user_id') ==
+                                  pendingJobDetails.team_lead &&
+                              checkSameDate(pendingJobDetails.date
+                                  .toString()
+                                  .replaceAll('-', ':'))
+                          ? purpleColor
+                          : grayColor),
                   child: CupertinoButton(
-                    onPressed: () {
-                      Get.toNamed(RouteConstant.uploadImageScreen);
-                    },
-                    child:
-                        // controller.isLoginTap.value
-                        //     ? Loader(
-                        //         color: whiteColor,
-                        //       )
-                        //     :
-                        Center(
+                    onPressed: GetStorage().read('user_id') ==
+                                pendingJobDetails.team_lead &&
+                            checkSameDate(pendingJobDetails.date
+                                .toString()
+                                .replaceAll('-', ':'))
+                        ? () {
+                            Get.toNamed(RouteConstant.uploadImageScreen);
+                          }
+                        : GetStorage().read('user_id') !=
+                                pendingJobDetails.team_lead
+                            ? () {
+                                Get.snackbar('Sorry!',
+                                    'Only team lead can start the job',
+                                    backgroundColor: redColor,
+                                    colorText: whiteColor);
+                              }
+                            : null,
+                    child: Center(
                       child: Text(
                         "Start",
                         style: GoogleFonts.amaranth(

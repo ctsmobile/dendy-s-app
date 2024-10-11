@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             TextFormField(
                               controller: controller.passwordController,
-                              obscureText: true,
+                              obscureText: !controller.passwordVisible.value,
                               style: GoogleFonts.amaranth(
                                   color: grayColor,
                                   fontSize: 16.0,
@@ -140,7 +140,10 @@ class LoginScreen extends StatelessWidget {
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w400),
                                 suffixIcon: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      controller.passwordVisible.value =
+                                          !controller.passwordVisible.value;
+                                    },
                                     icon: Padding(
                                       padding: const EdgeInsets.only(right: 15),
                                       child: Icon(

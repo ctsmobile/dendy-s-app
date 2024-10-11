@@ -89,51 +89,58 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
               backgroundColor: purpleColor,
               elevation: 4,
               onPressed: () async {
-                Get.back();
-                // Get.back();
-                if (Get.put(UploadImageController()).backgroundImage == null)
-                  return;
-                final backgroundImageSize = Size(
-                    Get.put(UploadImageController())
-                        .backgroundImage!
-                        .width
-                        .toDouble(),
-                    Get.put(UploadImageController())
-                        .backgroundImage!
-                        .height
-                        .toDouble());
-                final imageFuture = Get.put(UploadImageController())
-                    .imageController
-                    .renderImage(backgroundImageSize)
-                    .then<Uint8List?>((ui.Image image) => image.pngBytes);
-                // Await the result of the Future
-                Uint8List? imageData = await imageFuture;
-                XFile? xFile;
-                // You need to convert Uint8List to XFile or handle the upload differently
-                if (imageData != null) {
-                  // Convert Uint8List to XFile (assuming you know the file path)
-                  final tempDir = await getTemporaryDirectory();
-                  var uuid = Uuid();
-                  final file = File('${tempDir.path}/${uuid.v4()}.png');
-                  await file.writeAsBytes(imageData);
+                if (MediaQuery.of(context).viewInsets.bottom > 0) {
+                  FocusScope.of(context).unfocus();
+                } else {
+                  controller.isImageProcessing(true);
+                  if (Get.put(UploadImageController()).backgroundImage == null)
+                    return;
+                  final backgroundImageSize = Size(
+                      Get.put(UploadImageController())
+                          .backgroundImage!
+                          .width
+                          .toDouble(),
+                      Get.put(UploadImageController())
+                          .backgroundImage!
+                          .height
+                          .toDouble());
+                  final imageFuture = Get.put(UploadImageController())
+                      .imageController
+                      .renderImage(backgroundImageSize)
+                      .then<Uint8List?>((ui.Image image) => image.pngBytes);
+                  // Await the result of the Future
+                  Uint8List? imageData = await imageFuture;
+                  XFile? xFile;
+                  // You need to convert Uint8List to XFile or handle the upload differently
+                  if (imageData != null) {
+                    // Convert Uint8List to XFile (assuming you know the file path)
+                    final tempDir = await getTemporaryDirectory();
+                    var uuid = Uuid();
+                    final file = File('${tempDir.path}/${uuid.v4()}.png');
+                    await file.writeAsBytes(imageData);
 
-                  xFile = XFile(file.path);
+                    xFile = XFile(file.path);
+                  }
+                  // Now you can call the uploadImage method
+                  controller.uploadImage(xFile!);
+
+                  // Get.toNamed(RouteConstant.uploadImagesViewScreen,
+                  //     arguments: controller.whichJob.value);
                 }
-                // Now you can call the uploadImage method
-                controller.uploadImage(xFile!);
-
-                // Get.toNamed(RouteConstant.uploadImagesViewScreen,
-                //     arguments: controller.whichJob.value);
               },
               shape: RoundedRectangleBorder(
                 side: const BorderSide(width: 3, color: purpleColor),
                 borderRadius: BorderRadius.circular(100),
               ),
-              child: Icon(
-                Icons.done,
-                color: whiteColor,
-                size: 28,
-              )),
+              child: controller.isImageProcessing.value
+                  ? Loader(
+                      color: whiteColor,
+                    )
+                  : Icon(
+                      Icons.done,
+                      color: whiteColor,
+                      size: 28,
+                    )),
         ),
         body: controller.isDataLoading.value
             ? Loader()

@@ -38,6 +38,7 @@ class PendingJobs {
   int id;
   String? name;
   String? date;
+  int? team_lead;
   String? time;
   int customerId;
   String? jobLocation;
@@ -48,11 +49,12 @@ class PendingJobs {
   dynamic updatedAt;
   Customer customer;
   List<Task> tasks;
-  List<User> users;
+  List<User> employees;
 
   PendingJobs({
     required this.id,
     required this.name,
+    required this.team_lead,
     required this.date,
     required this.time,
     required this.customerId,
@@ -64,12 +66,13 @@ class PendingJobs {
     required this.updatedAt,
     required this.customer,
     required this.tasks,
-    required this.users,
+    required this.employees,
   });
 
   factory PendingJobs.fromJson(Map<String, dynamic> json) => PendingJobs(
         id: json["id"],
         name: json["name"],
+        team_lead: json["team_lead"],
         date: json["date"] == null
             ? null
             : DateFormat('dd-MM-yyyy').format(DateTime.parse(json["date"])),
@@ -83,7 +86,8 @@ class PendingJobs {
         updatedAt: json["updated_at"],
         customer: Customer.fromJson(json["customer"]),
         tasks: List<Task>.from(json["tasks"].map((x) => Task.fromJson(x))),
-        users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
+        employees:
+            List<User>.from(json["employees"].map((x) => User.fromJson(x))),
       );
 }
 
@@ -170,6 +174,7 @@ class User {
   int crewLead;
   dynamic createdAt;
   dynamic updatedAt;
+  Jobuser jobuser;
 
   User({
     required this.id,
@@ -178,16 +183,17 @@ class User {
     required this.crewLead,
     required this.createdAt,
     required this.updatedAt,
+    required this.jobuser,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        jobId: json["job_id"],
-        employeeId: json["employee_id"],
-        crewLead: json["crew_lead"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-      );
+      id: json["id"],
+      jobId: json["job_id"],
+      employeeId: json["employee_id"],
+      crewLead: json["crew_lead"],
+      createdAt: json["created_at"],
+      updatedAt: json["updated_at"],
+      jobuser: Jobuser.fromJson(json["jobuser"]));
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -196,6 +202,27 @@ class User {
         "crew_lead": crewLead,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "jobuser": jobuser.toJson(),
+      };
+}
+
+class Jobuser {
+  int id;
+  String name;
+
+  Jobuser({
+    required this.id,
+    required this.name,
+  });
+
+  factory Jobuser.fromJson(Map<String, dynamic> json) => Jobuser(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }
 

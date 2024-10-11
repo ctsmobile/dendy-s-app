@@ -65,33 +65,30 @@ class ViewAllImagesScreen extends StatelessWidget {
                           barrierDismissible: true,
                           barrierLabel: 'h',
                           pageBuilder: (_, __, ___) {
-                            return Material(
-                              color: Colors.transparent,
-                              child: Center(
-                                child: Container(
-                                  // Dialog background
-                                  width: Utils.width! - 50, // Dialog width
-                                  height: 400, // Dialog height
+                            return Center(
+                              child: Container(
+                                // Dialog background
+                                width: Utils.width! - 50, // Dialog width
+                                height: 400, // Dialog height
 
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(10),
-                                          ),
-                                          child: Image.asset(
-                                            '${baseImagePath}image5.png',
-                                            fit: BoxFit.cover,
-                                            width: Utils.width! -
-                                                50, // Dialog width
-                                            height: 400,
-
-                                            // Utils.height! / 3,
-                                          ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
                                         ),
-                                      ],
-                                    ),
+                                        child: Image.asset(
+                                          '${baseImagePath}image5.png',
+                                          fit: BoxFit.cover,
+                                          width:
+                                              Utils.width! - 50, // Dialog width
+                                          height: 400,
+
+                                          // Utils.height! / 3,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

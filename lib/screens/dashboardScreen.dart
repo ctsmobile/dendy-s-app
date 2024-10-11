@@ -9,7 +9,6 @@ import 'package:dendy_app/screens/pendingJobsView.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -96,11 +95,18 @@ class DashboardScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: TabBarView(
                       children: [
-                        PendingJobsView(
-                          pendingJobListModel: controller.pendingJobListModel,
+                        RefreshIndicator(
+                          color: purpleColor,
+                          onRefresh: () async {
+                            await controller.getPendingJobList();
+                          },
+                          child: PendingJobsView(
+                            pendingJobListModel: controller.pendingJobListModel,
+                          ),
                         ),
                         PendingJobsView(
                           isCompletedJobs: true,
+                          pendingJobListModel: controller.completedJobListModel,
                         ),
                       ],
                     ),

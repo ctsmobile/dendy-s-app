@@ -10,6 +10,7 @@ import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -189,7 +190,8 @@ class ProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                         color: purpleColor),
                     child: CupertinoButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await GetStorage().erase();
                         controller.logout();
                       },
                       child: Center(

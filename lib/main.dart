@@ -12,6 +12,7 @@ import 'package:dendy_app/screens/pendingDetailsScreen.dart';
 import 'package:dendy_app/screens/activeJobScreen.dart';
 import 'package:dendy_app/screens/profileScreen.dart';
 import 'package:dendy_app/screens/splashScreen.dart';
+import 'dart:io';
 
 import 'package:dendy_app/screens/uploadImageScreen.dart';
 import 'package:dendy_app/screens/uploadImagesViewScreen.dart';
@@ -27,14 +28,18 @@ import 'package:get_storage/get_storage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  await Firebase.initializeApp(
-      options: FirebaseOptions(
-    apiKey: 'AIzaSyA9EOJo4kwBp94F9wW5jKdS77o05jJRVpo',
-    appId: '1:900401400850:android:009ff627dcc767f8d55ccb',
-    messagingSenderId: '900401400850',
-    projectId: 'dendyapp',
-    storageBucket: 'dendyapp.appspot.com',
-  ));
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp(
+        options: FirebaseOptions(
+      apiKey: 'AIzaSyA9EOJo4kwBp94F9wW5jKdS77o05jJRVpo',
+      appId: '1:900401400850:android:009ff627dcc767f8d55ccb',
+      messagingSenderId: '900401400850',
+      projectId: 'dendyapp',
+      storageBucket: 'dendyapp.appspot.com',
+    ));
+  } else {
+    await Firebase.initializeApp();
+  }
   await FirebaseAPI().initNotifications();
 
   // await SystemChrome.setPreferredOrientations(
@@ -61,7 +66,7 @@ class MyApp extends StatelessWidget {
         title: "Dendy's App",
         debugShowCheckedModeBanner: false,
         initialRoute: GetStorage().read('user_id') != null
-            ? RouteConstant.dashboardScreen
+            ? RouteConstant.completeJobDetailsScreen
             : RouteConstant.splashScreen,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: appThemeColor),
@@ -110,7 +115,7 @@ List<GetPage> getPages = [
     // binding: UploadImagesViewController(),
   ),
   GetPage(
-    name: RouteConstant.pendingJobDetailsScreen,
+    name: RouteConstant.activeJobScreen,
     page: () => ActiveJobScreen(),
   ),
   GetPage(
