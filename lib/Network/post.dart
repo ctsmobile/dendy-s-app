@@ -107,10 +107,16 @@ class Post {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token'
           },
-        ).then((response) {
+        ).then((response) async {
           // print("bbbbhjjj$response");
           final dynamic res = response.body;
           final int statusCode = response.statusCode;
+          if (url.contains('logout')) {
+            await GetStorage().remove('fcmtoken');
+            await GetStorage().remove('user_id');
+            await GetStorage().remove('access_token');
+            await GetStorage().remove('jobId');
+          }
           // print("hello url3");
           // print('fgfg$statusCode $res');
           if (statusCode < 200 || statusCode > 400) {

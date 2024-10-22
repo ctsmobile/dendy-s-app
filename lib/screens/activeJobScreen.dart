@@ -43,7 +43,7 @@ class ActiveJobScreen extends StatelessWidget {
                       color: purpleColor,
                     ),
                   )
-                : controller.activeJobModel.data.isEmpty
+                : controller.activeJobModel.value.data.isEmpty
                     ? Center(
                         child: CustomText(
                           text: 'No active job found!',
@@ -157,7 +157,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                           Row(
                                                                             children: [
                                                                               Transform.scale(
-                                                                                scale: 0.7,
+                                                                                scale: 0.6,
                                                                                 child: Image.asset(
                                                                                   '${baseImagePath}profilee.png',
                                                                                 ),
@@ -166,7 +166,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               CustomText(
-                                                                                text: controller.activeJobModel.data.first.customer.name.toString(),
+                                                                                text: controller.activeJobModel.value.data.first.customer.name.toString(),
                                                                                 maxLines: 1,
                                                                                 textOverflow: TextOverflow.ellipsis,
                                                                               ),
@@ -179,7 +179,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                           Row(
                                                                             children: [
                                                                               Transform.scale(
-                                                                                scale: 0.7,
+                                                                                scale: 0.6,
                                                                                 child: Image.asset(
                                                                                   '${baseImagePath}calender.png',
                                                                                 ),
@@ -188,7 +188,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               CustomText(
-                                                                                text: controller.activeJobModel.data.first.customer.createdAt.toString(),
+                                                                                text: controller.activeJobModel.value.data.first.customer.createdAt.toString(),
                                                                                 maxLines: 1,
                                                                                 textOverflow: TextOverflow.ellipsis,
                                                                               ),
@@ -201,7 +201,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                           Row(
                                                                             children: [
                                                                               Transform.scale(
-                                                                                scale: 0.7,
+                                                                                scale: 0.6,
                                                                                 child: Image.asset(
                                                                                   '${baseImagePath}watch.png',
                                                                                 ),
@@ -210,7 +210,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               CustomText(
-                                                                                text: '10:00',
+                                                                                text: controller.activeJobModel.value.data.first.customer.wholeCreatedAt == 'null' ? '' : getTimeFromDate(controller.activeJobModel.value.data.first.customer.wholeCreatedAt!),
                                                                                 maxLines: 1,
                                                                                 textOverflow: TextOverflow.ellipsis,
                                                                               ),
@@ -223,7 +223,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                           Row(
                                                                             children: [
                                                                               Transform.scale(
-                                                                                scale: 0.7,
+                                                                                scale: 0.6,
                                                                                 child: Image.asset(
                                                                                   '${baseImagePath}phone.png',
                                                                                 ),
@@ -232,7 +232,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               CustomText(
-                                                                                text: controller.activeJobModel.data.first.customer.contactNumber.toString(),
+                                                                                text: controller.activeJobModel.value.data.first.customer.contactNumber.toString(),
                                                                                 maxLines: 1,
                                                                                 textOverflow: TextOverflow.ellipsis,
                                                                               ),
@@ -245,7 +245,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                           Row(
                                                                             children: [
                                                                               Transform.scale(
-                                                                                scale: 0.7,
+                                                                                scale: 0.6,
                                                                                 child: Image.asset(
                                                                                   '${baseImagePath}sent.png',
                                                                                 ),
@@ -255,7 +255,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                               ),
                                                                               Expanded(
                                                                                 child: CustomText(
-                                                                                  text: '904 E. California Street. Ontario. CA. 91761.',
+                                                                                  text: controller.activeJobModel.value.data.first.customer.location.toString(),
                                                                                   maxLines: 1,
                                                                                   textOverflow: TextOverflow.ellipsis,
                                                                                 ),
@@ -304,6 +304,8 @@ class ActiveJobScreen extends StatelessWidget {
                                                                     context,
                                                                 isScrollControlled:
                                                                     true,
+                                                                isDismissible:
+                                                                    false,
                                                                 builder:
                                                                     (BuildContext
                                                                         context) {
@@ -338,10 +340,15 @@ class ActiveJobScreen extends StatelessWidget {
                                                                               ),
                                                                               Padding(
                                                                                 padding: const EdgeInsets.only(bottom: 10.0),
-                                                                                child: Image.asset(
-                                                                                  '${baseImagePath}close.png',
-                                                                                  height: Utils.height! / 30,
-                                                                                  width: Utils.width! / 10,
+                                                                                child: GestureDetector(
+                                                                                  onTap: () {
+                                                                                    Get.back();
+                                                                                  },
+                                                                                  child: Image.asset(
+                                                                                    '${baseImagePath}close.png',
+                                                                                    height: Utils.height! / 30,
+                                                                                    width: Utils.width! / 10,
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ],
@@ -350,56 +357,45 @@ class ActiveJobScreen extends StatelessWidget {
                                                                             height:
                                                                                 Utils.height! / 70,
                                                                           ),
-                                                                          Row(
-                                                                            children: [
-                                                                              Transform.scale(
-                                                                                scale: 0.7,
-                                                                                child: Image.asset(
-                                                                                  '${baseImagePath}addProfile.png',
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: Utils.width! / 30,
-                                                                              ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  CustomText(
-                                                                                    text: 'Aman',
-                                                                                    maxLines: 1,
-                                                                                    textOverflow: TextOverflow.ellipsis,
-                                                                                  ),
-                                                                                  CustomText(
-                                                                                    text: ' (Team Lead)',
-                                                                                    maxLines: 1,
-                                                                                    textColor: purpleColor,
-                                                                                    textOverflow: TextOverflow.ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                Utils.height! / 100,
-                                                                          ),
-                                                                          Row(
-                                                                            children: [
-                                                                              Transform.scale(
-                                                                                scale: 0.7,
-                                                                                child: Image.asset(
-                                                                                  '${baseImagePath}addProfile.png',
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: Utils.width! / 30,
-                                                                              ),
-                                                                              CustomText(
-                                                                                text: 'Jerry',
-                                                                                maxLines: 1,
-                                                                                textOverflow: TextOverflow.ellipsis,
-                                                                              ),
-                                                                            ],
-                                                                          ),
+                                                                          ListView.separated(
+                                                                              itemCount: controller.activeJobModel.value.data.first.employees.length,
+                                                                              separatorBuilder: (context, index) {
+                                                                                return SizedBox(
+                                                                                  height: 10,
+                                                                                );
+                                                                              },
+                                                                              shrinkWrap: true,
+                                                                              physics: NeverScrollableScrollPhysics(),
+                                                                              itemBuilder: (BuildContext context, int index) {
+                                                                                return Row(
+                                                                                  children: [
+                                                                                    Transform.scale(
+                                                                                      scale: 0.6,
+                                                                                      child: Image.asset(
+                                                                                        '${baseImagePath}addProfile.png',
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: Utils.width! / 30,
+                                                                                    ),
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        CustomText(
+                                                                                          text: controller.activeJobModel.value.data.first.employees[index].jobuser.name.toString(),
+                                                                                          maxLines: 1,
+                                                                                          textOverflow: TextOverflow.ellipsis,
+                                                                                        ),
+                                                                                        CustomText(
+                                                                                          text: controller.activeJobModel.value.data.first.employees[index].crewLead == 1 ? ' (Team Lead)' : '',
+                                                                                          maxLines: 1,
+                                                                                          textColor: purpleColor,
+                                                                                          textOverflow: TextOverflow.ellipsis,
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ],
+                                                                                );
+                                                                              }),
                                                                           SizedBox(
                                                                             height:
                                                                                 Utils.height! / 100,
@@ -415,31 +411,50 @@ class ActiveJobScreen extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      height:
-                                                          Utils.height! / 20,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        CustomText(
-                                                          text: 'Task List',
-                                                          textColor:
-                                                              purpleColor,
-                                                        ),
-                                                        Expanded(
-                                                          child: CustomText(
-                                                            text:
-                                                                ' (Check each task when completed)',
-                                                            textColor:
-                                                                grayColor,
-                                                            fontSize: 14,
+                                                    controller
+                                                            .activeJobModel
+                                                            .value
+                                                            .data
+                                                            .first
+                                                            .tasks
+                                                            .isEmpty
+                                                        ? SizedBox()
+                                                        : SizedBox(
+                                                            height:
+                                                                Utils.height! /
+                                                                    20,
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    controller
+                                                            .activeJobModel
+                                                            .value
+                                                            .data
+                                                            .first
+                                                            .tasks
+                                                            .isEmpty
+                                                        ? SizedBox()
+                                                        : Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              CustomText(
+                                                                text:
+                                                                    'Task List',
+                                                                textColor:
+                                                                    purpleColor,
+                                                              ),
+                                                              Expanded(
+                                                                child:
+                                                                    CustomText(
+                                                                  text:
+                                                                      ' (Check each task when completed)',
+                                                                  textColor:
+                                                                      grayColor,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                     SizedBox(
                                                       height:
                                                           Utils.height! / 60,
@@ -451,6 +466,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                       child: ListView.separated(
                                                         itemCount: controller
                                                             .activeJobModel
+                                                            .value
                                                             .data
                                                             .first
                                                             .tasks
@@ -478,6 +494,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                     CustomText(
                                                                   text: controller
                                                                       .activeJobModel
+                                                                      .value
                                                                       .data
                                                                       .first
                                                                       .tasks[
@@ -489,58 +506,73 @@ class ActiveJobScreen extends StatelessWidget {
                                                                   maxLines: 2,
                                                                 ),
                                                               ),
-                                                              Container(
-                                                                  height: 35,
-                                                                  width: 35,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    border: Border.all(
-                                                                        color:
-                                                                            whiteColor,
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  print(
+                                                                      "gfggf${controller.activeJobModel.value.data.first.tasks[index].status}");
+                                                                  if (controller
+                                                                          .activeJobModel
+                                                                          .value
+                                                                          .data
+                                                                          .first
+                                                                          .tasks[
+                                                                              index]
+                                                                          .status ==
+                                                                      0) {
+                                                                    print(
+                                                                        "controller.activeJobModel.value.data.first.tasks[index].status${controller.activeJobModel.value.data.first.tasks[index].status}");
+                                                                    controller
+                                                                        .updateTaskStatus(
+                                                                            index,
+                                                                            1);
+                                                                  } else {
+                                                                    print(
+                                                                        "controller.activeJobModel.value.data.first.tasks[index].status${controller.activeJobModel.value.data.first.tasks[index].status}");
+                                                                    controller
+                                                                        .updateTaskStatus(
+                                                                            index,
+                                                                            0);
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                        height:
+                                                                            35,
                                                                         width:
-                                                                            2),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                    boxShadow: [
-                                                                      BoxShadow(
-                                                                        color:
-                                                                            innerShadowColor,
-                                                                      ),
-                                                                      BoxShadow(
-                                                                          color: appThemeColor.withOpacity(
-                                                                              0.7),
-                                                                          spreadRadius:
-                                                                              -2.0,
-                                                                          blurRadius:
-                                                                              5.0,
-                                                                          offset: Offset(
-                                                                              0,
-                                                                              2)),
-                                                                      BoxShadow(
-                                                                          color: appThemeColor.withOpacity(
-                                                                              0.7),
-                                                                          spreadRadius:
-                                                                              -2.0,
-                                                                          blurRadius:
-                                                                              5.0,
-                                                                          offset: Offset(
-                                                                              0,
-                                                                              2)),
-                                                                    ],
-                                                                  ),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(
-                                                                            8.0),
-                                                                    child: controller.activeJobModel.data.first.tasks[index].status ==
-                                                                            1
-                                                                        ? Image.asset(
-                                                                            '${baseImagePath}check.png')
-                                                                        : SizedBox(),
-                                                                  ))
+                                                                            35,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          border: Border.all(
+                                                                              color: whiteColor,
+                                                                              width: 2),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(8.0),
+                                                                          boxShadow: [
+                                                                            BoxShadow(
+                                                                              color: innerShadowColor,
+                                                                            ),
+                                                                            BoxShadow(
+                                                                                color: appThemeColor.withOpacity(0.7),
+                                                                                spreadRadius: -2.0,
+                                                                                blurRadius: 5.0,
+                                                                                offset: Offset(0, 2)),
+                                                                            BoxShadow(
+                                                                                color: appThemeColor.withOpacity(0.7),
+                                                                                spreadRadius: -2.0,
+                                                                                blurRadius: 5.0,
+                                                                                offset: Offset(0, 2)),
+                                                                          ],
+                                                                        ),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              8.0),
+                                                                          child: controller.activeJobModel.value.data.first.tasks[index].status == 1
+                                                                              ? Image.asset('${baseImagePath}check.png')
+                                                                              : SizedBox(),
+                                                                        )),
+                                                              )
                                                             ],
                                                           );
                                                         },
@@ -671,7 +703,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                       return SizedBox(
                                                         width: 200,
                                                         child: Text(
-                                                          "${getSystemTime()}",
+                                                          "${getTimeDifference(controller.activeJobModel.value.data.first.job_start_time!)}",
                                                           style: TextStyle(
                                                               color: blackColor,
                                                               fontSize: 35,
@@ -789,16 +821,36 @@ class ActiveJobScreen extends StatelessWidget {
                                               BorderRadius.circular(10.0),
                                           color: purpleColor),
                                       child: CupertinoButton(
-                                        onPressed: () {
-                                          GetStorage().write(
-                                              'jobId',
-                                              controller
-                                                  .activeJobModel.data.first.id
-                                                  .toString());
-                                          GetStorage().write('finishJob', true);
-                                          Get.toNamed(
-                                            RouteConstant.uploadImageScreen,
-                                          );
+                                        onPressed: () async {
+                                          bool allChecked = controller
+                                              .activeJobModel
+                                              .value
+                                              .data
+                                              .first
+                                              .tasks
+                                              .every(
+                                                  (task) => task.status == 1);
+
+                                          if (allChecked) {
+                                            await GetStorage().write(
+                                                'jobId',
+                                                controller.activeJobModel.value
+                                                    .data.first.id
+                                                    .toString());
+                                            await GetStorage()
+                                                .write('finishJob', true);
+                                            Get.toNamed(
+                                              RouteConstant.uploadImageScreen,
+                                            );
+                                          } else {
+                                            if (!Get.isSnackbarOpen) {
+                                              // Show the snackbar if no other snackbar is currently open
+                                              Get.snackbar('Sorry!',
+                                                  'Please complete all the tasks!',
+                                                  backgroundColor: redColor,
+                                                  colorText: whiteColor);
+                                            }
+                                          }
                                         },
                                         child: CustomText(
                                           text: "Upload Completion Images",

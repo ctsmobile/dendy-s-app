@@ -30,11 +30,11 @@ class ProfileController extends GetxController {
     isLogoutTap.value = true;
     await logoutApi().then((auth) {
       if (auth['status'] != true) {
-        Get.snackbar('logout', auth['message'],
+        Get.snackbar('signout', auth['message'],
             backgroundColor: purpleColor, colorText: whiteColor);
       } else {
-        Get.snackbar('logout', auth['message'],
-            backgroundColor: purpleColor, colorText: whiteColor);
+        // Get.snackbar('signout', auth['message'],
+        //     backgroundColor: purpleColor, colorText: whiteColor);
 
         Get.offAllNamed(RouteConstant.loginScreen);
       }

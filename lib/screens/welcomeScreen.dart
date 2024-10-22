@@ -6,6 +6,7 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -56,6 +57,7 @@ class WelcomeScreen extends StatelessWidget {
             backgroundColor: purpleColor,
             elevation: 4,
             onPressed: () {
+              GetStorage().write('isWelcomeDone', true);
               Get.offAllNamed(RouteConstant.loginScreen);
             },
             shape: RoundedRectangleBorder(

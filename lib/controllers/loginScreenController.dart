@@ -5,6 +5,7 @@ import 'dart:developer';
 
 import 'package:dendy_app/Model/loginModel.dart';
 import 'package:dendy_app/Network/post.dart';
+import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,13 +18,11 @@ class LoginScreenController extends GetxController {
   var passwordVisible = false.obs;
   var emailValidationText = ''.obs;
   var passwordValidationText = ''.obs;
-  // final passwordController = TextEditingController(text: 'Dendy@321');
-  // final emailController = TextEditingController(text: 'robert@yopmail.com');
+  // final passwordController = TextEditingController(text: '1234');
+  // final emailController = TextEditingController(text: 'test8@yopmail.com');
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
-
-  final loginFormKey = GlobalKey<FormState>();
 
   var isLoginTap = false.obs;
 
@@ -62,6 +61,7 @@ class LoginScreenController extends GetxController {
   }
 
   Future login() async {
+    await FirebaseAPI().initNotifications();
     emailValidationText.value = '';
     passwordValidationText.value = '';
     RegExp regex = RegExp(
@@ -88,6 +88,8 @@ class LoginScreenController extends GetxController {
             isLoginTap.value = false;
             GetStorage().write('user_id', auth.data!.id);
             GetStorage().write('access_token', auth.token);
+            // Get.snackbar('login', auth.message,
+            //     backgroundColor: purpleColor, colorText: whiteColor);
             Get.offAllNamed(RouteConstant.dashboardScreen);
           }
         } else {

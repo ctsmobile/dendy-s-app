@@ -1,5 +1,6 @@
-// ignore_for_file: body_might_complete_normally_nullable, empty_catches
+// ignore_for_file: body_might_complete_normally_nullable, empty_catches, prefer_interpolation_to_compose_strings, prefer_const_constructors, avoid_print
 
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -7,7 +8,7 @@ import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_painter_v2/flutter_painter.dart';
@@ -16,6 +17,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:ui' as ui;
 import 'package:dio/dio.dart' as dio;
+import 'package:intl/intl.dart';
+import 'package:lecle_flutter_absolute_path/lecle_flutter_absolute_path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class UploadImageController extends GetxController {
@@ -77,7 +81,7 @@ class UploadImageController extends GetxController {
               maxScale: 5,
             )));
     // Listen to focus events of the text field
-    // textFocusNode.addListener(onFocus);
+    textFocusNode.addListener(onFocus);
     // Initialize background
     final codec = await ui.instantiateImageCodec(
       await File(pickedFile!.path).readAsBytes(),
@@ -88,6 +92,10 @@ class UploadImageController extends GetxController {
     isDataLoading.value = false;
   }
 
+  void onFocus() {
+    update();
+  }
+
   Future<void> onImageButtonPressed(
     ImageSource source,
   ) async {
@@ -96,7 +104,9 @@ class UploadImageController extends GetxController {
         source: source,
       );
 
-      Get.toNamed(RouteConstant.imageEditorScreen);
+      if (pickedFile != null) {
+        Get.toNamed(RouteConstant.imageEditorScreen);
+      }
     } catch (e) {}
   }
 
@@ -128,59 +138,37 @@ class UploadImageController extends GetxController {
   Future<dio.Response?> uploadImageApi(XFile image) async {
     try {
       isUploadImageLoading(true);
-      var uuid = Uuid();
+      print("image.path${image.path}");
 
       fileName.value = image.path.split('/').last;
-      file.value = File(image.path);
-      print("FILE,${File(image.path)}");
-      print("PATH,${fileName}");
-      print(
-          "PATH2,${dio.MultipartFile.fromFile(file.value.path, filename: fileName.value)}");
-      dio.FormData params = dio.FormData.fromMap({
-        'image[]': await dio.MultipartFile.fromFile(file.value.path,
-            filename: fileName.value)
-      });
 
-      print("params$params");
-      print("file.value.path${file.value.path}");
-      print("file.value.path${fileName.value}");
-      var token = GetStorage().read('access_token');
-      print("token$token");
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
+
+      // Create a custom path with the file name
+      String customFilePath = '$appDocPath/${fileName.value}';
+
+      // Move the file from the temp location to your custom directory
+      File tempFile = File(pickedFile!.path);
+      File savedImage = await tempFile.copy(customFilePath);
+
+      print('Image saved to: $customFilePath');
+
+      file.value = savedImage;
+
       filePaths.add(file.value);
       fileNames.add(fileName.value);
       Get.back();
       Get.toNamed(RouteConstant.uploadImagesViewScreen,
           arguments: {"imagePath": '${file.value}'});
-      // dio.Response response = await Dio().post(baseUrl + "job/startjob/1",
-      //     data: params,
-      //     options: Options(headers: {
-      //       "Authorization": "Bearer $token",
-      //     }));
-
-      // print("response.data${response}");
-      // print("response${response}");
-
-      // if (response.data['status'] == true) {
-      //   log("BODY DATA UPLOAD PHOTO,${response.data}");
-      //   // filePath.value = response.data['data']['file_path'];
-      //   print("BODY DATA STATUS UPLOAD PHOTO,${response.data['status']}");
-      //   print("BODY DATA MESSAGE UPLOAD PHOTO,${response.data['message']}");
-      //   return response;
-      // } else {
-      //   log("BODY DATA UPLOAD PHOTO,${response.data}");
-      //   print("BODY DATA STATUS UPLOAD PHOTO,${response.data['status']}");
-      //   print("BODY DATA MESSAGE UPLOAD PHOTO,${response.data['message']}");
-      //   return response;
-      // }
     } catch (e) {
       log('Error while getting data is $e');
-      print('Error while getting data is $e');
     } finally {
       isUploadImageLoading(false);
     }
   }
 
-  Future<dio.Response?> startJobApi() async {
+  Future startJobApi() async {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
@@ -188,57 +176,79 @@ class UploadImageController extends GetxController {
       print("filePaths.length${filePaths.length}");
       print("fileNames.length${fileNames.length}");
       // Iterate through selected images and add them to FormData
+      var jobId = GetStorage().read('jobId').toString();
+      print("jobId: $jobId");
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              "https://dendyapp.chawtechsolutions.ch/api/job/startjob/$jobId"));
       for (int i = 0; i < filePaths.length; i++) {
-        var fileName = fileNames[i]; // Get the file name
-        var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,
-            filename: fileName);
-        params.files
-            .add(MapEntry('image[]', multipartFile)); // Add image to FormData
-        // Store the file name
-      }
+        var filePath = filePaths[i].path;
+        if (await File(filePath).exists()) {
+          print("filePath$filePath");
+          // final tempDir = await getTemporaryDirectory();
+          // final filee = await File(filePaths[i].path)
+          //     .copy('${tempDir.path}/${fileNames[i]}');
+          // final filePathh = filee.path;
+          // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
+          // //     uri: filePaths[i].path);
 
+          // print("filePathg$filePathh");
+          request.files.add(await http.MultipartFile.fromPath(
+              'image[]', // Replace 'image' with the form field name expected by your API
+              filePaths[i].path));
+        } else {
+          log("File not found: $filePath");
+        }
+      }
+      String jobStartTime = DateFormat('dd-MM-yyyy HH:mm:ss')
+          .format(DateTime.now().add(Duration(seconds: 2)));
+      print(jobStartTime);
+      request.fields['job_start_time'] = jobStartTime;
+
+      //  params.fields.add(MapEntry('job_start_time', jobStartTime));
       print("params: $params");
+      print("params: ${params.files}");
+      // print("params: ${params.fields[0]}");
       var token = GetStorage().read('access_token');
       print("token: $token");
-      var jobId = GetStorage().read('jobId');
-      print("jobId: $jobId");
 
-      // Make the API call
-      dio.Response response = await Dio().post(
-        baseUrl + "job/startjob/$jobId",
-        data: params,
-        options: Options(headers: {
-          "Authorization": "Bearer $token",
-        }),
-      );
+      request.headers['Authorization'] = 'Bearer $token';
 
-      // print("response.data: ${response.data}");
-      if (response.data['status'] == true) {
-        log("BODY DATA UPLOAD PHOTO: ${response.data}");
-        print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
-        print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
-        Get.snackbar('Success', response.data['message'],
+      var streamResponse = await request.send();
+      var response = await http.Response.fromStream(streamResponse);
+
+      print("response.data: ${response.body}");
+      var responseBody = jsonDecode(response.body);
+
+      if (responseBody['status'] == true) {
+        log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
+        Get.snackbar('Success', responseBody['message'],
             backgroundColor: purpleColor,
             dismissDirection: DismissDirection.horizontal,
             colorText: whiteColor);
 
         Get.offAllNamed(RouteConstant.activeJobScreen);
-        return response;
+        return responseBody;
       } else {
-        log("BODY DATA UPLOAD PHOTO: ${response.data}");
-        print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
-        print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
-        return response;
+        log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
+        Get.snackbar('Something went wrong!', responseBody['message'],
+            backgroundColor: redColor,
+            dismissDirection: DismissDirection.horizontal,
+            colorText: whiteColor);
       }
     } catch (e) {
       log('Error while getting data: $e');
-      print('Error while getting data: $e');
+      Get.snackbar('Something went wrong!', e.toString(),
+          backgroundColor: redColor,
+          dismissDirection: DismissDirection.horizontal,
+          colorText: whiteColor);
     } finally {
       isUploadImageLoading(false);
     }
   }
 
-  Future<dio.Response?> finishJobApi() async {
+  Future finishJobApi() async {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
@@ -246,51 +256,81 @@ class UploadImageController extends GetxController {
       print("filePaths.length${filePaths.length}");
       print("fileNames.length${fileNames.length}");
       // Iterate through selected images and add them to FormData
-      for (int i = 0; i < filePaths.length; i++) {
-        var fileName = fileNames[i]; // Get the file name
-        var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,
-            filename: fileName);
-        params.files
-            .add(MapEntry('image[]', multipartFile)); // Add image to FormData
-        // Store the file name
-      }
+      var jobId = GetStorage().read('jobId');
+      print("jobIdd: $jobId");
 
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              "https://dendyapp.chawtechsolutions.ch/api/job/completejob/$jobId"));
+      for (int i = 0; i < filePaths.length; i++) {
+        // var fileName = fileNames[i]; // Get the file name
+        // var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,
+        //     filename: fileName);
+        // params.files
+        //     .add(MapEntry('image[]', multipartFile)); // Add image to FormData
+        // Store the file name
+        // var fileStream = http.ByteStream(filePaths[i].openRead());
+        // var fileLength = await filePaths[i].length();
+        // print("fileName$fileName");
+        // print("filePaths[i]${filePaths[i].path}");
+        // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
+        //     uri: filePaths[i].path);
+        // final tempDir = await getTemporaryDirectory();
+        // print("tempDir.path${tempDir.path}");
+        // final filee = await File(filePaths[i].path)
+        //     .copy('${tempDir.path}/${fileNames[i]}');
+        // final filePathh = filee.path;
+        // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
+        // //     uri: filePaths[i].path);
+
+        print("filePathh${filePaths[i].path}");
+        request.files.add(http.MultipartFile(
+            'image[]', // Replace 'image' with the form field name expected by your API
+            // filePaths[i].path
+            File(filePaths[i].path).readAsBytes().asStream(),
+            File(filePaths[i].path).lengthSync(),
+            // fileLength,
+            filename: fileNames[i]));
+        print(" request.files${request.files}");
+      }
+      String jobEndTime =
+          DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
+      // params.fields.add(MapEntry('job_end_time', jobEndTime));
+      request.fields['job_end_time'] = jobEndTime;
       print("params: $params");
       var token = GetStorage().read('access_token');
       print("token: $token");
-      var jobId = GetStorage().read('jobId');
-      print("jobId: $jobId");
 
-      // Make the API call
-      dio.Response response = await Dio().post(
-        baseUrl + "job/completejob/$jobId",
-        data: params,
-        options: Options(headers: {
-          "Authorization": "Bearer $token",
-        }),
-      );
+      request.headers['Authorization'] = 'Bearer $token';
 
-      // print("response.data: ${response.data}");
-      if (response.data['status'] == true) {
-        log("BODY DATA UPLOAD PHOTO: ${response.data}");
-        print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
-        print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
-        Get.snackbar('Success', response.data['message'],
+      var streamResponse = await request.send();
+      var response = await http.Response.fromStream(streamResponse);
+      print("response.data: ${response}");
+
+      var responseBody = jsonDecode(response.body);
+
+      if (responseBody['status'] == true) {
+        log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
+        Get.snackbar('Success', responseBody['message'],
             backgroundColor: purpleColor,
             dismissDirection: DismissDirection.horizontal,
             colorText: whiteColor);
 
         Get.offAllNamed(RouteConstant.dashboardScreen);
-        return response;
       } else {
-        log("BODY DATA UPLOAD PHOTO: ${response.data}");
-        print("BODY DATA STATUS UPLOAD PHOTO: ${response.data['status']}");
-        print("BODY DATA MESSAGE UPLOAD PHOTO: ${response.data['message']}");
-        return response;
+        log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
+        Get.snackbar('Something went wrong!', responseBody['message'],
+            backgroundColor: redColor,
+            dismissDirection: DismissDirection.horizontal,
+            colorText: whiteColor);
       }
     } catch (e) {
       log('Error while getting data: $e');
-      print('Error while getting data: $e');
+      Get.snackbar('Something went wrong!', e.toString(),
+          backgroundColor: redColor,
+          dismissDirection: DismissDirection.horizontal,
+          colorText: whiteColor);
     } finally {
       isUploadImageLoading(false);
     }

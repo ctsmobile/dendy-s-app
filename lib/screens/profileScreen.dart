@@ -191,8 +191,34 @@ class ProfileScreen extends StatelessWidget {
                         color: purpleColor),
                     child: CupertinoButton(
                       onPressed: () async {
-                        await GetStorage().erase();
-                        controller.logout();
+                        return showCupertinoDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                            title: Text('Confirm logout'),
+                            content: Text('Are you sure you want to logout?'),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                // isDefaultAction: true,
+                                child: Text(
+                                  "Yes",
+                                  style: TextStyle(color: purpleColor),
+                                ),
+                                onPressed: () async {
+                                  controller.logout();
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: Text(
+                                  "No",
+                                  style: TextStyle(color: purpleColor),
+                                ),
+                                onPressed: () async {
+                                  Get.back();
+                                },
+                              )
+                            ],
+                          ),
+                        );
                       },
                       child: Center(
                         child: Text(

@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../routes.dart';
 
@@ -55,9 +56,9 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                   height: Utils.height! / 5.95,
                                   decoration: BoxDecoration(
                                     color: purpleColor,
-                                    border: Border.all(
-                                      color: grayColor,
-                                    ),
+                                    // border: Border.all(
+                                    //   color: grayColor,
+                                    // ),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Transform.scale(
@@ -71,9 +72,6 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                     Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        border: Border.all(
-                                          color: grayColor,
-                                        ),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ClipRRect(
@@ -105,7 +103,9 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                 ),
                           onTap: () {
                             if (index == 0) {
-                              Get.back();
+                              controller.onImageButtonPressed(
+                                ImageSource.camera,
+                              );
                             } else {
                               showGeneralDialog(
                                 context: context,
@@ -162,17 +162,21 @@ class UploadeImagesViewScreen extends StatelessWidget {
                 onPressed: () {
                   if (GetStorage().read('finishJob') == true) {
                     if (controller.filePaths.isEmpty) {
-                      Get.snackbar(
-                          'Sorry', 'Please upload atleat one final picture',
-                          backgroundColor: redColor, colorText: whiteColor);
+                      if (!Get.isSnackbarOpen) {
+                        Get.snackbar(
+                            'Sorry', 'Please upload atleat one final picture',
+                            backgroundColor: redColor, colorText: whiteColor);
+                      }
                     } else {
-                      // controller.finishJobApi();
+                      controller.finishJobApi();
                     }
                   } else {
                     if (controller.filePaths.isEmpty) {
-                      Get.snackbar(
-                          'Sorry', 'Please upload atleat one initial picture',
-                          backgroundColor: redColor, colorText: whiteColor);
+                      if (!Get.isSnackbarOpen) {
+                        Get.snackbar(
+                            'Sorry', 'Please upload atleat one initial picture',
+                            backgroundColor: redColor, colorText: whiteColor);
+                      }
                     } else {
                       controller.startJobApi();
                     }

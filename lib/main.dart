@@ -2,7 +2,6 @@
 
 import 'package:dendy_app/bindings/dashboardBindings.dart';
 import 'package:dendy_app/bindings/loginBinding.dart';
-import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/screens/dashboardScreen.dart';
 import 'package:dendy_app/screens/completeJobDetailsScreen.dart';
@@ -27,6 +26,7 @@ import 'package:get_storage/get_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  requestStoragePermission();
   await GetStorage.init();
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
@@ -40,7 +40,6 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp();
   }
-  await FirebaseAPI().initNotifications();
 
   // await SystemChrome.setPreferredOrientations(
   //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -66,7 +65,7 @@ class MyApp extends StatelessWidget {
         title: "Dendy's App",
         debugShowCheckedModeBanner: false,
         initialRoute: GetStorage().read('user_id') != null
-            ? RouteConstant.completeJobDetailsScreen
+            ? RouteConstant.dashboardScreen
             : RouteConstant.splashScreen,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: appThemeColor),

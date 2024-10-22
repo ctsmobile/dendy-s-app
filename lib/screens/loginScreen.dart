@@ -60,8 +60,7 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(
                     height: Utils.height! / 20,
                   ),
-                  Form(
-                    key: controller.loginFormKey,
+                  AutofillGroup(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -73,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                             TextFormField(
+                              autofillHints: [AutofillHints.username],
                               controller: controller.emailController,
                               style: GoogleFonts.amaranth(
                                   color: grayColor,
@@ -122,6 +122,7 @@ class LoginScreen extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                             TextFormField(
+                              autofillHints: [AutofillHints.password],
                               controller: controller.passwordController,
                               obscureText: !controller.passwordVisible.value,
                               style: GoogleFonts.amaranth(

@@ -92,7 +92,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         Row(
                                           children: [
                                             Transform.scale(
-                                              scale: 0.7,
+                                              scale: 0.6,
                                               child: Image.asset(
                                                 '${baseImagePath}profilee.png',
                                               ),
@@ -116,7 +116,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         Row(
                                           children: [
                                             Transform.scale(
-                                              scale: 0.7,
+                                              scale: 0.6,
                                               child: Image.asset(
                                                 '${baseImagePath}calender.png',
                                               ),
@@ -139,7 +139,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         Row(
                                           children: [
                                             Transform.scale(
-                                              scale: 0.7,
+                                              scale: 0.6,
                                               child: Image.asset(
                                                 '${baseImagePath}phone.png',
                                               ),
@@ -163,7 +163,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         Row(
                                           children: [
                                             Transform.scale(
-                                              scale: 0.7,
+                                              scale: 0.5,
                                               child: Image.asset(
                                                 '${baseImagePath}sent.png',
                                               ),
@@ -213,7 +213,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                               return Row(
                                                 children: [
                                                   Transform.scale(
-                                                    scale: 0.7,
+                                                    scale: 0.6,
                                                     child: Image.asset(
                                                       '${baseImagePath}addProfile.png',
                                                     ),
@@ -262,7 +262,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         // Row(
                                         //   children: [
                                         //     Transform.scale(
-                                        //       scale: 0.7,
+                                        //       scale: 0.6,
                                         //       child: Image.asset(
                                         //         '${baseImagePath}addProfile.png',
                                         //       ),
@@ -389,23 +389,31 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                           ? purpleColor
                           : grayColor),
                   child: CupertinoButton(
-                    onPressed: GetStorage().read('user_id') ==
-                                pendingJobDetails.team_lead &&
-                            checkSameDate(pendingJobDetails.date
-                                .toString()
-                                .replaceAll('-', ':'))
-                        ? () {
-                            Get.toNamed(RouteConstant.uploadImageScreen);
-                          }
-                        : GetStorage().read('user_id') !=
-                                pendingJobDetails.team_lead
-                            ? () {
-                                Get.snackbar('Sorry!',
-                                    'Only team lead can start the job',
-                                    backgroundColor: redColor,
-                                    colorText: whiteColor);
+                    onPressed:
+                        // () {
+                        //   Get.toNamed(RouteConstant.uploadImageScreen);
+                        // },
+
+                        GetStorage().read('user_id') ==
+                                    pendingJobDetails.team_lead &&
+                                checkSameDate(pendingJobDetails.date
+                                    .toString()
+                                    .replaceAll('-', ':'))
+                            ? () async {
+                                await GetStorage().remove('finishJob');
+                                Get.toNamed(RouteConstant.uploadImageScreen);
                               }
-                            : null,
+                            : GetStorage().read('user_id') !=
+                                    pendingJobDetails.team_lead
+                                ? () {
+                                    if (!Get.isSnackbarOpen) {
+                                      Get.snackbar('Sorry!',
+                                          'Only team lead can start the job',
+                                          backgroundColor: redColor,
+                                          colorText: whiteColor);
+                                    }
+                                  }
+                                : null,
                     child: Center(
                       child: Text(
                         "Start",

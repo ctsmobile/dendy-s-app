@@ -124,12 +124,9 @@ class PendingJobsView extends StatelessWidget {
                                   height: Utils.height! / 200,
                                 ),
                                 CustomText(
-                                  text: pendingJobListModel!
+                                  text: converter24To12(pendingJobListModel!
                                       .pendingJob[index].time
-                                      .toString()
-                                      .split(':')
-                                      .sublist(0, 2)
-                                      .join(':'),
+                                      .toString()),
                                   maxLines: 1,
                                   textOverflow: TextOverflow.ellipsis,
                                 ),

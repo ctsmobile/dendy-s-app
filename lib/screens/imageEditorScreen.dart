@@ -7,8 +7,6 @@ import 'package:dendy_app/controllers/uploadImagesController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
-import 'package:dendy_app/main.dart';
-import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_painter_v2/flutter_painter.dart';
@@ -29,7 +27,9 @@ class ImageEditorScreen extends StatefulWidget {
 }
 
 class _ImageEditorScreenState extends State<ImageEditorScreen> {
-  FocusNode textFocusNode = FocusNode();
+  void onFocus() {
+    setState(() {});
+  }
 
   Paint shapePaint = Paint()
     ..strokeWidth = 5
@@ -39,7 +39,6 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
 
   /// Fetches image from an [ImageProvider] (in this example, [NetworkImage])
   /// to use it as a background
-  ///
 
   Widget buildDefault(BuildContext context) {
     final UploadImageController controller = Get.put(UploadImageController());
@@ -151,8 +150,8 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
                     Positioned.fill(
                       child: Center(
                         child: AspectRatio(
-                          aspectRatio: controller.backgroundImage!.width! /
-                              controller.backgroundImage!.height!,
+                          aspectRatio: controller.backgroundImage!.width /
+                              controller.backgroundImage!.height,
                           child: FlutterPainter(
                             controller: controller.imageController,
                           ),
@@ -232,7 +231,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
                                         ],
                                       ),
                                   ],
-                                  if (textFocusNode.hasFocus) ...[
+                                  if (controller.textFocusNode.hasFocus) ...[
                                     const Divider(),
                                     const Text("Text settings"),
                                     // Control text font size
@@ -347,35 +346,35 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
                                       ],
                                     ),
 
-                                    Row(
-                                      children: [
-                                        const Expanded(
-                                            flex: 1, child: Text("Fill shape")),
-                                        Expanded(
-                                          flex: 3,
-                                          child: Center(
-                                            child: Switch(
-                                                value: (controller
-                                                                .imageController
-                                                                .shapePaint ??
-                                                            shapePaint)
-                                                        .style ==
-                                                    PaintingStyle.fill,
-                                                onChanged: (value) =>
-                                                    setShapeFactoryPaint((controller
-                                                                .imageController
-                                                                .shapePaint ??
-                                                            shapePaint)
-                                                        .copyWith(
-                                                      style: value
-                                                          ? PaintingStyle.fill
-                                                          : PaintingStyle
-                                                              .stroke,
-                                                    ))),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   children: [
+                                    //     const Expanded(
+                                    //         flex: 1, child: Text("Fill shape")),
+                                    //     Expanded(
+                                    //       flex: 3,
+                                    //       child: Center(
+                                    //         child: Switch(
+                                    //             value: (controller
+                                    //                             .imageController
+                                    //                             .shapePaint ??
+                                    //                         shapePaint)
+                                    //                     .style ==
+                                    //                 PaintingStyle.fill,
+                                    //             onChanged: (value) =>
+                                    //                 setShapeFactoryPaint((controller
+                                    //                             .imageController
+                                    //                             .shapePaint ??
+                                    //                         shapePaint)
+                                    //                     .copyWith(
+                                    //                   style: value
+                                    //                       ? PaintingStyle.fill
+                                    //                       : PaintingStyle
+                                    //                           .stroke,
+                                    //                 ))),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ]
                                 ],
                               ),
@@ -573,6 +572,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       Get.put(UploadImageController()).imageController.freeStyleMode =
           FreeStyleMode.none;
     }
+    Get.put(UploadImageController()).textFocusNode.addListener(onFocus);
     Get.put(UploadImageController()).imageController.addText();
   }
 
@@ -613,6 +613,11 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
   }
 
   void selectShape(ShapeFactory? factory) {
+    if (Get.put(UploadImageController()).imageController.freeStyleMode !=
+        FreeStyleMode.none) {
+      Get.put(UploadImageController()).imageController.freeStyleMode =
+          FreeStyleMode.none;
+    }
     Get.put(UploadImageController()).imageController.shapeFactory = factory;
   }
 

@@ -9,7 +9,10 @@ import 'package:get/get.dart';
 
 class ActiveJobController extends GetxController {
   var isDataLoading = false.obs;
-  late ActiveJobModel activeJobModel;
+  var activeJobModel =
+      ActiveJobModel(data: [], error: null, message: "null", status: false).obs;
+  var index = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -22,6 +25,11 @@ class ActiveJobController extends GetxController {
     super.dispose();
   }
 
+  void updateTaskStatus(int index, int status) {
+    activeJobModel.value.data.first.tasks[index].status = status;
+    activeJobModel.refresh(); // Refresh to trigger UI updates
+  }
+
   Future getActiveJobDetails() async {
     isDataLoading.value = true;
     await getActiveJobDetailsApi().then((activeJob) {
@@ -31,7 +39,8 @@ class ActiveJobController extends GetxController {
               backgroundColor: purpleColor, colorText: whiteColor);
           isDataLoading.value = false;
         } else {
-          activeJobModel = activeJob;
+          activeJobModel.value = activeJob;
+
           isDataLoading.value = false;
         }
       } else {

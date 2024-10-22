@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../routes.dart';
 
@@ -15,7 +16,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void navigationLoginPage() {
-    Get.offAllNamed(RouteConstant.welcomeScreen);
+    if (GetStorage().read('isWelcomeDone') == true) {
+      Get.offAllNamed(RouteConstant.loginScreen);
+    } else {
+      Get.offAllNamed(RouteConstant.welcomeScreen);
+    }
   }
 
   @override
