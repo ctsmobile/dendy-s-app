@@ -113,13 +113,21 @@ class PendingJobsView extends StatelessWidget {
                                 SizedBox(
                                   height: Utils.height! / 200,
                                 ),
-                                CustomText(
-                                  text: pendingJobListModel!
-                                      .pendingJob[index].date
-                                      .toString(),
-                                  maxLines: 1,
-                                  textOverflow: TextOverflow.ellipsis,
-                                ),
+                                !isCompletedJobs
+                                    ? CustomText(
+                                        text: pendingJobListModel!
+                                            .pendingJob[index].date
+                                            .toString(),
+                                        maxLines: 1,
+                                        textOverflow: TextOverflow.ellipsis,
+                                      )
+                                    : CustomText(
+                                        text: pendingJobListModel!
+                                            .pendingJob[index].job_end_time
+                                            .toString(),
+                                        maxLines: 1,
+                                        textOverflow: TextOverflow.ellipsis,
+                                      ),
                                 SizedBox(
                                   height: Utils.height! / 200,
                                 ),
@@ -144,11 +152,11 @@ class PendingJobsView extends StatelessWidget {
                       ],
                     )),
                 onTap: () {
+                  GetStorage().write('jobId',
+                      pendingJobListModel!.pendingJob[index].id.toString());
                   if (isCompletedJobs) {
                     Get.toNamed(RouteConstant.completeJobDetailsScreen);
                   } else {
-                    GetStorage().write('jobId',
-                        pendingJobListModel!.pendingJob[index].id.toString());
                     Get.toNamed(RouteConstant.pendingDetailsScreen, arguments: {
                       "pendingJobDetail": pendingJobListModel!.pendingJob[index]
                     });

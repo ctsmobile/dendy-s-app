@@ -99,8 +99,6 @@ class ActiveJobScreen extends StatelessWidget {
                                                               showModalBottomSheet(
                                                                 context:
                                                                     context,
-                                                                isDismissible:
-                                                                    false,
                                                                 isScrollControlled:
                                                                     true,
                                                                 builder:
@@ -188,7 +186,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               CustomText(
-                                                                                text: controller.activeJobModel.value.data.first.customer.createdAt.toString(),
+                                                                                text: controller.activeJobModel.value.data.first.date.toString(),
                                                                                 maxLines: 1,
                                                                                 textOverflow: TextOverflow.ellipsis,
                                                                               ),
@@ -210,7 +208,7 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               CustomText(
-                                                                                text: controller.activeJobModel.value.data.first.customer.wholeCreatedAt == 'null' ? '' : getTimeFromDate(controller.activeJobModel.value.data.first.customer.wholeCreatedAt!),
+                                                                                text: controller.activeJobModel.value.data.first.time == 'null' ? '' : converter24To12(controller.activeJobModel.value.data.first.time!),
                                                                                 maxLines: 1,
                                                                                 textOverflow: TextOverflow.ellipsis,
                                                                               ),
@@ -243,6 +241,8 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 Utils.height! / 100,
                                                                           ),
                                                                           Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
                                                                             children: [
                                                                               Transform.scale(
                                                                                 scale: 0.6,
@@ -254,10 +254,11 @@ class ActiveJobScreen extends StatelessWidget {
                                                                                 width: Utils.width! / 30,
                                                                               ),
                                                                               Expanded(
-                                                                                child: CustomText(
-                                                                                  text: controller.activeJobModel.value.data.first.customer.location.toString(),
-                                                                                  maxLines: 1,
-                                                                                  textOverflow: TextOverflow.ellipsis,
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 5.0),
+                                                                                  child: CustomText(
+                                                                                    text: controller.activeJobModel.value.data.first.customer.location.toString(),
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ],
@@ -304,8 +305,6 @@ class ActiveJobScreen extends StatelessWidget {
                                                                     context,
                                                                 isScrollControlled:
                                                                     true,
-                                                                isDismissible:
-                                                                    false,
                                                                 builder:
                                                                     (BuildContext
                                                                         context) {
@@ -700,66 +699,154 @@ class ActiveJobScreen extends StatelessWidget {
                                                     TimerBuilder.periodic(
                                                         Duration(seconds: 1),
                                                         builder: (context) {
-                                                      return SizedBox(
-                                                        width: 200,
-                                                        child: Text(
-                                                          "${getTimeDifference(controller.activeJobModel.value.data.first.job_start_time!)}",
-                                                          style: TextStyle(
-                                                              color: blackColor,
-                                                              fontSize: 35,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
+                                                      String time =
+                                                          getTimeDifference(
+                                                              controller
+                                                                  .activeJobModel
+                                                                  .value
+                                                                  .data
+                                                                  .first
+                                                                  .job_start_time!);
+                                                      List<String> timeParts =
+                                                          time.split(":");
+
+// Access each part individually
+                                                      String hours =
+                                                          timeParts[0];
+                                                      String minutes =
+                                                          timeParts[1];
+                                                      String seconds =
+                                                          timeParts[2];
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                '${hours} :',
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        blackColor,
+                                                                    fontSize:
+                                                                        26,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              CustomText(
+                                                                text: 'HOUR',
+                                                                fontSize: 12,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                '${minutes} :',
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        blackColor,
+                                                                    fontSize:
+                                                                        26,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              CustomText(
+                                                                text: 'MINUTE',
+                                                                fontSize: 12,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                seconds,
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        blackColor,
+                                                                    fontSize:
+                                                                        26,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              CustomText(
+                                                                text: 'SECOND',
+                                                                fontSize: 12,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
                                                       );
                                                     }),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: Utils.width! < 380
-                                                                  ? 7
-                                                                  : Utils.width! < 395
-                                                                      ? 10
-                                                                      : 15.0),
-                                                          child: CustomText(
-                                                            text: 'HOUR',
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 5.0),
-                                                          child: CustomText(
-                                                            text: 'MINUTE',
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                            left: 3.0,
-                                                          ),
-                                                          child: CustomText(
-                                                            text: 'SECOND',
-                                                            fontSize: 12,
-                                                            maxLines: 1,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 1,
-                                                        ),
-                                                      ],
-                                                    )
+                                                    // Row(
+                                                    //   mainAxisAlignment:
+                                                    //       MainAxisAlignment
+                                                    //           .spaceBetween,
+                                                    //   children: [
+                                                    //     Padding(
+                                                    //       padding: EdgeInsets.only(
+                                                    //           left: Utils.width! < 380
+                                                    //               ? 7
+                                                    //               : Utils.width! < 395
+                                                    //                   ? 10
+                                                    //                   : 15.0),
+                                                    //       child: CustomText(
+                                                    //         text: 'HOUR',
+                                                    //         fontSize: 12,
+                                                    //       ),
+                                                    //     ),
+                                                    //     Padding(
+                                                    //       padding:
+                                                    //           const EdgeInsets
+                                                    //               .only(
+                                                    //               left: 5.0),
+                                                    //       child: CustomText(
+                                                    //         text: 'MINUTE',
+                                                    //         fontSize: 12,
+                                                    //       ),
+                                                    //     ),
+                                                    //     Padding(
+                                                    //       padding:
+                                                    //           const EdgeInsets
+                                                    //               .only(
+                                                    //         left: 3.0,
+                                                    //       ),
+                                                    //       child: CustomText(
+                                                    //         text: 'SECOND',
+                                                    //         fontSize: 12,
+                                                    //         maxLines: 1,
+                                                    //       ),
+                                                    //     ),
+                                                    //     SizedBox(
+                                                    //       width: 1,
+                                                    //     ),
+                                                    //   ],
+                                                    // )
                                                   ],
                                                 ),
                                               ),
@@ -844,11 +931,8 @@ class ActiveJobScreen extends StatelessWidget {
                                             );
                                           } else {
                                             if (!Get.isSnackbarOpen) {
-                                              // Show the snackbar if no other snackbar is currently open
-                                              Get.snackbar('Sorry!',
-                                                  'Please complete all the tasks!',
-                                                  backgroundColor: redColor,
-                                                  colorText: whiteColor);
+                                              showSnackBar(
+                                                  'Please complete all the tasks first!');
                                             }
                                           }
                                         },

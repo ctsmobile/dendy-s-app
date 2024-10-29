@@ -33,6 +33,7 @@ class Data {
   String name;
   String mobile;
   String email;
+  String profile_summary;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -41,6 +42,7 @@ class Data {
     required this.name,
     required this.mobile,
     required this.email,
+    required this.profile_summary,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -50,16 +52,8 @@ class Data {
         name: json["name"],
         mobile: json["mobile"],
         email: json["email"],
+        profile_summary: json["profile_summary"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "mobile": mobile,
-        "email": email,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
 }

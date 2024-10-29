@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
+import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,12 +31,8 @@ class ProfileController extends GetxController {
     isLogoutTap.value = true;
     await logoutApi().then((auth) {
       if (auth['status'] != true) {
-        Get.snackbar('signout', auth['message'],
-            backgroundColor: purpleColor, colorText: whiteColor);
+        showSnackBar(auth['message']);
       } else {
-        // Get.snackbar('signout', auth['message'],
-        //     backgroundColor: purpleColor, colorText: whiteColor);
-
         Get.offAllNamed(RouteConstant.loginScreen);
       }
     });

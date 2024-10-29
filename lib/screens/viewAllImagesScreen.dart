@@ -1,16 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dendy_app/controllers/jobDetailsController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ViewAllImagesScreen extends StatelessWidget {
   const ViewAllImagesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    JobDetailsController controller = Get.put(JobDetailsController());
     return Scaffold(
       backgroundColor: appThemeColor,
       appBar: PreferredSize(
@@ -25,7 +28,9 @@ class ViewAllImagesScreen extends StatelessWidget {
             children: [
               GridView.builder(
                   shrinkWrap: true,
-                  itemCount: 6,
+                  itemCount: controller.forInitialImages.value
+                      ? controller.jobDetailsModel.data.startimage.length
+                      : controller.jobDetailsModel.data.endimage.length,
                   padding: EdgeInsets.only(
                     top: 0,
                   ),
@@ -48,46 +53,56 @@ class ViewAllImagesScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          child: Image.asset(
-                            '${baseImagePath}image5.png',
-                            fit: BoxFit.cover,
-                            width: Utils.width! / 4.7,
-                            height: Utils.height! / 7.3,
-
-                            // Utils.height! / 3,
-                          ),
-                        ),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            child: CachedNetworkImage(
+                              imageUrl: controller.forInitialImages.value
+                                  ? 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.startimage[index].imageUrl}'
+                                  : 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.endimage[index].imageUrl}',
+                              fit: BoxFit.cover,
+                              width: Utils.width! / 4,
+                              height: Utils.height! / 7.3,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(
+                                    color: purpleColor),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )),
                       ),
                       onTap: () {
                         showGeneralDialog(
                           context: context,
                           barrierDismissible: true,
-                          barrierLabel: 'h',
+                          barrierLabel: 'Dismiss',
                           pageBuilder: (_, __, ___) {
                             return Center(
-                              child: Container(
+                              child: SizedBox(
                                 // Dialog background
-                                width: Utils.width! - 50, // Dialog width
+                                width: 250, // Dialog width
                                 height: 400, // Dialog height
 
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
                                       ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                        child: Image.asset(
-                                          '${baseImagePath}image5.png',
-                                          fit: BoxFit.cover,
-                                          width:
-                                              Utils.width! - 50, // Dialog width
-                                          height: 400,
-
-                                          // Utils.height! / 3,
-                                        ),
-                                      ),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: controller
+                                                    .forInitialImages.value
+                                                ? 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.startimage[index].imageUrl}'
+                                                : 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.endimage[index].imageUrl}',
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                Center(
+                                              child: CircularProgressIndicator(
+                                                  color: purpleColor),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          )),
                                     ],
                                   ),
                                 ),

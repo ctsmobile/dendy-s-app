@@ -1,10 +1,12 @@
-// ignore_for_file: body_might_complete_normally_nullable
+// ignore_for_file: body_might_complete_normally_nullable, avoid_print
 
 import 'dart:developer';
 
 import 'package:dendy_app/Model/pendingJobListModel.dart';
 import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/utils/appcolors.dart';
+import 'package:dendy_app/utils/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
@@ -13,9 +15,14 @@ class DashboardController extends GetxController {
   late PendingJobListModel completedJobListModel;
   late PendingJobs pendingJobDetails;
   late PendingJobs completeJobDetails;
+  var initialIndex = 0;
   @override
   void onInit() {
     super.onInit();
+    print("Get.arguments${Get.arguments}");
+    if (Get.arguments != null) {
+      initialIndex = Get.arguments['initialIndex'];
+    }
     getPendingJobList();
   }
 
@@ -30,15 +37,14 @@ class DashboardController extends GetxController {
     await getPendingJobListApi().then((pendingJob) async {
       if (pendingJob != null) {
         if (!pendingJob.status) {
-          Get.snackbar('pendingJob', pendingJob.message,
-              backgroundColor: redColor, colorText: whiteColor);
+          showSnackBar(pendingJob.message);
         } else {
           pendingJobListModel = pendingJob;
+
           await getCompletedJobListApi().then((completeJob) {
             if (completeJob != null) {
               if (!completeJob.status) {
-                Get.snackbar('completeJob', completeJob.message,
-                    backgroundColor: purpleColor, colorText: whiteColor);
+                showSnackBar(completeJob.message);
               } else {
                 completedJobListModel = completeJob;
               }

@@ -33,7 +33,7 @@ class ActiveJobModel {
 class Datum {
   int id;
   String? name;
-  DateTime date;
+  String? date;
   String? time;
   int customerId;
   String? jobLocation;
@@ -68,7 +68,9 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         name: json["name"],
-        date: DateTime.parse(json["date"]),
+        date: json["date"] == null
+            ? null
+            : DateFormat('dd-MM-yyyy').format(DateTime.parse(json["date"])),
         time: json["time"],
         customerId: json["customer_id"],
         jobLocation: json["job_location"],

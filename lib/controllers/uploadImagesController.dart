@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_painter_v2/flutter_painter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:ui' as ui;
 import 'package:dio/dio.dart' as dio;
@@ -35,6 +37,7 @@ class UploadImageController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   late XFile? pickedFile;
   var filePaths = <File>[].obs;
+  var xFiles = <Uint8List>[].obs;
   var fileNames = <String>[].obs;
   Paint shapePaint = Paint()
     ..strokeWidth = 5
@@ -48,6 +51,7 @@ class UploadImageController extends GetxController {
     print("object");
     filePaths.value = [];
     fileNames.value = [];
+    xFiles.value = [];
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -103,61 +107,36 @@ class UploadImageController extends GetxController {
       pickedFile = await _picker.pickImage(
         source: source,
       );
-
+      // print("pickedFile${pickedFile!.name}");
+      // print("pickedFile${pickedFile!.path}");
+      // print("pickedFile${pickedFile!.mimeType}");
+      // print("pickedFile${await pickedFile!.length()}");
       if (pickedFile != null) {
         Get.toNamed(RouteConstant.imageEditorScreen);
       }
     } catch (e) {}
   }
 
-  void uploadImage(XFile image) {
+  void uploadImage(XFile image, String imageName) {
     isImageProcessing(true);
-    uploadImageApi(image).then((auth) {
-      if (auth != null) {
-        if (auth.data['status'] == true) {
-          // Get.back();
-          if (!Get.isSnackbarOpen) {
-            Get.snackbar('Message', auth.data['message'],
-                backgroundColor: Colors.red,
-                dismissDirection: DismissDirection.horizontal,
-                colorText: whiteColor);
-          }
-        } else {
-          if (!Get.isSnackbarOpen) {
-            Get.snackbar('Error', auth.data['message'],
-                backgroundColor: Colors.red,
-                dismissDirection: DismissDirection.horizontal,
-                colorText: whiteColor);
-          }
-        }
-      }
-      isImageProcessing(false);
-    });
+    uploadImageApi(image, imageName);
   }
 
-  Future<dio.Response?> uploadImageApi(XFile image) async {
+  Future uploadImageApi(XFile image, String imageName) async {
     try {
       isUploadImageLoading(true);
-      print("image.path${image.path}");
 
-      fileName.value = image.path.split('/').last;
+      Uint8List uint8list = await image.readAsBytes();
+      xFiles.add(uint8list);
+      fileName.value = imageName;
 
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      String appDocPath = appDocDir.path;
+      print('Image name is: ${fileName.value}');
 
-      // Create a custom path with the file name
-      String customFilePath = '$appDocPath/${fileName.value}';
-
-      // Move the file from the temp location to your custom directory
-      File tempFile = File(pickedFile!.path);
-      File savedImage = await tempFile.copy(customFilePath);
-
-      print('Image saved to: $customFilePath');
-
-      file.value = savedImage;
+      file.value = File(image.path);
 
       filePaths.add(file.value);
       fileNames.add(fileName.value);
+      isImageProcessing.value = false;
       Get.back();
       Get.toNamed(RouteConstant.uploadImagesViewScreen,
           arguments: {"imagePath": '${file.value}'});
@@ -172,34 +151,35 @@ class UploadImageController extends GetxController {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
-      dio.FormData params = dio.FormData();
-      print("filePaths.length${filePaths.length}");
-      print("fileNames.length${fileNames.length}");
+      print("filePaths.length${xFiles.length}");
+      print("fileNames.length${fileNames}");
       // Iterate through selected images and add them to FormData
       var jobId = GetStorage().read('jobId').toString();
+      // var jobId = '39';
       print("jobId: $jobId");
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
               "https://dendyapp.chawtechsolutions.ch/api/job/startjob/$jobId"));
-      for (int i = 0; i < filePaths.length; i++) {
-        var filePath = filePaths[i].path;
-        if (await File(filePath).exists()) {
-          print("filePath$filePath");
-          // final tempDir = await getTemporaryDirectory();
-          // final filee = await File(filePaths[i].path)
-          //     .copy('${tempDir.path}/${fileNames[i]}');
-          // final filePathh = filee.path;
-          // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
-          // //     uri: filePaths[i].path);
+      for (int i = 0; i < xFiles.length; i++) {
+        // var filePath = filePaths[i].path;
 
-          // print("filePathg$filePathh");
-          request.files.add(await http.MultipartFile.fromPath(
-              'image[]', // Replace 'image' with the form field name expected by your API
-              filePaths[i].path));
-        } else {
-          log("File not found: $filePath");
-        }
+        // final tempDir = await getTemporaryDirectory();
+        // final filee = await File(filePaths[i].path)
+        //     .copy('${tempDir.path}/${fileNames[i]}');
+        // final filePathh = filee.path;
+        // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
+        // //     uri: filePaths[i].path);
+
+        // print("filePathg$filePathh");
+        // Uint8List byteData = await filePaths[i].readAsBytes();
+
+        request.files.add(http.MultipartFile.fromBytes(
+          'image[]',
+          xFiles[i],
+          filename: fileNames[i],
+          contentType: MediaType('image', 'png'),
+        ));
       }
       String jobStartTime = DateFormat('dd-MM-yyyy HH:mm:ss')
           .format(DateTime.now().add(Duration(seconds: 2)));
@@ -207,9 +187,6 @@ class UploadImageController extends GetxController {
       request.fields['job_start_time'] = jobStartTime;
 
       //  params.fields.add(MapEntry('job_start_time', jobStartTime));
-      print("params: $params");
-      print("params: ${params.files}");
-      // print("params: ${params.fields[0]}");
       var token = GetStorage().read('access_token');
       print("token: $token");
 
@@ -223,26 +200,19 @@ class UploadImageController extends GetxController {
 
       if (responseBody['status'] == true) {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
-        Get.snackbar('Success', responseBody['message'],
-            backgroundColor: purpleColor,
-            dismissDirection: DismissDirection.horizontal,
-            colorText: whiteColor);
+        showSnackBar(responseBody['message'], backgroundColor: purpleColor);
 
         Get.offAllNamed(RouteConstant.activeJobScreen);
         return responseBody;
       } else {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
-        Get.snackbar('Something went wrong!', responseBody['message'],
-            backgroundColor: redColor,
-            dismissDirection: DismissDirection.horizontal,
-            colorText: whiteColor);
+        showSnackBar(
+          responseBody['message'],
+        );
       }
     } catch (e) {
       log('Error while getting data: $e');
-      Get.snackbar('Something went wrong!', e.toString(),
-          backgroundColor: redColor,
-          dismissDirection: DismissDirection.horizontal,
-          colorText: whiteColor);
+      showSnackBar(e.toString());
     } finally {
       isUploadImageLoading(false);
     }
@@ -252,8 +222,7 @@ class UploadImageController extends GetxController {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
-      dio.FormData params = dio.FormData();
-      print("filePaths.length${filePaths.length}");
+      print("xFiles.length${xFiles.length}");
       print("fileNames.length${fileNames.length}");
       // Iterate through selected images and add them to FormData
       var jobId = GetStorage().read('jobId');
@@ -263,7 +232,7 @@ class UploadImageController extends GetxController {
           'POST',
           Uri.parse(
               "https://dendyapp.chawtechsolutions.ch/api/job/completejob/$jobId"));
-      for (int i = 0; i < filePaths.length; i++) {
+      for (int i = 0; i < xFiles.length; i++) {
         // var fileName = fileNames[i]; // Get the file name
         // var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,
         //     filename: fileName);
@@ -284,21 +253,21 @@ class UploadImageController extends GetxController {
         // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
         // //     uri: filePaths[i].path);
 
-        print("filePathh${filePaths[i].path}");
-        request.files.add(http.MultipartFile(
-            'image[]', // Replace 'image' with the form field name expected by your API
-            // filePaths[i].path
-            File(filePaths[i].path).readAsBytes().asStream(),
-            File(filePaths[i].path).lengthSync(),
-            // fileLength,
-            filename: fileNames[i]));
+//     var stream=   http.ByteStream(filePaths[i].openRead());
+// stream.cast();
+// var length=await filePaths[i].length();
+        request.files.add(http.MultipartFile.fromBytes(
+          'image[]', // Replace 'image' with the form field name expected by your API
+          xFiles[i],
+          filename: fileNames[i],
+          contentType: MediaType('image', 'png'),
+        ));
         print(" request.files${request.files}");
       }
       String jobEndTime =
           DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
       // params.fields.add(MapEntry('job_end_time', jobEndTime));
       request.fields['job_end_time'] = jobEndTime;
-      print("params: $params");
       var token = GetStorage().read('access_token');
       print("token: $token");
 
@@ -312,25 +281,21 @@ class UploadImageController extends GetxController {
 
       if (responseBody['status'] == true) {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
-        Get.snackbar('Success', responseBody['message'],
-            backgroundColor: purpleColor,
-            dismissDirection: DismissDirection.horizontal,
-            colorText: whiteColor);
+        showSnackBar(responseBody['message'], backgroundColor: purpleColor);
 
-        Get.offAllNamed(RouteConstant.dashboardScreen);
+        Get.offAllNamed(RouteConstant.dashboardScreen,
+            arguments: {"initialIndex": 1});
       } else {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
-        Get.snackbar('Something went wrong!', responseBody['message'],
-            backgroundColor: redColor,
-            dismissDirection: DismissDirection.horizontal,
-            colorText: whiteColor);
+        showSnackBar(
+          responseBody['message'],
+        );
       }
     } catch (e) {
       log('Error while getting data: $e');
-      Get.snackbar('Something went wrong!', e.toString(),
-          backgroundColor: redColor,
-          dismissDirection: DismissDirection.horizontal,
-          colorText: whiteColor);
+      showSnackBar(
+        e.toString(),
+      );
     } finally {
       isUploadImageLoading(false);
     }

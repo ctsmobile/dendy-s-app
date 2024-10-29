@@ -3,44 +3,40 @@
 import 'dart:developer';
 
 import 'package:dendy_app/Model/activeJobModel.dart';
+import 'package:dendy_app/Model/jobDetailsModel.dart';
 import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-class ActiveJobController extends GetxController {
+class JobDetailsController extends GetxController {
   var isDataLoading = false.obs;
-  var activeJobModel =
-      ActiveJobModel(data: [], error: null, message: "null", status: false).obs;
-  var index = 0.obs;
-
+  late JobDetailsModel jobDetailsModel;
+  var forInitialImages = true.obs;
   @override
   void onInit() {
     super.onInit();
-    getActiveJobDetails();
+
+    getJobDetails();
   }
 
   @override
   void dispose() {
-    Get.delete<ActiveJobController>();
+    Get.delete<JobDetailsController>();
     super.dispose();
   }
 
-  void updateTaskStatus(int index, int status) {
-    activeJobModel.value.data.first.tasks[index].status = status;
-    activeJobModel.refresh(); // Refresh to trigger UI updates
-  }
-
-  Future getActiveJobDetails() async {
+  Future getJobDetails() async {
     isDataLoading.value = true;
-    await getActiveJobDetailsApi().then((activeJob) {
-      if (activeJob != null) {
-        if (!activeJob.status) {
-          showSnackBar(activeJob.message);
+    await getJobDetailsApi().then((jobDetails) {
+      if (jobDetails != null) {
+        if (!jobDetails.status) {
+          showSnackBar(jobDetails.message);
 
           isDataLoading.value = false;
         } else {
-          activeJobModel.value = activeJob;
+          jobDetailsModel = jobDetails;
 
           isDataLoading.value = false;
         }
@@ -50,19 +46,22 @@ class ActiveJobController extends GetxController {
     });
   }
 
-  Future<ActiveJobModel?> getActiveJobDetailsApi() async {
+  Future<JobDetailsModel?> getJobDetailsApi() async {
     try {
       Post post = Post();
+      var jobId = GetStorage().read('jobId').toString();
+
+      print("jobId: $jobId");
       return await post
           .get(
-        'job/list/active',
+        'job/detail/$jobId',
       )
           .then((dynamic res) async {
-        print("active$res");
-        return ActiveJobModel.fromJson(res!);
+        print("jobDetails$res");
+        return JobDetailsModel.fromJson(res!);
       });
     } catch (e) {
-      log('Error in active is $e');
+      log('Error in jobDetails is $e');
     } finally {
       isDataLoading(false);
     }

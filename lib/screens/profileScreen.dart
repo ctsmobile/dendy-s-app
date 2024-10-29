@@ -65,7 +65,9 @@ class ProfileScreen extends StatelessWidget {
                                         width: Utils.width! / 20,
                                       ),
                                       CustomText(
-                                        text: 'Jenny',
+                                        text: GetStorage()
+                                            .read('username')
+                                            .toString(),
                                         textColor: purpleColor,
                                       )
                                     ],
@@ -84,7 +86,9 @@ class ProfileScreen extends StatelessWidget {
                                         width: Utils.width! / 20,
                                       ),
                                       CustomText(
-                                        text: 'jenny@gmail.com',
+                                        text: GetStorage()
+                                            .read('email')
+                                            .toString(),
                                         textColor: purpleColor,
                                       )
                                     ],
@@ -103,7 +107,9 @@ class ProfileScreen extends StatelessWidget {
                                         width: Utils.width! / 20,
                                       ),
                                       CustomText(
-                                        text: '+1 9876543210',
+                                        text: GetStorage()
+                                            .read('mobile')
+                                            .toString(),
                                         textColor: purpleColor,
                                       )
                                     ],
@@ -116,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Image.asset(
-                                        '${baseImagePath}sent2.png',
+                                        '${baseImagePath}summary.png',
                                         height: Utils.height! / 20,
                                         width: Utils.width! / 10,
                                       ),
@@ -125,8 +131,9 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                       Expanded(
                                         child: CustomText(
-                                          text:
-                                              '904 E. California Street. Ontario. CA. 91761.',
+                                          text: GetStorage()
+                                              .read('profile_summary')
+                                              .toString(),
                                           textColor: purpleColor,
                                         ),
                                       )

@@ -26,7 +26,7 @@ import 'package:get_storage/get_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  requestStoragePermission();
+  // requestStoragePermission();
   await GetStorage.init();
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         title: "Dendy's App",
         debugShowCheckedModeBanner: false,
         initialRoute: GetStorage().read('user_id') != null
-            ? RouteConstant.dashboardScreen
+            ? RouteConstant.activeJobScreen
             : RouteConstant.splashScreen,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: appThemeColor),

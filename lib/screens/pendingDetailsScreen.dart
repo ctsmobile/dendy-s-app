@@ -28,11 +28,6 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
     // TODO: implement initState
     super.initState();
     pendingJobDetails = Get.arguments['pendingJobDetail'];
-
-    print("user_id${GetStorage().read('user_id')}");
-    print(pendingJobDetails.team_lead.toString());
-    print(
-        checkSameDate(pendingJobDetails.date.toString().replaceAll('-', ':')));
   }
 
   @override
@@ -126,7 +121,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                             ),
                                             CustomText(
                                               text:
-                                                  '${pendingJobDetails.date.toString()} | ${pendingJobDetails.time.toString().split(':').sublist(0, 2).join(':')}',
+                                                  '${pendingJobDetails.date.toString()} | ${converter24To12(pendingJobDetails.time.toString())}',
                                               maxLines: 1,
                                               textOverflow:
                                                   TextOverflow.ellipsis,
@@ -161,6 +156,8 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                           height: Utils.height! / 100,
                                         ),
                                         Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Transform.scale(
                                               scale: 0.5,
@@ -176,9 +173,6 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                 text: pendingJobDetails
                                                     .customer.location
                                                     .toString(),
-                                                maxLines: 1,
-                                                textOverflow:
-                                                    TextOverflow.ellipsis,
                                               ),
                                             ),
                                           ],
@@ -382,23 +376,26 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: GetStorage().read('user_id') ==
-                                  pendingJobDetails.team_lead &&
-                              checkSameDate(pendingJobDetails.date
-                                  .toString()
-                                  .replaceAll('-', ':'))
+                              pendingJobDetails.team_lead
+                          //     &&
+                          // checkSameDate(pendingJobDetails.date
+                          //     .toString()
+                          //     .replaceAll('-', ':'))
                           ? purpleColor
                           : grayColor),
                   child: CupertinoButton(
                     onPressed:
-                        // () {
+                        // () async {
+                        //   await GetStorage().remove('finishJob');
                         //   Get.toNamed(RouteConstant.uploadImageScreen);
                         // },
 
                         GetStorage().read('user_id') ==
-                                    pendingJobDetails.team_lead &&
-                                checkSameDate(pendingJobDetails.date
-                                    .toString()
-                                    .replaceAll('-', ':'))
+                                pendingJobDetails.team_lead
+                            //     &&
+                            // checkSameDate(pendingJobDetails.date
+                            //     .toString()
+                            // .replaceAll('-', ':'))
                             ? () async {
                                 await GetStorage().remove('finishJob');
                                 Get.toNamed(RouteConstant.uploadImageScreen);
@@ -407,10 +404,8 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                     pendingJobDetails.team_lead
                                 ? () {
                                     if (!Get.isSnackbarOpen) {
-                                      Get.snackbar('Sorry!',
-                                          'Only team lead can start the job',
-                                          backgroundColor: redColor,
-                                          colorText: whiteColor);
+                                      showSnackBar(
+                                          'Only team lead can start the job');
                                     }
                                   }
                                 : null,

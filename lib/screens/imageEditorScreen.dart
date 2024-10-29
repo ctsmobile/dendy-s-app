@@ -87,46 +87,58 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
           child: FloatingActionButton(
               backgroundColor: purpleColor,
               elevation: 4,
-              onPressed: () async {
-                if (MediaQuery.of(context).viewInsets.bottom > 0) {
-                  FocusScope.of(context).unfocus();
-                } else {
-                  controller.isImageProcessing(true);
-                  if (Get.put(UploadImageController()).backgroundImage == null)
-                    return;
-                  final backgroundImageSize = Size(
-                      Get.put(UploadImageController())
-                          .backgroundImage!
-                          .width
-                          .toDouble(),
-                      Get.put(UploadImageController())
-                          .backgroundImage!
-                          .height
-                          .toDouble());
-                  final imageFuture = Get.put(UploadImageController())
-                      .imageController
-                      .renderImage(backgroundImageSize)
-                      .then<Uint8List?>((ui.Image image) => image.pngBytes);
-                  // Await the result of the Future
-                  Uint8List? imageData = await imageFuture;
-                  XFile? xFile;
-                  // You need to convert Uint8List to XFile or handle the upload differently
-                  if (imageData != null) {
-                    // Convert Uint8List to XFile (assuming you know the file path)
-                    final tempDir = await getTemporaryDirectory();
-                    var uuid = Uuid();
-                    final file = File('${tempDir.path}/${uuid.v4()}.png');
-                    await file.writeAsBytes(imageData);
+              onPressed: controller.isImageProcessing.value
+                  ? null
+                  : () async {
+                      if (MediaQuery.of(context).viewInsets.bottom > 0) {
+                        FocusScope.of(context).unfocus();
+                      } else {
+                        controller.isImageProcessing(true);
+                        if (Get.put(UploadImageController()).backgroundImage ==
+                            null) return;
+                        final backgroundImageSize = Size(
+                            Get.put(UploadImageController())
+                                .backgroundImage!
+                                .width
+                                .toDouble(),
+                            Get.put(UploadImageController())
+                                .backgroundImage!
+                                .height
+                                .toDouble());
+                        final imageFuture = Get.put(UploadImageController())
+                            .imageController
+                            .renderImage(backgroundImageSize)
+                            .then<Uint8List?>(
+                                (ui.Image image) => image.pngBytes);
+                        // Await the result of the Future
+                        Uint8List? imageData = await imageFuture;
+                        XFile? xFile;
+                        var uuid = Uuid();
+                        String imageName = '${uuid.v4()}.png';
+                        // You need to convert Uint8List to XFile or handle the upload differently
+                        if (imageData != null) {
+                          // Convert Uint8List to XFile (assuming you know the file path)
+                          final tempDir = await getTemporaryDirectory();
+                          // var uuid = Uuid();
+                          // final file = File('${tempDir.path}/${uuid.v4()}.png');
+                          // await file.writeAsBytes(imageData);
 
-                    xFile = XFile(file.path);
-                  }
-                  // Now you can call the uploadImage method
-                  controller.uploadImage(xFile!);
+                          // xFile = XFile(file.path);
 
-                  // Get.toNamed(RouteConstant.uploadImagesViewScreen,
-                  //     arguments: controller.whichJob.value);
-                }
-              },
+                          xFile = XFile.fromData(
+                            imageData,
+                            path: '${tempDir.path}/$imageName.png',
+                            // Provide mimeType if needed
+                            name: imageName, // Provide a name for the file
+                          );
+                        }
+                        // Now you can call the uploadImage method
+                        controller.uploadImage(xFile!, imageName);
+
+                        // Get.toNamed(RouteConstant.uploadImagesViewScreen,
+                        //     arguments: controller.whichJob.value);
+                      }
+                    },
               shape: RoundedRectangleBorder(
                 side: const BorderSide(width: 3, color: purpleColor),
                 borderRadius: BorderRadius.circular(100),
@@ -551,6 +563,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
   }
 
   void toggleFreeStyleDraw() {
+    Get.put(UploadImageController()).imageController.shapeFactory = null;
     Get.put(UploadImageController()).imageController.freeStyleMode =
         Get.put(UploadImageController()).imageController.freeStyleMode !=
                 FreeStyleMode.draw
@@ -559,6 +572,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
   }
 
   void toggleFreeStyleErase() {
+    Get.put(UploadImageController()).imageController.shapeFactory = null;
     Get.put(UploadImageController()).imageController.freeStyleMode =
         Get.put(UploadImageController()).imageController.freeStyleMode !=
                 FreeStyleMode.erase
@@ -567,6 +581,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
   }
 
   void addText() {
+    Get.put(UploadImageController()).imageController.shapeFactory = null;
     if (Get.put(UploadImageController()).imageController.freeStyleMode !=
         FreeStyleMode.none) {
       Get.put(UploadImageController()).imageController.freeStyleMode =

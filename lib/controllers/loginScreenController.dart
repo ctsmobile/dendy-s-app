@@ -8,6 +8,7 @@ import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
+import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -81,15 +82,18 @@ class LoginScreenController extends GetxController {
           .then((auth) {
         if (auth != null) {
           if (!auth.status) {
-            Get.snackbar('login', auth.message,
-                backgroundColor: redColor, colorText: whiteColor);
+            showSnackBar(auth.message);
+
             isLoginTap.value = false;
           } else {
             isLoginTap.value = false;
             GetStorage().write('user_id', auth.data!.id);
             GetStorage().write('access_token', auth.token);
-            // Get.snackbar('login', auth.message,
-            //     backgroundColor: purpleColor, colorText: whiteColor);
+            GetStorage().write('username', auth.data!.name.toString());
+            GetStorage().write('mobile', auth.data!.mobile.toString());
+            GetStorage().write('email', auth.data!.email.toString());
+            GetStorage().write(
+                'profile_summary', auth.data!.profile_summary.toString());
             Get.offAllNamed(RouteConstant.dashboardScreen);
           }
         } else {

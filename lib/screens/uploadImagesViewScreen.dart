@@ -77,8 +77,8 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20)),
-                                        child: Image.file(
-                                          controller.filePaths[index - 1],
+                                        child: Image.memory(
+                                          controller.xFiles[index - 1],
                                           fit: BoxFit.cover,
                                           width: Utils.width! / 4,
                                           height: Utils.height! / 7.3,
@@ -97,6 +97,7 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                             .removeAt(index - 1);
                                         controller.fileNames
                                             .removeAt(index - 1);
+                                        controller.xFiles.removeAt(index - 1);
                                       },
                                     ),
                                   ],
@@ -126,8 +127,8 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                                   const BorderRadius.all(
                                                 Radius.circular(10),
                                               ),
-                                              child: Image.file(
-                                                controller.filePaths[index - 1],
+                                              child: Image.memory(
+                                                controller.xFiles[index - 1],
                                                 fit: BoxFit.cover,
                                                 width: Utils.width! -
                                                     50, // Dialog width
@@ -159,29 +160,29 @@ class UploadeImagesViewScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                   color: purpleColor),
               child: CupertinoButton(
-                onPressed: () {
-                  if (GetStorage().read('finishJob') == true) {
-                    if (controller.filePaths.isEmpty) {
-                      if (!Get.isSnackbarOpen) {
-                        Get.snackbar(
-                            'Sorry', 'Please upload atleat one final picture',
-                            backgroundColor: redColor, colorText: whiteColor);
-                      }
-                    } else {
-                      controller.finishJobApi();
-                    }
-                  } else {
-                    if (controller.filePaths.isEmpty) {
-                      if (!Get.isSnackbarOpen) {
-                        Get.snackbar(
-                            'Sorry', 'Please upload atleat one initial picture',
-                            backgroundColor: redColor, colorText: whiteColor);
-                      }
-                    } else {
-                      controller.startJobApi();
-                    }
-                  }
-                },
+                onPressed: controller.isUploadImageLoading.value
+                    ? null
+                    : () {
+                        if (GetStorage().read('finishJob') == true) {
+                          if (controller.filePaths.isEmpty) {
+                            if (!Get.isSnackbarOpen) {
+                              showSnackBar(
+                                  'Please upload atleat one final picture');
+                            }
+                          } else {
+                            controller.finishJobApi();
+                          }
+                        } else {
+                          if (controller.filePaths.isEmpty) {
+                            if (!Get.isSnackbarOpen) {
+                              showSnackBar(
+                                  'Please upload atleat one initial picture');
+                            }
+                          } else {
+                            controller.startJobApi();
+                          }
+                        }
+                      },
                 child: controller.isUploadImageLoading.value
                     ? Loader(
                         color: whiteColor,

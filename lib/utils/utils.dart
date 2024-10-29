@@ -1,5 +1,8 @@
 // ignore_for_file: unnecessary_new
 
+import 'package:dendy_app/utils/appcolors.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -16,12 +19,6 @@ String getSystemTime() {
   return new DateFormat("HH : mm : ss").format(now);
 }
 
-List names = [
-  'System Cleaning',
-  'Filter Cleaning',
-  'System Exchange',
-  'Filter Cleaning',
-];
 const String baseUrl = 'https://dendyapp.chawtechsolutions.ch/api/';
 bool checkSameDate(String date) {
   print("date$date");
@@ -98,4 +95,12 @@ Future<void> requestStoragePermission() async {
     // If the permission is permanently denied, direct the user to the app settings
     openAppSettings();
   }
+}
+
+showSnackBar(String message, {Color backgroundColor = redColor}) {
+  Get.snackbar('', message,
+      backgroundColor: backgroundColor,
+      titleText: SizedBox.shrink(),
+      dismissDirection: DismissDirection.horizontal,
+      colorText: whiteColor);
 }

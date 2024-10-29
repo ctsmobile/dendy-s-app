@@ -18,6 +18,7 @@ class DashboardScreen extends StatelessWidget {
     final DashboardController controller = Get.put(DashboardController());
     return Obx(() => DefaultTabController(
           length: 2,
+          initialIndex: controller.initialIndex == 1 ? 1 : 0,
           child: Scaffold(
             backgroundColor: appThemeColor,
             appBar: AppBar(
@@ -104,9 +105,16 @@ class DashboardScreen extends StatelessWidget {
                             pendingJobListModel: controller.pendingJobListModel,
                           ),
                         ),
-                        PendingJobsView(
-                          isCompletedJobs: true,
-                          pendingJobListModel: controller.completedJobListModel,
+                        RefreshIndicator(
+                          color: purpleColor,
+                          onRefresh: () async {
+                            await controller.getPendingJobList();
+                          },
+                          child: PendingJobsView(
+                            isCompletedJobs: true,
+                            pendingJobListModel:
+                                controller.completedJobListModel,
+                          ),
                         ),
                       ],
                     ),
