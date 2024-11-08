@@ -28,17 +28,23 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // requestStoragePermission();
   await GetStorage.init();
-  if (Platform.isAndroid) {
+  try {
     await Firebase.initializeApp(
         options: FirebaseOptions(
-      apiKey: 'AIzaSyA9EOJo4kwBp94F9wW5jKdS77o05jJRVpo',
-      appId: '1:900401400850:android:009ff627dcc767f8d55ccb',
-      messagingSenderId: '900401400850',
-      projectId: 'dendyapp',
-      storageBucket: 'dendyapp.appspot.com',
+      apiKey: 'AIzaSyBFUeb8FraO8sgbFavCGZQSiT3GToiofys',
+      appId: '1:520035837998:android:8f98eec543623eb7c497bf',
+      messagingSenderId: '520035837998',
+      projectId: 'dendyapp-1ec3a',
+      storageBucket: 'dendyapp-1ec3a.firebasestorage.app',
     ));
-  } else {
-    await Firebase.initializeApp();
+  } catch (e) {
+    // Handle the exception if it is already initialized
+    if (e is FirebaseException && e.code == 'duplicate-app') {
+      print('Firebase app is already initialized.');
+    } else {
+      // Handle other exceptions
+      print('Firebase initialization error: $e');
+    }
   }
 
   // await SystemChrome.setPreferredOrientations(
@@ -65,7 +71,7 @@ class MyApp extends StatelessWidget {
         title: "Dendy's App",
         debugShowCheckedModeBanner: false,
         initialRoute: GetStorage().read('user_id') != null
-            ? RouteConstant.activeJobScreen
+            ? RouteConstant.dashboardScreen
             : RouteConstant.splashScreen,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: appThemeColor),

@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:dendy_app/Model/pendingJobListModel.dart';
 import 'package:dendy_app/Network/post.dart';
+import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class DashboardController extends GetxController {
           showSnackBar(pendingJob.message);
         } else {
           pendingJobListModel = pendingJob;
-
+          await FirebaseAPI().initNotifications();
           await getCompletedJobListApi().then((completeJob) {
             if (completeJob != null) {
               if (!completeJob.status) {

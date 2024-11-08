@@ -21,7 +21,7 @@ class Post {
     print("connectivityResult$connectivityResult");
     if (connectivityResult == ConnectivityResult.none) {
       Get.snackbar('Network Error', 'Please check your internet connection!',
-          backgroundColor: purpleColor, colorText: whiteColor);
+          backgroundColor: redColor, colorText: whiteColor);
       return null;
     } else {
       var token = GetStorage().read('access_token');
@@ -59,7 +59,7 @@ class Post {
             // showSnackBar(context: context, text: response.body);
             // print('mess${response.body}');
             Get.snackbar('${apiUrl}\nstatusCode:', statusCode.toString(),
-                backgroundColor: purpleColor, colorText: whiteColor);
+                backgroundColor: redColor, colorText: whiteColor);
             return 'Error';
           }
 
@@ -87,7 +87,7 @@ class Post {
     print("connectivityResult$connectivityResult");
     if (connectivityResult == ConnectivityResult.none) {
       Get.snackbar('Network Error', 'Please check your internet connection!',
-          backgroundColor: purpleColor, colorText: whiteColor);
+          backgroundColor: redColor, colorText: whiteColor);
       return null;
     } else {
       var token = GetStorage().read('access_token');
@@ -123,7 +123,7 @@ class Post {
             // showSnackBar(context: context, text: response.body);
             // print('mess${response.body}');
             Get.snackbar('${apiUrl}\nstatusCode:', statusCode.toString(),
-                backgroundColor: purpleColor, colorText: whiteColor);
+                backgroundColor: redColor, colorText: whiteColor);
             return 'Error';
           }
 

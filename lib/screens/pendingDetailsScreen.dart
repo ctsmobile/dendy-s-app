@@ -86,11 +86,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         ),
                                         Row(
                                           children: [
-                                            Transform.scale(
-                                              scale: 0.6,
-                                              child: Image.asset(
-                                                '${baseImagePath}profilee.png',
-                                              ),
+                                            Image.asset(
+                                              '${baseImagePath}profilee.png',
+                                              height: Utils.height! / 22,
+                                              width: Utils.width! / 22,
                                             ),
                                             SizedBox(
                                               width: Utils.width! / 30,
@@ -110,11 +109,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         ),
                                         Row(
                                           children: [
-                                            Transform.scale(
-                                              scale: 0.6,
-                                              child: Image.asset(
-                                                '${baseImagePath}calender.png',
-                                              ),
+                                            Image.asset(
+                                              '${baseImagePath}calender.png',
+                                              height: Utils.height! / 22,
+                                              width: Utils.width! / 22,
                                             ),
                                             SizedBox(
                                               width: Utils.width! / 30,
@@ -133,11 +131,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         ),
                                         Row(
                                           children: [
-                                            Transform.scale(
-                                              scale: 0.6,
-                                              child: Image.asset(
-                                                '${baseImagePath}phone.png',
-                                              ),
+                                            Image.asset(
+                                              '${baseImagePath}phone.png',
+                                              height: Utils.height! / 22,
+                                              width: Utils.width! / 22,
                                             ),
                                             SizedBox(
                                               width: Utils.width! / 30,
@@ -155,27 +152,32 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         SizedBox(
                                           height: Utils.height! / 100,
                                         ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Transform.scale(
-                                              scale: 0.5,
-                                              child: Image.asset(
+                                        GestureDetector(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Image.asset(
                                                 '${baseImagePath}sent.png',
+                                                height: Utils.height! / 22,
+                                                width: Utils.width! / 22,
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: Utils.width! / 30,
-                                            ),
-                                            Expanded(
-                                              child: CustomText(
-                                                text: pendingJobDetails
-                                                    .customer.location
-                                                    .toString(),
+                                              SizedBox(
+                                                width: Utils.width! / 30,
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: CustomText(
+                                                  text: pendingJobDetails
+                                                      .customer.location
+                                                      .toString(),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            launchURL(Uri.parse(
+                                                'https://www.google.com/maps/search/?api=1&query=${pendingJobDetails.customer.lat.toString()},${pendingJobDetails.customer.lng.toString()}'));
+                                          },
                                         ),
                                       ],
                                     ),

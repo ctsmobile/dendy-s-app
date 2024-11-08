@@ -240,28 +240,34 @@ class ActiveJobScreen extends StatelessWidget {
                                                                             height:
                                                                                 Utils.height! / 100,
                                                                           ),
-                                                                          Row(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Transform.scale(
-                                                                                scale: 0.6,
-                                                                                child: Image.asset(
-                                                                                  '${baseImagePath}sent.png',
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: Utils.width! / 30,
-                                                                              ),
-                                                                              Expanded(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.only(top: 5.0),
-                                                                                  child: CustomText(
-                                                                                    text: controller.activeJobModel.value.data.first.customer.location.toString(),
+                                                                          GestureDetector(
+                                                                            child:
+                                                                                Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+                                                                                Transform.scale(
+                                                                                  scale: 0.6,
+                                                                                  child: Image.asset(
+                                                                                    '${baseImagePath}sent.png',
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                            ],
+                                                                                SizedBox(
+                                                                                  width: Utils.width! / 30,
+                                                                                ),
+                                                                                Expanded(
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.only(top: 5.0),
+                                                                                    child: CustomText(
+                                                                                      text: controller.activeJobModel.value.data.first.customer.location.toString(),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            onTap:
+                                                                                () {
+                                                                              launchURL(Uri.parse('https://www.google.com/maps/search/?api=1&query=${controller.activeJobModel.value.data.first.customer.lat.toString()},${controller.activeJobModel.value.data.first.customer.lng.toString()}'));
+                                                                            },
                                                                           ),
                                                                         ],
                                                                       ),
