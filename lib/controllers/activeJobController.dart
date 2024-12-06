@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:dendy_app/Model/activeJobModel.dart';
 import 'package:dendy_app/Network/post.dart';
-import 'package:dendy_app/utils/appcolors.dart';
+import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:get/get.dart';
 
@@ -20,14 +20,8 @@ class ActiveJobController extends GetxController {
     getActiveJobDetails();
   }
 
-  @override
-  void dispose() {
-    Get.delete<ActiveJobController>();
-    super.dispose();
-  }
-
-  void updateTaskStatus(int index, int status) {
-    activeJobModel.value.data.first.tasks[index].status = status;
+  void updateTaskStatus(int index, int taskIndex, int status) {
+    activeJobModel.value.data[index].tasks[taskIndex].status = status;
     activeJobModel.refresh(); // Refresh to trigger UI updates
   }
 
@@ -41,11 +35,17 @@ class ActiveJobController extends GetxController {
           isDataLoading.value = false;
         } else {
           activeJobModel.value = activeJob;
-
-          isDataLoading.value = false;
+          if (activeJobModel.value.data.length == 1) {
+            Get.toNamed(RouteConstant.activeJobDetailsScreen,
+                arguments: {'index': 0, 'onlyOne': true});
+          } else {
+            isDataLoading.value = false;
+          }
         }
       } else {
-        isDataLoading.value = false;
+        if (activeJobModel.value.data.length != 1) {
+          isDataLoading.value = false;
+        }
       }
     });
   }
@@ -63,8 +63,6 @@ class ActiveJobController extends GetxController {
       });
     } catch (e) {
       log('Error in active is $e');
-    } finally {
-      isDataLoading(false);
     }
   }
 }

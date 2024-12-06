@@ -1,0 +1,1022 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, must_be_immutable
+
+import 'package:dendy_app/controllers/activeJobController.dart';
+import 'package:dendy_app/customWidgets/customAppBar.dart';
+import 'package:dendy_app/customWidgets/customBottomBar.dart';
+import 'package:dendy_app/customWidgets/customText.dart';
+import 'package:dendy_app/utils/appcolors.dart';
+import 'package:dendy_app/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:timer_builder/timer_builder.dart';
+
+import '../routes.dart';
+
+class ActiveJobDetailsScreen extends StatelessWidget {
+  int index;
+  bool onlyOne;
+  ActiveJobDetailsScreen({super.key, this.index = 0, this.onlyOne = false});
+
+  @override
+  Widget build(BuildContext context) {
+    index = Get.arguments['index'];
+    onlyOne = Get.arguments['onlyOne'];
+    final ActiveJobController controller = Get.put(ActiveJobController());
+
+    return Obx(() => Scaffold(
+          backgroundColor: appThemeColor,
+          appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(70),
+              child: MyAppBar(
+                title: 'Active Job',
+                isLeading: !onlyOne,
+              )),
+          body: WillPopScope(
+            onWillPop: () async {
+              if (onlyOne) {
+                Get.offAllNamed(RouteConstant.dashboardScreen);
+              } else {
+                Get.back();
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        Column(
+                          children: [
+                            Stack(
+                              alignment: AlignmentDirectional.topCenter,
+                              children: [
+                                Card(
+                                    elevation: 3,
+                                    color: appThemeColor,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 130.0, left: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                CustomText(
+                                                  text: 'Customer Info',
+                                                  textColor: purpleColor,
+                                                ),
+                                                GestureDetector(
+                                                  child: Image.asset(
+                                                    '${baseImagePath}info.png',
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
+                                                  onTap: () {
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      isScrollControlled: true,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(16.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15.0),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          CustomText(
+                                                                        text:
+                                                                            'Customer Info',
+                                                                        textColor:
+                                                                            purpleColor,
+                                                                        maxLines:
+                                                                            1,
+                                                                        textOverflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .only(
+                                                                          bottom:
+                                                                              10.0),
+                                                                      child:
+                                                                          GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child: Image
+                                                                            .asset(
+                                                                          '${baseImagePath}close.png',
+                                                                          height:
+                                                                              Utils.height! / 30,
+                                                                          width:
+                                                                              Utils.width! / 10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      70,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Transform
+                                                                        .scale(
+                                                                      scale:
+                                                                          0.6,
+                                                                      child: Image
+                                                                          .asset(
+                                                                        '${baseImagePath}profilee.png',
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              30,
+                                                                    ),
+                                                                    CustomText(
+                                                                      text: controller
+                                                                          .activeJobModel
+                                                                          .value
+                                                                          .data[
+                                                                              index]
+                                                                          .customer
+                                                                          .name
+                                                                          .toString(),
+                                                                      maxLines:
+                                                                          1,
+                                                                      textOverflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      100,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Transform
+                                                                        .scale(
+                                                                      scale:
+                                                                          0.6,
+                                                                      child: Image
+                                                                          .asset(
+                                                                        '${baseImagePath}calender.png',
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              30,
+                                                                    ),
+                                                                    CustomText(
+                                                                      text: controller
+                                                                          .activeJobModel
+                                                                          .value
+                                                                          .data[
+                                                                              index]
+                                                                          .date
+                                                                          .toString(),
+                                                                      maxLines:
+                                                                          1,
+                                                                      textOverflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      100,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Transform
+                                                                        .scale(
+                                                                      scale:
+                                                                          0.6,
+                                                                      child: Image
+                                                                          .asset(
+                                                                        '${baseImagePath}watch.png',
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              30,
+                                                                    ),
+                                                                    CustomText(
+                                                                      text: controller.activeJobModel.value.data[index].time ==
+                                                                              'null'
+                                                                          ? ''
+                                                                          : converter24To12(controller
+                                                                              .activeJobModel
+                                                                              .value
+                                                                              .data[index]
+                                                                              .time!),
+                                                                      maxLines:
+                                                                          1,
+                                                                      textOverflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      100,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Transform
+                                                                        .scale(
+                                                                      scale:
+                                                                          0.6,
+                                                                      child: Image
+                                                                          .asset(
+                                                                        '${baseImagePath}phone.png',
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              30,
+                                                                    ),
+                                                                    CustomText(
+                                                                      text: controller
+                                                                          .activeJobModel
+                                                                          .value
+                                                                          .data[
+                                                                              index]
+                                                                          .customer
+                                                                          .contactNumber
+                                                                          .toString(),
+                                                                      maxLines:
+                                                                          1,
+                                                                      textOverflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      100,
+                                                                ),
+                                                                GestureDetector(
+                                                                  child: Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Transform
+                                                                          .scale(
+                                                                        scale:
+                                                                            0.6,
+                                                                        child: Image
+                                                                            .asset(
+                                                                          '${baseImagePath}sent.png',
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: Utils.width! /
+                                                                            30,
+                                                                      ),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              top: 5.0),
+                                                                          child:
+                                                                              CustomText(
+                                                                            text:
+                                                                                controller.activeJobModel.value.data[index].customer.location.toString(),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  onTap: () {
+                                                                    launchURL(Uri
+                                                                        .parse(
+                                                                            'https://www.google.com/maps/search/?api=1&query=${controller.activeJobModel.value.data[index].customer.lat.toString()},${controller.activeJobModel.value.data[index].customer.lng.toString()}'));
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: Utils.height! / 60,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                CustomText(
+                                                  text: 'Assigned Employees',
+                                                  textColor: purpleColor,
+                                                ),
+                                                GestureDetector(
+                                                  child: Image.asset(
+                                                    '${baseImagePath}info.png',
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
+                                                  onTap: () {
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      isScrollControlled: true,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(16.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15.0),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          CustomText(
+                                                                        text:
+                                                                            'Assigned Employees',
+                                                                        textColor:
+                                                                            purpleColor,
+                                                                        maxLines:
+                                                                            1,
+                                                                        textOverflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .only(
+                                                                          bottom:
+                                                                              10.0),
+                                                                      child:
+                                                                          GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child: Image
+                                                                            .asset(
+                                                                          '${baseImagePath}close.png',
+                                                                          height:
+                                                                              Utils.height! / 30,
+                                                                          width:
+                                                                              Utils.width! / 10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      70,
+                                                                ),
+                                                                ListView
+                                                                    .separated(
+                                                                        itemCount: controller
+                                                                            .activeJobModel
+                                                                            .value
+                                                                            .data[
+                                                                                index]
+                                                                            .employees
+                                                                            .length,
+                                                                        separatorBuilder:
+                                                                            (context,
+                                                                                employeesIndex) {
+                                                                          return SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          );
+                                                                        },
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        physics:
+                                                                            NeverScrollableScrollPhysics(),
+                                                                        itemBuilder:
+                                                                            (BuildContext context,
+                                                                                int employeesIndex) {
+                                                                          return Row(
+                                                                            children: [
+                                                                              Transform.scale(
+                                                                                scale: 0.6,
+                                                                                child: Image.asset(
+                                                                                  '${baseImagePath}addProfile.png',
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width: Utils.width! / 30,
+                                                                              ),
+                                                                              Row(
+                                                                                children: [
+                                                                                  CustomText(
+                                                                                    text: controller.activeJobModel.value.data[index].employees[employeesIndex].jobuser.name.toString(),
+                                                                                    maxLines: 1,
+                                                                                    textOverflow: TextOverflow.ellipsis,
+                                                                                  ),
+                                                                                  CustomText(
+                                                                                    text: controller.activeJobModel.value.data[index].employees[employeesIndex].crewLead == 1 ? ' (Team Lead)' : '',
+                                                                                    maxLines: 1,
+                                                                                    textColor: purpleColor,
+                                                                                    textOverflow: TextOverflow.ellipsis,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        }),
+                                                                SizedBox(
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      100,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          controller.activeJobModel.value
+                                                  .data[index].tasks.isEmpty
+                                              ? SizedBox()
+                                              : SizedBox(
+                                                  height: Utils.height! / 20,
+                                                ),
+                                          controller.activeJobModel.value
+                                                  .data[index].tasks.isEmpty
+                                              ? SizedBox()
+                                              : Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    CustomText(
+                                                      text: 'Task List',
+                                                      textColor: purpleColor,
+                                                    ),
+                                                    Expanded(
+                                                      child: CustomText(
+                                                        text:
+                                                            ' (Check each task when completed)',
+                                                        textColor: grayColor,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                          SizedBox(
+                                            height: Utils.height! / 60,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20.0),
+                                            child: ListView.separated(
+                                              itemCount: controller
+                                                  .activeJobModel
+                                                  .value
+                                                  .data[index]
+                                                  .tasks
+                                                  .length,
+                                              separatorBuilder:
+                                                  (context, index) {
+                                                return SizedBox(
+                                                  height: 20,
+                                                );
+                                              },
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int tasksIndex) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: CustomText(
+                                                        text: controller
+                                                            .activeJobModel
+                                                            .value
+                                                            .data[index]
+                                                            .tasks[tasksIndex]
+                                                            .taskName
+                                                            .toString(),
+                                                        textColor: grayColor,
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        if (controller
+                                                                .activeJobModel
+                                                                .value
+                                                                .data[index]
+                                                                .tasks[
+                                                                    tasksIndex]
+                                                                .status ==
+                                                            0) {
+                                                          controller
+                                                              .updateTaskStatus(
+                                                                  index,
+                                                                  tasksIndex,
+                                                                  1);
+                                                        } else {
+                                                          controller
+                                                              .updateTaskStatus(
+                                                                  index,
+                                                                  tasksIndex,
+                                                                  0);
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                          height: 35,
+                                                          width: 35,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                                color:
+                                                                    whiteColor,
+                                                                width: 2),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color:
+                                                                    innerShadowColor,
+                                                              ),
+                                                              BoxShadow(
+                                                                  color: appThemeColor
+                                                                      .withOpacity(
+                                                                          0.7),
+                                                                  spreadRadius:
+                                                                      -2.0,
+                                                                  blurRadius:
+                                                                      5.0,
+                                                                  offset:
+                                                                      Offset(0,
+                                                                          2)),
+                                                              BoxShadow(
+                                                                  color: appThemeColor
+                                                                      .withOpacity(
+                                                                          0.7),
+                                                                  spreadRadius:
+                                                                      -2.0,
+                                                                  blurRadius:
+                                                                      5.0,
+                                                                  offset:
+                                                                      Offset(0,
+                                                                          2)),
+                                                            ],
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: controller
+                                                                        .activeJobModel
+                                                                        .value
+                                                                        .data[
+                                                                            index]
+                                                                        .tasks[
+                                                                            tasksIndex]
+                                                                        .status ==
+                                                                    1
+                                                                ? Image.asset(
+                                                                    '${baseImagePath}check.png')
+                                                                : SizedBox(),
+                                                          )),
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: Utils.height! / 10,
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                Stack(
+                                  alignment: AlignmentDirectional.topCenter,
+                                  children: [
+                                    Container(
+                                      width: Utils.width! / 1.6,
+                                      height: 100,
+                                      margin: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 3,
+                                      ),
+                                      padding: const EdgeInsets.only(
+                                        left: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)),
+                                        border: Border(
+                                            top: BorderSide(
+                                                color: appThemeColor,
+                                                width: 7)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: innerShadowColor
+                                                  .withOpacity(0.9),
+                                              offset: Offset(2, 0)),
+                                          BoxShadow(
+                                              color: innerShadowColor
+                                                  .withOpacity(0.5),
+                                              offset: Offset(-2, 0)),
+                                          BoxShadow(
+                                              color: appThemeColor,
+                                              spreadRadius: -1.0,
+                                              blurRadius: 1.0,
+                                              offset: Offset(0, 0)),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: Utils.width! / 1.8,
+                                      height: 86,
+                                      margin: const EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                        top: 4,
+                                      ),
+                                      padding: const EdgeInsets.only(
+                                        left: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  whiteColor.withOpacity(0.7),
+                                              spreadRadius: 10.0,
+                                              blurRadius: 7,
+                                              offset: Offset(3, 2)),
+                                          BoxShadow(
+                                              color: appThemeColor
+                                                  .withOpacity(0.7),
+                                              spreadRadius: 10.0,
+                                              blurRadius: 7,
+                                              offset: Offset(0, -60)),
+                                          BoxShadow(
+                                            color: innerShadowColor
+                                                .withOpacity(0.7),
+                                          ),
+                                          BoxShadow(
+                                              color: appThemeColor
+                                                  .withOpacity(0.7),
+                                              spreadRadius: -2.0,
+                                              blurRadius: 5.0,
+                                              offset: Offset(0, 2)),
+                                          BoxShadow(
+                                              color: appThemeColor
+                                                  .withOpacity(0.7),
+                                              spreadRadius: -2.0,
+                                              blurRadius: 5.0,
+                                              offset: Offset(0, 2)),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TimerBuilder.periodic(
+                                              Duration(seconds: 1),
+                                              builder: (context) {
+                                            String time = getTimeDifference(
+                                                controller
+                                                    .activeJobModel
+                                                    .value
+                                                    .data[index]
+                                                    .job_start_time!);
+                                            List<String> timeParts =
+                                                time.split(":");
+
+                                            // Access each part individually
+                                            String hours = timeParts[0];
+                                            String minutes = timeParts[1];
+                                            String seconds = timeParts[2];
+                                            return Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '${hours} :',
+                                                      style: TextStyle(
+                                                          color: blackColor,
+                                                          fontSize: 26,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    CustomText(
+                                                      text: 'HOUR',
+                                                      fontSize: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '${minutes} :',
+                                                      style: TextStyle(
+                                                          color: blackColor,
+                                                          fontSize: 26,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    CustomText(
+                                                      text: 'MINUTE',
+                                                      fontSize: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      seconds,
+                                                      style: TextStyle(
+                                                          color: blackColor,
+                                                          fontSize: 26,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    CustomText(
+                                                      text: 'SECOND',
+                                                      fontSize: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                          // Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment
+                                          //           .spaceBetween,
+                                          //   children: [
+                                          //     Padding(
+                                          //       padding: EdgeInsets.only(
+                                          //           left: Utils.width! < 380
+                                          //               ? 7
+                                          //               : Utils.width! < 395
+                                          //                   ? 10
+                                          //                   : 15.0),
+                                          //       child: CustomText(
+                                          //         text: 'HOUR',
+                                          //         fontSize: 12,
+                                          //       ),
+                                          //     ),
+                                          //     Padding(
+                                          //       padding:
+                                          //           const EdgeInsets
+                                          //               .only(
+                                          //               left: 5.0),
+                                          //       child: CustomText(
+                                          //         text: 'MINUTE',
+                                          //         fontSize: 12,
+                                          //       ),
+                                          //     ),
+                                          //     Padding(
+                                          //       padding:
+                                          //           const EdgeInsets
+                                          //               .only(
+                                          //         left: 3.0,
+                                          //       ),
+                                          //       child: CustomText(
+                                          //         text: 'SECOND',
+                                          //         fontSize: 12,
+                                          //         maxLines: 1,
+                                          //       ),
+                                          //     ),
+                                          //     SizedBox(
+                                          //       width: 1,
+                                          //     ),
+                                          //   ],
+                                          // )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Positioned(
+                                  bottom: -50,
+                                  child: Container(
+                                    width: Utils.width! / 1.3,
+                                    height: 100,
+                                    margin: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 20,
+                                      top: 3,
+                                    ),
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      border: Border(
+                                          top: BorderSide(
+                                              color: appThemeColor, width: 7)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: innerShadowColor
+                                                .withOpacity(0.9),
+                                            offset: Offset(-1, -2)),
+                                        BoxShadow(
+                                            color: innerShadowColor
+                                                .withOpacity(0.9),
+                                            offset: Offset(1, -2)),
+                                        BoxShadow(
+                                            color: appThemeColor,
+                                            spreadRadius: 1.0,
+                                            blurRadius: 1.0,
+                                            offset: Offset(0, 0)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ) //
+                          ],
+                        ),
+                        Positioned(
+                          bottom: 36,
+                          child: Container(
+                            width: Utils.width! / 1.4,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: GetStorage().read('user_id') !=
+                                        controller.activeJobModel.value
+                                            .data[index].team_lead
+                                    ? grayColor
+                                    : purpleColor),
+                            child: CupertinoButton(
+                              onPressed: Get.isSnackbarOpen
+                                  ? null
+                                  : () async {
+                                      if (GetStorage().read('user_id') !=
+                                          controller.activeJobModel.value
+                                              .data[index].team_lead) {
+                                        showSnackBar(
+                                            'Only team lead can complete this job!');
+                                      } else {
+                                        bool allChecked = controller
+                                            .activeJobModel
+                                            .value
+                                            .data[index]
+                                            .tasks
+                                            .every((task) => task.status == 1);
+
+                                        if (allChecked) {
+                                          await GetStorage().write(
+                                              'jobId',
+                                              controller.activeJobModel.value
+                                                  .data[index].id
+                                                  .toString());
+                                          await GetStorage()
+                                              .write('finishJob', true);
+                                          Get.toNamed(
+                                            RouteConstant.uploadImageScreen,
+                                          );
+                                        } else {
+                                          if (!Get.isSnackbarOpen) {
+                                            showSnackBar(
+                                                'Please complete all the tasks first!');
+                                          }
+                                        }
+                                      }
+                                    },
+                              child: CustomText(
+                                text: "Upload Completion Images",
+                                textColor: appThemeColor,
+                                fontSize: 20,
+                                maxLines: 1,
+                                textOverflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          bottomNavigationBar: onlyOne
+              ? CommonBottomBar(
+                  index: 1,
+                )
+              : null,
+        ));
+  }
+}

@@ -202,7 +202,7 @@ class UploadImageController extends GetxController {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
         showSnackBar(responseBody['message'], backgroundColor: purpleColor);
 
-        Get.offAllNamed(RouteConstant.activeJobScreen);
+        Get.offAllNamed(RouteConstant.activeJobListScreen);
         return responseBody;
       } else {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");

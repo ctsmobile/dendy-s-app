@@ -17,7 +17,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LoginScreenController controller = Get.put(LoginScreenController());
-
+    Utils.width = MediaQuery.of(context).size.width;
+    Utils.height = MediaQuery.of(context).size.height;
     return Obx(() => Scaffold(
           backgroundColor: appThemeColor,
           body: SingleChildScrollView(
@@ -194,7 +195,6 @@ class LoginScreen extends StatelessWidget {
                           ? null
                           : () {
                               controller.login();
-                              // Get.offAllNamed(RouteConstant.dashboardScreen);
                             },
                       child: controller.isLoginTap.value
                           ? Loader(

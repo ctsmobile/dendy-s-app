@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,6 +47,11 @@ class FirebaseAPI {
             importance: Importance.high,
             priority: Priority.high,
             ticker: 'ticker',
+            // styleInformation: BigTextStyleInformation(
+            //   message.notification!.body!,
+            //   htmlFormatBigText: true,
+            //   contentTitle: 'Expanded Notification',
+            // ),
           ),
           iOS: DarwinNotificationDetails(
             presentAlert: true,
@@ -112,6 +119,11 @@ class FirebaseAPI {
               importance: Importance.high,
               priority: Priority.high,
               ticker: 'ticker',
+              // styleInformation: BigTextStyleInformation(
+              //   message.notification!.body!,
+              //   htmlFormatBigText: true,
+              //   contentTitle: 'Expanded Notification',
+              // ),
             ),
             iOS: DarwinNotificationDetails(
               presentAlert: true,

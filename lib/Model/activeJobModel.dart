@@ -2,6 +2,8 @@
 //
 //     final activeJobModel = activeJobModelFromJson(jsonString);
 
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
@@ -12,7 +14,7 @@ ActiveJobModel activeJobModelFromJson(String str) =>
 class ActiveJobModel {
   bool status;
   String message;
-  List<Datum> data;
+  List<ActiveJob> data;
   Error? error;
 
   ActiveJobModel({
@@ -25,18 +27,20 @@ class ActiveJobModel {
   factory ActiveJobModel.fromJson(Map<String, dynamic> json) => ActiveJobModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<ActiveJob>.from(
+            json["data"].map((x) => ActiveJob.fromJson(x))),
         error: Error.fromJson(json["error"]),
       );
 }
 
-class Datum {
+class ActiveJob {
   int id;
   String? name;
   String? date;
   String? time;
   int customerId;
   String? jobLocation;
+  int? team_lead;
   String? job_start_time;
   String? jobLat;
   String? jobLng;
@@ -47,10 +51,11 @@ class Datum {
   List<Task> tasks;
   List<User> employees;
 
-  Datum({
+  ActiveJob({
     required this.id,
     required this.name,
     required this.date,
+    required this.team_lead,
     required this.time,
     required this.customerId,
     required this.jobLocation,
@@ -65,9 +70,10 @@ class Datum {
     required this.employees,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory ActiveJob.fromJson(Map<String, dynamic> json) => ActiveJob(
         id: json["id"],
         name: json["name"],
+        team_lead: json["team_lead"],
         date: json["date"] == null
             ? null
             : DateFormat('dd-MM-yyyy').format(DateTime.parse(json["date"])),

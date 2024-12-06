@@ -118,8 +118,13 @@ class ProfileScreen extends StatelessWidget {
                                     height: 20,
                                   ),
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: GetStorage()
+                                                .read('profile_summary')
+                                                .toString()
+                                                .length <
+                                            30
+                                        ? CrossAxisAlignment.center
+                                        : CrossAxisAlignment.start,
                                     children: [
                                       Image.asset(
                                         '${baseImagePath}summary.png',

@@ -152,6 +152,8 @@ class PendingJobsView extends StatelessWidget {
                       ],
                     )),
                 onTap: () {
+                  print(
+                      "pendingJobListModel!.pendingJob[index].id.toString()${pendingJobListModel!.pendingJob[index].id.toString()}");
                   GetStorage().write('jobId',
                       pendingJobListModel!.pendingJob[index].id.toString());
                   if (isCompletedJobs) {

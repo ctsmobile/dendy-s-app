@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyC4f5yno7Hkn5gRngyHE03d0Oiq74r6IBg</string>
+	<string>AIzaSyCl6OJq48zBZZrfhd8123x4-ghJ1aA04W8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>900401400850</string>
+	<string>520035837998</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.dendyApp</string>
+	<string>com.dendyapp.dendyapp</string>
 	<key>PROJECT_ID</key>
-	<string>dendyapp</string>
+	<string>dendyapp-1ec3a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dendyapp.appspot.com</string>
+	<string>dendyapp-1ec3a.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:900401400850:ios:5cd5060ab97020bbd55ccb</string>
+	<string>1:520035837998:ios:571f1065519a3452c497bf</string>
 </dict>
 </plist>

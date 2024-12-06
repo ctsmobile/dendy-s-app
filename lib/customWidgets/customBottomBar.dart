@@ -40,7 +40,7 @@ class CommonBottomBar extends StatelessWidget {
                   )
                 : _commonTab(
                     imagePath: '${baseImagePath}active2.png',
-                    navigationPath: RouteConstant.activeJobScreen,
+                    navigationPath: RouteConstant.activeJobListScreen,
                   ),
             index == 2
                 ? _commonTabWithIndex(

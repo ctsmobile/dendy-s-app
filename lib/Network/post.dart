@@ -19,7 +19,7 @@ class Post {
   Future<dynamic> post(String url, {Map? headers, body}) async {
     final connectivityResult = await Connectivity().checkConnectivity();
     print("connectivityResult$connectivityResult");
-    if (connectivityResult == ConnectivityResult.none) {
+    if (connectivityResult.contains(ConnectivityResult.none)) {
       Get.snackbar('Network Error', 'Please check your internet connection!',
           backgroundColor: redColor, colorText: whiteColor);
       return null;
@@ -46,19 +46,16 @@ class Post {
               : {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
-                  'token': token
+                  'Authorization': 'Bearer $token'
                 },
         )
             .then((response) {
-          // print("bbbbhjjj$response");
+          print("response.body${response.body}");
           final dynamic res = response.body;
           final int statusCode = response.statusCode;
-          // print("hello url3");
-          // print('fgfg$statusCode $res');
+
           if (statusCode < 200 || statusCode > 400) {
-            // showSnackBar(context: context, text: response.body);
-            // print('mess${response.body}');
-            Get.snackbar('${apiUrl}\nstatusCode:', statusCode.toString(),
+            Get.snackbar('$statusCode:', res.toString(),
                 backgroundColor: redColor, colorText: whiteColor);
             return 'Error';
           }
@@ -85,7 +82,7 @@ class Post {
   ) async {
     final connectivityResult = await Connectivity().checkConnectivity();
     print("connectivityResult$connectivityResult");
-    if (connectivityResult == ConnectivityResult.none) {
+    if (connectivityResult.contains(ConnectivityResult.none)) {
       Get.snackbar('Network Error', 'Please check your internet connection!',
           backgroundColor: redColor, colorText: whiteColor);
       return null;
@@ -108,7 +105,7 @@ class Post {
             'Authorization': 'Bearer $token'
           },
         ).then((response) async {
-          // print("bbbbhjjj$response");
+          print("bbbbhjjj${response.body}");
           final dynamic res = response.body;
           final int statusCode = response.statusCode;
           if (url.contains('logout')) {

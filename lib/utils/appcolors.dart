@@ -7,5 +7,6 @@ const innerShadowColor = Color(0xFFA6B4C8);
 
 const whiteColor = Colors.white;
 const redColor = Colors.red;
+const redColor2 = Color(0xFFD60000);
 const transparentColor = Colors.transparent;
 const blackColor = Color(0xFF000000);

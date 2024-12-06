@@ -1,4 +1,4 @@
-package com.example.dendy_app
+package com.dendyapp.dendy_app
 
 import io.flutter.embedding.android.FlutterActivity
 

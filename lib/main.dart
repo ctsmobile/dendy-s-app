@@ -3,12 +3,13 @@
 import 'package:dendy_app/bindings/dashboardBindings.dart';
 import 'package:dendy_app/bindings/loginBinding.dart';
 import 'package:dendy_app/routes.dart';
+import 'package:dendy_app/screens/activeJobListScreen.dart';
 import 'package:dendy_app/screens/dashboardScreen.dart';
 import 'package:dendy_app/screens/completeJobDetailsScreen.dart';
 import 'package:dendy_app/screens/imageEditorScreen.dart';
 import 'package:dendy_app/screens/loginScreen.dart';
 import 'package:dendy_app/screens/pendingDetailsScreen.dart';
-import 'package:dendy_app/screens/activeJobScreen.dart';
+import 'package:dendy_app/screens/activeJobDetailsScreen.dart';
 import 'package:dendy_app/screens/profileScreen.dart';
 import 'package:dendy_app/screens/splashScreen.dart';
 import 'dart:io';
@@ -120,8 +121,12 @@ List<GetPage> getPages = [
     // binding: UploadImagesViewController(),
   ),
   GetPage(
-    name: RouteConstant.activeJobScreen,
-    page: () => ActiveJobScreen(),
+    name: RouteConstant.activeJobListScreen,
+    page: () => ActiveJobListScreen(),
+  ),
+  GetPage(
+    name: RouteConstant.activeJobDetailsScreen,
+    page: () => ActiveJobDetailsScreen(),
   ),
   GetPage(
     name: RouteConstant.profileScreen,

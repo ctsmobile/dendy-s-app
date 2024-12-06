@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.example.dendy_app"
+    namespace = "com.dendyapp.dendy_app"
     compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
