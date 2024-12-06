@@ -12,11 +12,12 @@ class ActiveJobController extends GetxController {
   var isDataLoading = false.obs;
   var activeJobModel =
       ActiveJobModel(data: [], error: null, message: "null", status: false).obs;
-  var index = 0.obs;
-
+  var iindex = 0.obs;
+  var onlyOne = false.obs;
   @override
   void onInit() {
     super.onInit();
+
     getActiveJobDetails();
   }
 
@@ -36,8 +37,9 @@ class ActiveJobController extends GetxController {
         } else {
           activeJobModel.value = activeJob;
           if (activeJobModel.value.data.length == 1) {
-            Get.toNamed(RouteConstant.activeJobDetailsScreen,
-                arguments: {'index': 0, 'onlyOne': true});
+            iindex.value = 0;
+            onlyOne.value = true;
+            Get.toNamed(RouteConstant.activeJobDetailsScreen);
           } else {
             isDataLoading.value = false;
           }

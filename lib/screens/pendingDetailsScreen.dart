@@ -300,49 +300,53 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                     SizedBox(
                                       height: Utils.height! / 60,
                                     ),
-                                    Card(
-                                      elevation: 0,
-                                      color: whiteColor,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              text: 'Task List',
-                                              textColor: purpleColor,
+                                    pendingJobDetails.tasks.isEmpty
+                                        ? SizedBox()
+                                        : Card(
+                                            elevation: 0,
+                                            color: whiteColor,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(15.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CustomText(
+                                                    text: 'Task List',
+                                                    textColor: purpleColor,
+                                                  ),
+                                                  SizedBox(
+                                                    height: Utils.height! / 30,
+                                                  ),
+                                                  ListView.separated(
+                                                    itemCount: pendingJobDetails
+                                                        .tasks.length,
+                                                    separatorBuilder:
+                                                        (context, index) {
+                                                      return SizedBox(
+                                                        height: 10,
+                                                      );
+                                                    },
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                        NeverScrollableScrollPhysics(),
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return CustomText(
+                                                        text: pendingJobDetails
+                                                            .tasks[index]
+                                                            .taskName
+                                                            .toString(),
+                                                        textColor: grayColor,
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                            SizedBox(
-                                              height: Utils.height! / 30,
-                                            ),
-                                            ListView.separated(
-                                              itemCount: pendingJobDetails
-                                                  .tasks.length,
-                                              separatorBuilder:
-                                                  (context, index) {
-                                                return SizedBox(
-                                                  height: 10,
-                                                );
-                                              },
-                                              shrinkWrap: true,
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return CustomText(
-                                                  text: pendingJobDetails
-                                                      .tasks[index].taskName
-                                                      .toString(),
-                                                  textColor: grayColor,
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                          ),
                                     SizedBox(
                                       height: Utils.height! / 10,
                                     ),

@@ -47,11 +47,10 @@ class FirebaseAPI {
             importance: Importance.high,
             priority: Priority.high,
             ticker: 'ticker',
-            // styleInformation: BigTextStyleInformation(
-            //   message.notification!.body!,
-            //   htmlFormatBigText: true,
-            //   contentTitle: 'Expanded Notification',
-            // ),
+            styleInformation: BigTextStyleInformation(
+                message.notification!.body!,
+                htmlFormatBigText: true,
+                contentTitle: null),
           ),
           iOS: DarwinNotificationDetails(
             presentAlert: true,
@@ -119,11 +118,10 @@ class FirebaseAPI {
               importance: Importance.high,
               priority: Priority.high,
               ticker: 'ticker',
-              // styleInformation: BigTextStyleInformation(
-              //   message.notification!.body!,
-              //   htmlFormatBigText: true,
-              //   contentTitle: 'Expanded Notification',
-              // ),
+              styleInformation: BigTextStyleInformation(
+                  message.notification!.body!,
+                  htmlFormatBigText: true,
+                  contentTitle: null),
             ),
             iOS: DarwinNotificationDetails(
               presentAlert: true,

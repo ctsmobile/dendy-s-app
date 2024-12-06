@@ -170,14 +170,11 @@ class ActiveJobListScreen extends StatelessWidget {
                                             controller.activeJobModel.value
                                                 .data[index].id
                                                 .toString());
-
+                                        controller.iindex.value = index;
+                                        controller.onlyOne.value = false;
                                         Get.toNamed(
-                                            RouteConstant
-                                                .activeJobDetailsScreen,
-                                            arguments: {
-                                              'index': index,
-                                              'onlyOne': false
-                                            });
+                                          RouteConstant.activeJobDetailsScreen,
+                                        );
                                       },
                                     );
                                   }),

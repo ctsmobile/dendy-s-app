@@ -15,14 +15,12 @@ import 'package:timer_builder/timer_builder.dart';
 import '../routes.dart';
 
 class ActiveJobDetailsScreen extends StatelessWidget {
-  int index;
-  bool onlyOne;
-  ActiveJobDetailsScreen({super.key, this.index = 0, this.onlyOne = false});
+  ActiveJobDetailsScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    index = Get.arguments['index'];
-    onlyOne = Get.arguments['onlyOne'];
     final ActiveJobController controller = Get.put(ActiveJobController());
 
     return Obx(() => Scaffold(
@@ -31,11 +29,12 @@ class ActiveJobDetailsScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(70),
               child: MyAppBar(
                 title: 'Active Job',
-                isLeading: !onlyOne,
+                isLeading: !controller.onlyOne.value,
               )),
           body: WillPopScope(
             onWillPop: () async {
-              if (onlyOne) {
+              print("controller.onlyOne.value${controller.onlyOne.value}");
+              if (controller.onlyOne.value) {
                 Get.offAllNamed(RouteConstant.dashboardScreen);
               } else {
                 Get.back();
@@ -153,14 +152,14 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    Transform
-                                                                        .scale(
-                                                                      scale:
-                                                                          0.6,
-                                                                      child: Image
-                                                                          .asset(
-                                                                        '${baseImagePath}profilee.png',
-                                                                      ),
+                                                                    Image.asset(
+                                                                      '${baseImagePath}profilee.png',
+                                                                      height:
+                                                                          Utils.height! /
+                                                                              20,
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              20,
                                                                     ),
                                                                     SizedBox(
                                                                       width:
@@ -171,8 +170,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                       text: controller
                                                                           .activeJobModel
                                                                           .value
-                                                                          .data[
-                                                                              index]
+                                                                          .data[controller
+                                                                              .iindex
+                                                                              .value]
                                                                           .customer
                                                                           .name
                                                                           .toString(),
@@ -191,14 +191,14 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    Transform
-                                                                        .scale(
-                                                                      scale:
-                                                                          0.6,
-                                                                      child: Image
-                                                                          .asset(
-                                                                        '${baseImagePath}calender.png',
-                                                                      ),
+                                                                    Image.asset(
+                                                                      '${baseImagePath}calender.png',
+                                                                      height:
+                                                                          Utils.height! /
+                                                                              20,
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              20,
                                                                     ),
                                                                     SizedBox(
                                                                       width:
@@ -209,8 +209,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                       text: controller
                                                                           .activeJobModel
                                                                           .value
-                                                                          .data[
-                                                                              index]
+                                                                          .data[controller
+                                                                              .iindex
+                                                                              .value]
                                                                           .date
                                                                           .toString(),
                                                                       maxLines:
@@ -228,14 +229,14 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    Transform
-                                                                        .scale(
-                                                                      scale:
-                                                                          0.6,
-                                                                      child: Image
-                                                                          .asset(
-                                                                        '${baseImagePath}watch.png',
-                                                                      ),
+                                                                    Image.asset(
+                                                                      '${baseImagePath}watch.png',
+                                                                      height:
+                                                                          Utils.height! /
+                                                                              20,
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              20,
                                                                     ),
                                                                     SizedBox(
                                                                       width:
@@ -243,13 +244,13 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                               30,
                                                                     ),
                                                                     CustomText(
-                                                                      text: controller.activeJobModel.value.data[index].time ==
+                                                                      text: controller.activeJobModel.value.data[controller.iindex.value].time ==
                                                                               'null'
                                                                           ? ''
                                                                           : converter24To12(controller
                                                                               .activeJobModel
                                                                               .value
-                                                                              .data[index]
+                                                                              .data[controller.iindex.value]
                                                                               .time!),
                                                                       maxLines:
                                                                           1,
@@ -266,14 +267,14 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    Transform
-                                                                        .scale(
-                                                                      scale:
-                                                                          0.6,
-                                                                      child: Image
-                                                                          .asset(
-                                                                        '${baseImagePath}phone.png',
-                                                                      ),
+                                                                    Image.asset(
+                                                                      '${baseImagePath}phone.png',
+                                                                      height:
+                                                                          Utils.height! /
+                                                                              20,
+                                                                      width:
+                                                                          Utils.width! /
+                                                                              20,
                                                                     ),
                                                                     SizedBox(
                                                                       width:
@@ -284,8 +285,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                       text: controller
                                                                           .activeJobModel
                                                                           .value
-                                                                          .data[
-                                                                              index]
+                                                                          .data[controller
+                                                                              .iindex
+                                                                              .value]
                                                                           .customer
                                                                           .contactNumber
                                                                           .toString(),
@@ -304,18 +306,21 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                                 GestureDetector(
                                                                   child: Row(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
+                                                                    crossAxisAlignment: controller.activeJobModel.value.data[controller.iindex.value].customer.location.toString().length <
+                                                                            30
+                                                                        ? CrossAxisAlignment
+                                                                            .center
+                                                                        : CrossAxisAlignment
                                                                             .start,
                                                                     children: [
-                                                                      Transform
-                                                                          .scale(
-                                                                        scale:
-                                                                            0.6,
-                                                                        child: Image
-                                                                            .asset(
-                                                                          '${baseImagePath}sent.png',
-                                                                        ),
+                                                                      Image
+                                                                          .asset(
+                                                                        '${baseImagePath}sent.png',
+                                                                        height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                       ),
                                                                       SizedBox(
                                                                         width: Utils.width! /
@@ -323,15 +328,14 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                       ),
                                                                       Expanded(
                                                                         child:
-                                                                            Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .only(
-                                                                              top: 5.0),
-                                                                          child:
-                                                                              CustomText(
-                                                                            text:
-                                                                                controller.activeJobModel.value.data[index].customer.location.toString(),
-                                                                          ),
+                                                                            CustomText(
+                                                                          text: controller
+                                                                              .activeJobModel
+                                                                              .value
+                                                                              .data[controller.iindex.value]
+                                                                              .customer
+                                                                              .location
+                                                                              .toString(),
                                                                         ),
                                                                       ),
                                                                     ],
@@ -339,7 +343,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                   onTap: () {
                                                                     launchURL(Uri
                                                                         .parse(
-                                                                            'https://www.google.com/maps/search/?api=1&query=${controller.activeJobModel.value.data[index].customer.lat.toString()},${controller.activeJobModel.value.data[index].customer.lng.toString()}'));
+                                                                            'https://www.google.com/maps/search/?api=1&query=${controller.activeJobModel.value.data[controller.iindex.value].customer.lat.toString()},${controller.activeJobModel.value.data[controller.iindex.value].customer.lng.toString()}'));
                                                                   },
                                                                 ),
                                                               ],
@@ -447,8 +451,8 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                         itemCount: controller
                                                                             .activeJobModel
                                                                             .value
-                                                                            .data[
-                                                                                index]
+                                                                            .data[controller
+                                                                                .iindex.value]
                                                                             .employees
                                                                             .length,
                                                                         separatorBuilder:
@@ -468,11 +472,10 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                                 int employeesIndex) {
                                                                           return Row(
                                                                             children: [
-                                                                              Transform.scale(
-                                                                                scale: 0.6,
-                                                                                child: Image.asset(
-                                                                                  '${baseImagePath}addProfile.png',
-                                                                                ),
+                                                                              Image.asset(
+                                                                                '${baseImagePath}addProfile.png',
+                                                                                height: Utils.height! / 20,
+                                                                                width: Utils.width! / 20,
                                                                               ),
                                                                               SizedBox(
                                                                                 width: Utils.width! / 30,
@@ -480,12 +483,12 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                               Row(
                                                                                 children: [
                                                                                   CustomText(
-                                                                                    text: controller.activeJobModel.value.data[index].employees[employeesIndex].jobuser.name.toString(),
+                                                                                    text: controller.activeJobModel.value.data[controller.iindex.value].employees[employeesIndex].jobuser.name.toString(),
                                                                                     maxLines: 1,
                                                                                     textOverflow: TextOverflow.ellipsis,
                                                                                   ),
                                                                                   CustomText(
-                                                                                    text: controller.activeJobModel.value.data[index].employees[employeesIndex].crewLead == 1 ? ' (Team Lead)' : '',
+                                                                                    text: controller.activeJobModel.value.data[controller.iindex.value].employees[employeesIndex].crewLead == 1 ? ' (Team Lead)' : '',
                                                                                     maxLines: 1,
                                                                                     textColor: purpleColor,
                                                                                     textOverflow: TextOverflow.ellipsis,
@@ -511,14 +514,22 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                               ],
                                             ),
                                           ),
-                                          controller.activeJobModel.value
-                                                  .data[index].tasks.isEmpty
+                                          controller
+                                                  .activeJobModel
+                                                  .value
+                                                  .data[controller.iindex.value]
+                                                  .tasks
+                                                  .isEmpty
                                               ? SizedBox()
                                               : SizedBox(
                                                   height: Utils.height! / 20,
                                                 ),
-                                          controller.activeJobModel.value
-                                                  .data[index].tasks.isEmpty
+                                          controller
+                                                  .activeJobModel
+                                                  .value
+                                                  .data[controller.iindex.value]
+                                                  .tasks
+                                                  .isEmpty
                                               ? SizedBox()
                                               : Row(
                                                   crossAxisAlignment:
@@ -548,7 +559,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                               itemCount: controller
                                                   .activeJobModel
                                                   .value
-                                                  .data[index]
+                                                  .data[controller.iindex.value]
                                                   .tasks
                                                   .length,
                                               separatorBuilder:
@@ -573,7 +584,8 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                         text: controller
                                                             .activeJobModel
                                                             .value
-                                                            .data[index]
+                                                            .data[controller
+                                                                .iindex.value]
                                                             .tasks[tasksIndex]
                                                             .taskName
                                                             .toString(),
@@ -586,20 +598,26 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                         if (controller
                                                                 .activeJobModel
                                                                 .value
-                                                                .data[index]
+                                                                .data[controller
+                                                                    .iindex
+                                                                    .value]
                                                                 .tasks[
                                                                     tasksIndex]
                                                                 .status ==
                                                             0) {
                                                           controller
                                                               .updateTaskStatus(
-                                                                  index,
+                                                                  controller
+                                                                      .iindex
+                                                                      .value,
                                                                   tasksIndex,
                                                                   1);
                                                         } else {
                                                           controller
                                                               .updateTaskStatus(
-                                                                  index,
+                                                                  controller
+                                                                      .iindex
+                                                                      .value,
                                                                   tasksIndex,
                                                                   0);
                                                         }
@@ -653,8 +671,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             child: controller
                                                                         .activeJobModel
                                                                         .value
-                                                                        .data[
-                                                                            index]
+                                                                        .data[controller
+                                                                            .iindex
+                                                                            .value]
                                                                         .tasks[
                                                                             tasksIndex]
                                                                         .status ==
@@ -775,7 +794,8 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                 controller
                                                     .activeJobModel
                                                     .value
-                                                    .data[index]
+                                                    .data[
+                                                        controller.iindex.value]
                                                     .job_start_time!);
                                             List<String> timeParts =
                                                 time.split(":");
@@ -955,8 +975,11 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: GetStorage().read('user_id') !=
-                                        controller.activeJobModel.value
-                                            .data[index].team_lead
+                                        controller
+                                            .activeJobModel
+                                            .value
+                                            .data[controller.iindex.value]
+                                            .team_lead
                                     ? grayColor
                                     : purpleColor),
                             child: CupertinoButton(
@@ -964,23 +987,29 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                   ? null
                                   : () async {
                                       if (GetStorage().read('user_id') !=
-                                          controller.activeJobModel.value
-                                              .data[index].team_lead) {
+                                          controller
+                                              .activeJobModel
+                                              .value
+                                              .data[controller.iindex.value]
+                                              .team_lead) {
                                         showSnackBar(
                                             'Only team lead can complete this job!');
                                       } else {
                                         bool allChecked = controller
                                             .activeJobModel
                                             .value
-                                            .data[index]
+                                            .data[controller.iindex.value]
                                             .tasks
                                             .every((task) => task.status == 1);
 
                                         if (allChecked) {
                                           await GetStorage().write(
                                               'jobId',
-                                              controller.activeJobModel.value
-                                                  .data[index].id
+                                              controller
+                                                  .activeJobModel
+                                                  .value
+                                                  .data[controller.iindex.value]
+                                                  .id
                                                   .toString());
                                           await GetStorage()
                                               .write('finishJob', true);
@@ -1012,7 +1041,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-          bottomNavigationBar: onlyOne
+          bottomNavigationBar: controller.onlyOne.value
               ? CommonBottomBar(
                   index: 1,
                 )
