@@ -139,12 +139,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Transform.scale(
-                                                                  scale: 0.6,
-                                                                  child: Image
-                                                                      .asset(
-                                                                    '${baseImagePath}profilee.png',
-                                                                  ),
+                                                                Image
+                                                                    .asset(
+                                                                  '${baseImagePath}profilee.png',
+                                                                    height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -172,12 +174,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Transform.scale(
-                                                                  scale: 0.6,
-                                                                  child: Image
-                                                                      .asset(
-                                                                    '${baseImagePath}calender.png',
-                                                                  ),
+                                                                Image
+                                                                    .asset(
+                                                                  '${baseImagePath}calender.png',
+                                                                    height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -204,12 +208,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Transform.scale(
-                                                                  scale: 0.6,
-                                                                  child: Image
-                                                                      .asset(
-                                                                    '${baseImagePath}watch.png',
-                                                                  ),
+                                                                Image
+                                                                    .asset(
+                                                                  '${baseImagePath}watch.png',
+                                                                    height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -241,12 +247,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Transform.scale(
-                                                                  scale: 0.6,
-                                                                  child: Image
-                                                                      .asset(
-                                                                    '${baseImagePath}phone.png',
-                                                                  ),
+                                                                Image
+                                                                    .asset(
+                                                                  '${baseImagePath}phone.png',
+                                                                    height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -274,17 +282,21 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             GestureDetector(
                                                               child: Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
+                                                                crossAxisAlignment: controller.jobDetailsModel.data.customer.location.toString().length <
+                                                                            30
+                                                                        ? CrossAxisAlignment
+                                                                            .center
+                                                                        : CrossAxisAlignment
+                                                                            .start,
                                                                 children: [
-                                                                  Transform
-                                                                      .scale(
-                                                                    scale: 0.6,
-                                                                    child: Image
-                                                                        .asset(
-                                                                      '${baseImagePath}sent.png',
-                                                                    ),
+                                                                  Image
+                                                                      .asset(
+                                                                    '${baseImagePath}sent.png',
+                                                                      height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                   ),
                                                                   SizedBox(
                                                                     width: Utils
@@ -293,21 +305,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                   ),
                                                                   Expanded(
                                                                     child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .only(
-                                                                          top:
-                                                                              5.0),
-                                                                      child:
-                                                                          CustomText(
-                                                                        text: controller
-                                                                            .jobDetailsModel
-                                                                            .data
-                                                                            .customer
-                                                                            .location
-                                                                            .toString(),
-                                                                      ),
-                                                                    ),
+                                                                        CustomText(
+                                                                                                                                                text: controller
+                                                                          .jobDetailsModel
+                                                                          .data
+                                                                          .customer
+                                                                          .location
+                                                                          .toString(),
+                                                                                                                                              ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -438,14 +443,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                         int index) {
                                                                   return Row(
                                                                     children: [
-                                                                      Transform
-                                                                          .scale(
-                                                                        scale:
-                                                                            0.6,
-                                                                        child: Image
-                                                                            .asset(
-                                                                          '${baseImagePath}addProfile.png',
-                                                                        ),
+                                                                      Image
+                                                                          .asset(
+                                                                        '${baseImagePath}addProfile.png',
+                                                                          height:
+                                                                            Utils.height! /
+                                                                                20,
+                                                                        width: Utils.width! /
+                                                                            20,
                                                                       ),
                                                                       SizedBox(
                                                                         width: Utils.width! /

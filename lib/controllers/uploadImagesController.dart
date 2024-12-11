@@ -28,6 +28,7 @@ class UploadImageController extends GetxController {
   var isDataLoading = false.obs;
   var isImageProcessing = false.obs;
   var isUploadImageLoading = false.obs;
+  var showImage = false.obs;
   late PainterController imageController;
 
   var file = File("").obs;
@@ -47,7 +48,11 @@ class UploadImageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+ Future.delayed(const Duration(milliseconds: 250), () {
+    
+        showImage.value = true;
+    
+    });
     print("object");
     filePaths.value = [];
     fileNames.value = [];

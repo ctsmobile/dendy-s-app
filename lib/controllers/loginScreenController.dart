@@ -7,7 +7,6 @@ import 'package:dendy_app/Model/loginModel.dart';
 import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/firebaseApi.dart';
 import 'package:dendy_app/routes.dart';
-import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

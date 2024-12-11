@@ -30,10 +30,10 @@ class LoginModel {
 
 class Data {
   int id;
-  String name;
-  String mobile;
+  String? name;
+  String? mobile;
   String email;
-  String profile_summary;
+  String? profile_summary;
   DateTime createdAt;
   DateTime updatedAt;
 
