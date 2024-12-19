@@ -178,6 +178,7 @@ class User {
   int jobId;
   int employeeId;
   int crewLead;
+  int request_status;
   dynamic createdAt;
   dynamic updatedAt;
   Jobuser jobuser;
@@ -187,6 +188,7 @@ class User {
     required this.jobId,
     required this.employeeId,
     required this.crewLead,
+    required this.request_status,
     required this.createdAt,
     required this.updatedAt,
     required this.jobuser,
@@ -197,6 +199,7 @@ class User {
       jobId: json["job_id"],
       employeeId: json["employee_id"],
       crewLead: json["crew_lead"],
+      request_status: json["request_status"],
       createdAt: json["created_at"],
       updatedAt: json["updated_at"],
       jobuser: Jobuser.fromJson(json["jobuser"]));

@@ -15,22 +15,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PendingDetailsScreen extends StatefulWidget {
+class PendingDetailsScreen extends StatelessWidget {
   const PendingDetailsScreen({super.key});
-
-  @override
-  State<PendingDetailsScreen> createState() => _PendingDetailsScreenState();
-}
-
-class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
-  late PendingJobs pendingJobDetails;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    pendingJobDetails = Get.arguments['pendingJobDetail'];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +63,9 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                               children: [
                                                 Expanded(
                                                   child: CustomText(
-                                                    text:
-                                                        pendingJobDetails.name!,
+                                                    text: controller
+                                                        .pendingJobDetails
+                                                        .name!,
                                                     textColor: purpleColor,
                                                     maxLines: 1,
                                                     textOverflow:
@@ -101,8 +88,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                   width: Utils.width! / 30,
                                                 ),
                                                 CustomText(
-                                                  text: pendingJobDetails
-                                                      .customer.name
+                                                  text: controller
+                                                      .pendingJobDetails
+                                                      .customer
+                                                      .name
                                                       .toString(),
                                                   maxLines: 1,
                                                   textOverflow:
@@ -125,7 +114,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                 ),
                                                 CustomText(
                                                   text:
-                                                      '${pendingJobDetails.date.toString()} | ${converter24To12(pendingJobDetails.time.toString())}',
+                                                      '${controller.pendingJobDetails.date.toString()} | ${converter24To12(controller.pendingJobDetails.time.toString())}',
                                                   maxLines: 1,
                                                   textOverflow:
                                                       TextOverflow.ellipsis,
@@ -146,8 +135,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                   width: Utils.width! / 30,
                                                 ),
                                                 CustomText(
-                                                  text: pendingJobDetails
-                                                      .customer.contactNumber
+                                                  text: controller
+                                                      .pendingJobDetails
+                                                      .customer
+                                                      .contactNumber
                                                       .toString(),
                                                   maxLines: 1,
                                                   textOverflow:
@@ -160,16 +151,15 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                             ),
                                             GestureDetector(
                                               child: Row(
-                                                crossAxisAlignment:
-                                                    pendingJobDetails.customer
-                                                                .location
-                                                                .toString()
-                                                                .length <
-                                                            30
-                                                        ? CrossAxisAlignment
-                                                            .center
-                                                        : CrossAxisAlignment
-                                                            .start,
+                                                crossAxisAlignment: controller
+                                                            .pendingJobDetails
+                                                            .customer
+                                                            .location
+                                                            .toString()
+                                                            .length <
+                                                        30
+                                                    ? CrossAxisAlignment.center
+                                                    : CrossAxisAlignment.start,
                                                 children: [
                                                   Image.asset(
                                                     '${baseImagePath}sent.png',
@@ -181,8 +171,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                   ),
                                                   Expanded(
                                                     child: CustomText(
-                                                      text: pendingJobDetails
-                                                          .customer.location
+                                                      text: controller
+                                                          .pendingJobDetails
+                                                          .customer
+                                                          .location
                                                           .toString(),
                                                     ),
                                                   ),
@@ -190,7 +182,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                               ),
                                               onTap: () {
                                                 launchURL(Uri.parse(
-                                                    'https://www.google.com/maps/search/?api=1&query=${pendingJobDetails.customer.lat.toString()},${pendingJobDetails.customer.lng.toString()}'));
+                                                    'https://www.google.com/maps/search/?api=1&query=${controller.pendingJobDetails.customer.lat.toString()},${controller.pendingJobDetails.customer.lng.toString()}'));
                                               },
                                             ),
                                           ],
@@ -208,8 +200,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                         child: Column(
                                           children: [
                                             ListView.separated(
-                                                itemCount: pendingJobDetails
-                                                    .employees.length,
+                                                itemCount: controller
+                                                    .pendingJobDetails
+                                                    .employees
+                                                    .length,
                                                 separatorBuilder:
                                                     (context, index) {
                                                   return SizedBox(
@@ -224,48 +218,98 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                         int index) {
                                                   return Row(
                                                     children: [
-                                                      Transform.scale(
-                                                        scale: 0.6,
-                                                        child: Image.asset(
-                                                          '${baseImagePath}addProfile.png',
-                                                        ),
+                                                      Image.asset(
+                                                        '${baseImagePath}addProfile.png',
+                                                        height:
+                                                            Utils.height! / 27,
+                                                        width:
+                                                            Utils.width! / 18,
                                                       ),
                                                       SizedBox(
                                                         width:
                                                             Utils.width! / 30,
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          CustomText(
-                                                            text:
-                                                                pendingJobDetails
-                                                                    .employees[
-                                                                        index]
-                                                                    .jobuser
-                                                                    .name
-                                                                    .toString(),
-                                                            maxLines: 1,
-                                                            textOverflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          ),
-                                                          pendingJobDetails
-                                                                      .employees[
-                                                                          index]
-                                                                      .crewLead ==
-                                                                  1
-                                                              ? CustomText(
-                                                                  text:
-                                                                      ' (Team Lead)',
-                                                                  maxLines: 1,
-                                                                  textColor:
-                                                                      purpleColor,
-                                                                  textOverflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                )
-                                                              : SizedBox()
-                                                        ],
+                                                      Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            CustomText(
+                                                              text: controller
+                                                                  .pendingJobDetails
+                                                                  .employees[
+                                                                      index]
+                                                                  .jobuser
+                                                                  .name
+                                                                  .toString(),
+                                                              maxLines: 2,
+                                                              textOverflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                            controller
+                                                                        .pendingJobDetails
+                                                                        .employees[
+                                                                            index]
+                                                                        .crewLead ==
+                                                                    1
+                                                                ? Flexible(
+                                                                    child:
+                                                                        CustomText(
+                                                                      text:
+                                                                          ' (Team Lead)',
+                                                                      maxLines:
+                                                                          1,
+                                                                      textColor:
+                                                                          purpleColor,
+                                                                      textOverflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  )
+                                                                : SizedBox(),
+                                                            SizedBox(
+                                                              width:
+                                                                  Utils.width! /
+                                                                      90,
+                                                            ),
+                                                            controller
+                                                                        .pendingJobDetails
+                                                                        .employees[
+                                                                            index]
+                                                                        .request_status ==
+                                                                    1
+                                                                ? Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        top:
+                                                                            2.0),
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .check,
+                                                                      color:
+                                                                          greenColor,
+                                                                    ),
+                                                                  )
+                                                                : controller
+                                                                            .pendingJobDetails
+                                                                            .employees[index]
+                                                                            .request_status ==
+                                                                        2
+                                                                    ? Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                2.0),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color:
+                                                                              redColor,
+                                                                        ),
+                                                                      )
+                                                                    : SizedBox(),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ],
                                                   );
@@ -300,7 +344,7 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                     SizedBox(
                                       height: Utils.height! / 60,
                                     ),
-                                    pendingJobDetails.tasks.isEmpty
+                                    controller.pendingJobDetails.tasks.isEmpty
                                         ? SizedBox()
                                         : Card(
                                             elevation: 0,
@@ -320,8 +364,10 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                     height: Utils.height! / 30,
                                                   ),
                                                   ListView.separated(
-                                                    itemCount: pendingJobDetails
-                                                        .tasks.length,
+                                                    itemCount: controller
+                                                        .pendingJobDetails
+                                                        .tasks
+                                                        .length,
                                                     separatorBuilder:
                                                         (context, index) {
                                                       return SizedBox(
@@ -335,7 +381,8 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                                                         (BuildContext context,
                                                             int index) {
                                                       return CustomText(
-                                                        text: pendingJobDetails
+                                                        text: controller
+                                                            .pendingJobDetails
                                                             .tasks[index]
                                                             .taskName
                                                             .toString(),
@@ -396,116 +443,134 @@ class _PendingDetailsScreenState extends State<PendingDetailsScreen> {
                       )
                     ],
                   ),
-                  Positioned(
-                    bottom: 35,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 45,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: GetStorage().read('user_id') ==
-                                      pendingJobDetails.team_lead
-                                  //     &&
-                                  // checkSameDate(pendingJobDetails.date
-                                  //     .toString()
-                                  //     .replaceAll('-', ':'))
-                                  ? redColor2
-                                  : grayColor),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: controller.isCancelTap.value
-                                ? null
-                                : GetStorage().read('user_id') ==
-                                        pendingJobDetails.team_lead
-                                    //     &&
-                                    // checkSameDate(pendingJobDetails.date
-                                    //     .toString()
-                                    // .replaceAll('-', ':'))
-                                    ? () async {
-                                        controller.cancelJob();
-                                      }
-                                    : GetStorage().read('user_id') !=
-                                            pendingJobDetails.team_lead
-                                        ? () {
-                                            if (!Get.isSnackbarOpen) {
-                                              showSnackBar(
-                                                  'Only team lead can cancel the job');
-                                            }
-                                          }
-                                        : null,
-                            child: Center(
-                              child: controller.isCancelTap.value
-                                  ? Loader()
-                                  : Text(
-                                      "Cancel",
-                                      style: GoogleFonts.amaranth(
-                                        color: appThemeColor,
-                                        fontSize: 20.0,
-                                      ),
-                                    ),
-                            ),
+                  !controller.isAcceptDone.value &&
+                          controller.pendingJobDetails.employees.any(
+                              (employee) =>
+                                  employee.employeeId ==
+                                      GetStorage().read('user_id') &&
+                                  (employee.request_status == 0 ||
+                                      employee.request_status == 2))
+                      ? Positioned(
+                          bottom: 35,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: redColor2),
+                                child: CupertinoButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: controller.isDeclineTap.value
+                                      ? null
+                                      : () async {
+                                          controller.acceptJob(forReject: true);
+                                        },
+                                  child: Center(
+                                    child: controller.isDeclineTap.value
+                                        ? Loader()
+                                        : Text(
+                                            "Decline",
+                                            style: GoogleFonts.amaranth(
+                                              color: appThemeColor,
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                width: 100,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: greenColor),
+                                child: CupertinoButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: controller.isAcceptTap.value
+                                      ? null
+                                      : () async {
+                                          await GetStorage()
+                                              .remove('finishJob');
+                                          controller.acceptJob();
+                                        },
+                                  child: Center(
+                                    child: controller.isAcceptTap.value
+                                        ? Loader()
+                                        : Text(
+                                            'Accept',
+                                            style: GoogleFonts.amaranth(
+                                              color: appThemeColor,
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: 100,
-                          height: 45,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: GetStorage().read('user_id') ==
-                                      pendingJobDetails.team_lead
-                                  //     &&
-                                  // checkSameDate(pendingJobDetails.date
-                                  //     .toString()
-                                  //     .replaceAll('-', ':'))
-                                  ? purpleColor
-                                  : grayColor),
-                          child: CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed:
-                                // () async {
-                                //   await GetStorage().remove('finishJob');
-                                //   Get.toNamed(RouteConstant.uploadImageScreen);
-                                // },
-
-                                GetStorage().read('user_id') ==
-                                        pendingJobDetails.team_lead
+                        )
+                      : Positioned(
+                          bottom: 35,
+                          child: Container(
+                            width: 210,
+                            height: 45,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: GetStorage().read('user_id') ==
+                                        controller.pendingJobDetails.team_lead
                                     //     &&
-                                    // checkSameDate(pendingJobDetails.date
+                                    // checkSameDate(controller.pendingJobDetails.date
                                     //     .toString()
-                                    // .replaceAll('-', ':'))
-                                    ? () async {
-                                        await GetStorage().remove('finishJob');
-                                        Get.toNamed(
-                                            RouteConstant.uploadImageScreen);
-                                      }
-                                    : GetStorage().read('user_id') !=
-                                            pendingJobDetails.team_lead
-                                        ? () {
-                                            if (!Get.isSnackbarOpen) {
-                                              showSnackBar(
-                                                  'Only team lead can start the job');
+                                    //     .replaceAll('-', ':'))
+                                    ? purpleColor
+                                    : grayColor),
+                            child: CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              onPressed:
+                                  // () async {
+                                  //   await GetStorage().remove('finishJob');
+                                  //   Get.toNamed(RouteConstant.uploadImageScreen);
+                                  // },
+
+                                  GetStorage().read('user_id') ==
+                                          controller.pendingJobDetails.team_lead
+                                      //     &&
+                                      // checkSameDate(controller.pendingJobDetails.date
+                                      //     .toString()
+                                      // .replaceAll('-', ':'))
+                                      ? () async {
+                                          await GetStorage()
+                                              .remove('finishJob');
+                                          Get.toNamed(
+                                              RouteConstant.uploadImageScreen);
+                                        }
+                                      : GetStorage().read('user_id') !=
+                                              controller
+                                                  .pendingJobDetails.team_lead
+                                          ? () {
+                                              if (!Get.isSnackbarOpen) {
+                                                showSnackBar(
+                                                    'Only team lead can start the job');
+                                              }
                                             }
-                                          }
-                                        : null,
-                            child: Center(
-                              child: Text(
-                                "Start",
-                                style: GoogleFonts.amaranth(
-                                  color: appThemeColor,
-                                  fontSize: 20.0,
+                                          : null,
+                              child: Center(
+                                child: Text(
+                                  'Start',
+                                  style: GoogleFonts.amaranth(
+                                    color: appThemeColor,
+                                    fontSize: 20.0,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        )
                 ],
               ),
             ),

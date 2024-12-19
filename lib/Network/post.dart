@@ -33,6 +33,7 @@ class Post {
           token != null) {
         print("yaha tak aaya$baseUrl BBB$url");
         final apiUrl = baseUrl + url;
+        print("apiUrl$apiUrl");
 
         return client
             .post(
