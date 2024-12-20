@@ -22,6 +22,7 @@ class FirebaseAPI {
   Future<void> initNotifications() async {
     await Firebase.initializeApp();
     await firebaseMessaging.requestPermission();
+
     final fcmToken = await firebaseMessaging.getToken();
     print("Token: $fcmToken");
     await GetStorage().write('fcmtoken', fcmToken);

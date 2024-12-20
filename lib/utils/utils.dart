@@ -100,11 +100,13 @@ Future<void> requestStoragePermission() async {
 }
 
 showSnackBar(String message, {Color backgroundColor = redColor}) {
-  Get.snackbar('', message,
-      backgroundColor: backgroundColor,
-      titleText: SizedBox.shrink(),
-      dismissDirection: DismissDirection.horizontal,
-      colorText: whiteColor);
+  if (!Get.isSnackbarOpen) {
+    Get.snackbar('', message,
+        backgroundColor: backgroundColor,
+        titleText: SizedBox.shrink(),
+        dismissDirection: DismissDirection.horizontal,
+        colorText: whiteColor);
+  }
 }
 
 void launchURL(Uri url) async {

@@ -23,7 +23,9 @@ class ActiveJobListScreen extends StatelessWidget {
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(70),
               child: MyAppBar(
-                title: 'Active Jobs',
+                title: !controller.isDataLoading.value
+                    ? 'Active Jobs'
+                    : 'Active Job',
                 isLeading: false,
               )),
           body: controller.isDataLoading.value

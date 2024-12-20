@@ -7,6 +7,7 @@ import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ActiveJobController extends GetxController {
   var isDataLoading = false.obs;
@@ -28,7 +29,7 @@ class ActiveJobController extends GetxController {
 
   Future getActiveJobDetails() async {
     isDataLoading.value = true;
-    await getActiveJobDetailsApi().then((activeJob) {
+    await getActiveJobDetailsApi().then((activeJob) async {
       if (activeJob != null) {
         if (!activeJob.status) {
           showSnackBar(activeJob.message);
@@ -39,8 +40,12 @@ class ActiveJobController extends GetxController {
           if (activeJobModel.value.data.length == 1) {
             iindex.value = 0;
             onlyOne.value = true;
-            Get.toNamed(RouteConstant.activeJobDetailsScreen);
+            await GetStorage().write('onlyOne', true);
+            Get.toNamed(
+              RouteConstant.activeJobDetailsScreen,
+            );
           } else {
+            await GetStorage().write('onlyOne', false);
             isDataLoading.value = false;
           }
         }

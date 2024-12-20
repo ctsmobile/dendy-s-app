@@ -113,21 +113,22 @@ class PendingJobsView extends StatelessWidget {
                                 SizedBox(
                                   height: Utils.height! / 200,
                                 ),
-                                !isCompletedJobs
-                                    ? CustomText(
-                                        text: pendingJobListModel!
-                                            .pendingJob[index].date
-                                            .toString(),
-                                        maxLines: 1,
-                                        textOverflow: TextOverflow.ellipsis,
-                                      )
-                                    : CustomText(
-                                        text: pendingJobListModel!
-                                            .pendingJob[index].job_end_time
-                                            .toString(),
-                                        maxLines: 1,
-                                        textOverflow: TextOverflow.ellipsis,
-                                      ),
+                                // !isCompletedJobs
+                                //     ? CustomText(
+                                //         text: pendingJobListModel!
+                                //             .pendingJob[index].date
+                                //             .toString(),
+                                //         maxLines: 1,
+                                //         textOverflow: TextOverflow.ellipsis,
+                                //       )
+                                //     :
+                                CustomText(
+                                  text: pendingJobListModel!
+                                      .pendingJob[index].date
+                                      .toString(),
+                                  maxLines: 1,
+                                  textOverflow: TextOverflow.ellipsis,
+                                ),
                                 SizedBox(
                                   height: Utils.height! / 200,
                                 ),

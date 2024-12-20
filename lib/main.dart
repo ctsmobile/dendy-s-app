@@ -86,54 +86,68 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.splashScreen,
     page: () => const SplashScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.welcomeScreen,
     page: () => const WelcomeScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
       name: RouteConstant.loginScreen,
       page: () => const LoginScreen(),
+      transition: Transition.noTransition,
       binding: LoginBinding()),
   GetPage(
       name: RouteConstant.dashboardScreen,
       page: () => const DashboardScreen(),
+      transition: Transition.noTransition,
       binding: DashboardBinding()),
   GetPage(
     name: RouteConstant.completeJobDetailsScreen,
     page: () => const CompleteJobDetailsScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.pendingDetailsScreen,
     page: () => const PendingDetailsScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.uploadImageScreen,
     page: () => UploadImageScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.viewAllImagesScreen,
     page: () => ViewAllImagesScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.uploadImagesViewScreen,
     page: () => UploadeImagesViewScreen(),
+    transition: Transition.noTransition,
     // binding: UploadImagesViewController(),
   ),
   GetPage(
     name: RouteConstant.activeJobListScreen,
     page: () => ActiveJobListScreen(),
+    transition: Transition.noTransition,
+    // transitionDuration: Duration(seconds: 3)
   ),
   GetPage(
     name: RouteConstant.activeJobDetailsScreen,
     page: () => ActiveJobDetailsScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.profileScreen,
     page: () => ProfileScreen(),
+    transition: Transition.noTransition,
   ),
   GetPage(
     name: RouteConstant.imageEditorScreen,
     page: () => ImageEditorScreen(),
+    transition: Transition.noTransition,
   ),
 ];

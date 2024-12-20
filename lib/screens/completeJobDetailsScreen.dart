@@ -139,14 +139,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Image
-                                                                    .asset(
+                                                                Image.asset(
                                                                   '${baseImagePath}profilee.png',
-                                                                    height:
-                                                                            Utils.height! /
-                                                                                20,
-                                                                        width: Utils.width! /
-                                                                            20,
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      20,
+                                                                  width: Utils
+                                                                          .width! /
+                                                                      20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -174,14 +174,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Image
-                                                                    .asset(
+                                                                Image.asset(
                                                                   '${baseImagePath}calender.png',
-                                                                    height:
-                                                                            Utils.height! /
-                                                                                20,
-                                                                        width: Utils.width! /
-                                                                            20,
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      20,
+                                                                  width: Utils
+                                                                          .width! /
+                                                                      20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -208,14 +208,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Image
-                                                                    .asset(
+                                                                Image.asset(
                                                                   '${baseImagePath}watch.png',
-                                                                    height:
-                                                                            Utils.height! /
-                                                                                20,
-                                                                        width: Utils.width! /
-                                                                            20,
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      20,
+                                                                  width: Utils
+                                                                          .width! /
+                                                                      20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -247,14 +247,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Image
-                                                                    .asset(
+                                                                Image.asset(
                                                                   '${baseImagePath}phone.png',
-                                                                    height:
-                                                                            Utils.height! /
-                                                                                20,
-                                                                        width: Utils.width! /
-                                                                            20,
+                                                                  height: Utils
+                                                                          .height! /
+                                                                      20,
+                                                                  width: Utils
+                                                                          .width! /
+                                                                      20,
                                                                 ),
                                                                 SizedBox(
                                                                   width: Utils
@@ -282,21 +282,27 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                             ),
                                                             GestureDetector(
                                                               child: Row(
-                                                                crossAxisAlignment: controller.jobDetailsModel.data.customer.location.toString().length <
-                                                                            30
-                                                                        ? CrossAxisAlignment
-                                                                            .center
-                                                                        : CrossAxisAlignment
-                                                                            .start,
+                                                                crossAxisAlignment: controller
+                                                                            .jobDetailsModel
+                                                                            .data
+                                                                            .customer
+                                                                            .location
+                                                                            .toString()
+                                                                            .length <
+                                                                        30
+                                                                    ? CrossAxisAlignment
+                                                                        .center
+                                                                    : CrossAxisAlignment
+                                                                        .start,
                                                                 children: [
-                                                                  Image
-                                                                      .asset(
+                                                                  Image.asset(
                                                                     '${baseImagePath}sent.png',
-                                                                      height:
-                                                                            Utils.height! /
-                                                                                20,
-                                                                        width: Utils.width! /
+                                                                    height:
+                                                                        Utils.height! /
                                                                             20,
+                                                                    width: Utils
+                                                                            .width! /
+                                                                        20,
                                                                   ),
                                                                   SizedBox(
                                                                     width: Utils
@@ -306,13 +312,13 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                   Expanded(
                                                                     child:
                                                                         CustomText(
-                                                                                                                                                text: controller
+                                                                      text: controller
                                                                           .jobDetailsModel
                                                                           .data
                                                                           .customer
                                                                           .location
                                                                           .toString(),
-                                                                                                                                              ),
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -446,7 +452,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                       Image
                                                                           .asset(
                                                                         '${baseImagePath}addProfile.png',
-                                                                          height:
+                                                                        height:
                                                                             Utils.height! /
                                                                                 20,
                                                                         width: Utils.width! /
@@ -734,12 +740,10 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Expanded(
-                                              child: CustomText(
-                                                text:
-                                                    'Final / Completion Images',
-                                                textColor: purpleColor,
-                                              ),
+                                            CustomText(
+                                              text: 'Completion Images',
+                                              textColor: purpleColor,
+                                              maxLines: 1,
                                             ),
                                             Spacer(),
                                             Expanded(

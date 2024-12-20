@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dendy_app/controllers/activeJobController.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class CommonBottomBar extends StatelessWidget {
   const CommonBottomBar({super.key, required this.index});
@@ -40,7 +42,9 @@ class CommonBottomBar extends StatelessWidget {
                   )
                 : _commonTab(
                     imagePath: '${baseImagePath}active2.png',
-                    navigationPath: RouteConstant.activeJobListScreen,
+                    navigationPath: GetStorage().read('onlyOne') == true
+                        ? RouteConstant.activeJobDetailsScreen
+                        : RouteConstant.activeJobListScreen,
                   ),
             index == 2
                 ? _commonTabWithIndex(
@@ -77,7 +81,13 @@ class CommonBottomBar extends StatelessWidget {
         width: Utils.width! / 7,
       ),
       onTap: () {
-        Get.offAllNamed(navigationPath);
+        if (Get.isRegistered<ActiveJobController>()) {
+          Get.toNamed(navigationPath);
+        } else {
+          Get.offAllNamed(navigationPath.replaceAll(
+              RouteConstant.activeJobDetailsScreen,
+              RouteConstant.activeJobListScreen));
+        }
       },
     );
   }
