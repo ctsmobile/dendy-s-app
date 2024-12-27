@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dendy_app/Model/pendingJobListModel.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/routes.dart';
@@ -152,13 +153,23 @@ class PendingJobsView extends StatelessWidget {
                               ),
                       ],
                     )),
-                onTap: () {
+                onTap: () async {
                   print(
                       "pendingJobListModel!.pendingJob[index].id.toString()${pendingJobListModel!.pendingJob[index].id.toString()}");
                   GetStorage().write('jobId',
                       pendingJobListModel!.pendingJob[index].id.toString());
                   if (isCompletedJobs) {
-                    Get.toNamed(RouteConstant.completeJobDetailsScreen);
+                    final connectivityResult =
+                        await Connectivity().checkConnectivity();
+
+                    if (connectivityResult.contains(ConnectivityResult.none)) {
+                      showSnackBar(
+                        'Please check your internet connection!',
+                        titleText: 'Network Error',
+                      );
+                    } else {
+                      Get.toNamed(RouteConstant.completeJobDetailsScreen);
+                    }
                   } else {
                     Get.toNamed(RouteConstant.pendingDetailsScreen, arguments: {
                       "pendingJobDetail": pendingJobListModel!.pendingJob[index]

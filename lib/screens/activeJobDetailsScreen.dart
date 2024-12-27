@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, must_be_immutable, unused_local_variable
 
 import 'package:dendy_app/controllers/activeJobController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
@@ -794,13 +794,31 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                       .data[controller
                                                           .iindex.value]
                                                       .job_start_time!);
-                                              List<String> timeParts =
-                                                  time.split(":");
+                                              print("ttt$time");
+                                              final regex = RegExp(
+                                                  r"(\d+)\s+days\s+(\d+)\s+Hours\s+(\d+)\s+Min\s+(\d+)\s+Sec",
+                                                  caseSensitive: false);
 
-                                              // Access each part individually
-                                              String hours = timeParts[0];
-                                              String minutes = timeParts[1];
-                                              String seconds = timeParts[2];
+                                              final match =
+                                                  regex.firstMatch(time);
+                                              String days = '';
+                                              String hours = '';
+                                              String minutes = '';
+                                              String seconds = '';
+                                              if (match != null) {
+                                                days = match.group(1)!.padLeft(
+                                                    2, '0'); // Keeps "01"
+                                                hours = match.group(2)!.padLeft(
+                                                    2, '0'); // Keeps "00"
+                                                minutes = match
+                                                    .group(3)!
+                                                    .padLeft(2, '0');
+                                                seconds = match
+                                                    .group(4)!
+                                                    .padLeft(2, '0');
+                                              } else {
+                                                print("Invalid format");
+                                              }
                                               return Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -812,7 +830,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        '${hours} :',
+                                                        days == '00'
+                                                            ? '$hours :'
+                                                            : '$days :',
                                                         style: TextStyle(
                                                             color: blackColor,
                                                             fontSize: 26,
@@ -824,7 +844,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             .ellipsis,
                                                       ),
                                                       CustomText(
-                                                        text: 'HOUR',
+                                                        text: days == '00'
+                                                            ? 'HOURS'
+                                                            : 'DAYS',
                                                         fontSize: 12,
                                                       ),
                                                     ],
@@ -835,7 +857,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        '${minutes} :',
+                                                        days == '00'
+                                                            ? '$minutes :'
+                                                            : '$hours :',
                                                         style: TextStyle(
                                                             color: blackColor,
                                                             fontSize: 26,
@@ -847,7 +871,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             .ellipsis,
                                                       ),
                                                       CustomText(
-                                                        text: 'MINUTE',
+                                                        text: days == '00'
+                                                            ? 'MINUTES'
+                                                            : 'HOURS',
                                                         fontSize: 12,
                                                       ),
                                                     ],
@@ -858,7 +884,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        seconds,
+                                                        days == '00'
+                                                            ? seconds
+                                                            : minutes,
                                                         style: TextStyle(
                                                             color: blackColor,
                                                             fontSize: 26,
@@ -870,7 +898,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                             .ellipsis,
                                                       ),
                                                       CustomText(
-                                                        text: 'SECOND',
+                                                        text: days == '00'
+                                                            ? 'SECONDS'
+                                                            : 'MINUTES',
                                                         fontSize: 12,
                                                       ),
                                                     ],

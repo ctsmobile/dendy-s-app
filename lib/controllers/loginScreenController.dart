@@ -18,11 +18,11 @@ class LoginScreenController extends GetxController {
   var passwordVisible = false.obs;
   var emailValidationText = ''.obs;
   var passwordValidationText = ''.obs;
-  // final passwordController = TextEditingController(text: '1234');
-  // final emailController = TextEditingController(text: 'test23@yopmail.com');
+  final passwordController = TextEditingController(text: '1234');
+  final emailController = TextEditingController(text: 'test23@yopmail.com');
 
-  final passwordController = TextEditingController();
-  final emailController = TextEditingController();
+  // final passwordController = TextEditingController();
+  // final emailController = TextEditingController();
 
   var isLoginTap = false.obs;
 

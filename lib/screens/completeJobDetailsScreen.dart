@@ -930,24 +930,40 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                           offset: Offset(0, 2)),
                                     ],
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TimerBuilder.periodic(
-                                          Duration(seconds: 1),
-                                          builder: (context) {
-                                        String time = controller
-                                            .jobDetailsModel.data.spentTime
-                                            .toString()
-                                            .replaceAll(":", " : ");
-                                        List<String> timeParts =
-                                            time.split(":");
+                                  child: Builder(builder: (context) {
+                                    String time = controller
+                                        .jobDetailsModel.data.spentTime
+                                        .toString();
+                                    final regex = RegExp(
+                                        r'(\d+)\s*days\s*(\d+)\s*hours?\s*(\d+)\s*min',
+                                        caseSensitive: false);
 
-// Access each part individually
-                                        String hours = timeParts[0];
-                                        String minutes = timeParts[1];
-                                        String seconds = timeParts[2];
-                                        return Row(
+                                    final match = regex.firstMatch(time);
+                                    String days = '';
+                                    String hours = '';
+                                    String minutes = '';
+                                    if (match != null) {
+                                      days = match
+                                          .group(1)!
+                                          .padLeft(2, '0'); // Keeps "01"
+                                      hours = match
+                                          .group(2)!
+                                          .padLeft(2, '0'); // Keeps "00"
+                                      minutes =
+                                          match.group(3)!.padLeft(2, '0'); // Ke
+
+                                      print(
+                                          "Days: $days, Hours: $hours, Minutes: $minutes");
+                                    } else {
+                                      print("Invalid format");
+                                    }
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        // Access each part individually
+
+                                        Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -956,7 +972,9 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${hours} :',
+                                                  days == '00'
+                                                      ? '$hours :'
+                                                      : '$days :',
                                                   style: TextStyle(
                                                       color: blackColor,
                                                       fontSize: 26,
@@ -967,7 +985,9 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                       TextOverflow.ellipsis,
                                                 ),
                                                 CustomText(
-                                                  text: 'HOUR',
+                                                  text: days == '00'
+                                                      ? 'HOURS'
+                                                      : 'DAYS',
                                                   fontSize: 12,
                                                 ),
                                               ],
@@ -977,7 +997,9 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  '${minutes} :',
+                                                  days == '00'
+                                                      ? '$minutes :'
+                                                      : '$hours :',
                                                   style: TextStyle(
                                                       color: blackColor,
                                                       fontSize: 26,
@@ -988,7 +1010,9 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                       TextOverflow.ellipsis,
                                                 ),
                                                 CustomText(
-                                                  text: 'MINUTE',
+                                                  text: days == '00'
+                                                      ? 'MINUTES'
+                                                      : 'HOURS',
                                                   fontSize: 12,
                                                 ),
                                               ],
@@ -998,7 +1022,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  seconds,
+                                                  days == '00' ? '00' : minutes,
                                                   style: TextStyle(
                                                       color: blackColor,
                                                       fontSize: 26,
@@ -1009,55 +1033,58 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                       TextOverflow.ellipsis,
                                                 ),
                                                 CustomText(
-                                                  text: 'SECOND',
+                                                  text: days == '00'
+                                                      ? 'SECONDS'
+                                                      : 'MINUTES',
                                                   fontSize: 12,
                                                 ),
                                               ],
                                             ),
                                           ],
-                                        );
-                                      }),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Padding(
-                                      //       padding: EdgeInsets.only(
-                                      //           left: Utils.width! < 380
-                                      //               ? 7
-                                      //               : Utils.width! < 395
-                                      //                   ? 10
-                                      //                   : 15.0),
-                                      //       child: CustomText(
-                                      //         text: 'HOUR',
-                                      //         fontSize: 12,
-                                      //       ),
-                                      //     ),
-                                      //     Padding(
-                                      //       padding: const EdgeInsets.only(
-                                      //           left: 5.0),
-                                      //       child: CustomText(
-                                      //         text: 'MINUTE',
-                                      //         fontSize: 12,
-                                      //       ),
-                                      //     ),
-                                      //     Padding(
-                                      //       padding: const EdgeInsets.only(
-                                      //         left: 3.0,
-                                      //       ),
-                                      //       child: CustomText(
-                                      //         text: 'SECOND',
-                                      //         fontSize: 12,
-                                      //         maxLines: 1,
-                                      //       ),
-                                      //     ),
-                                      //     SizedBox(
-                                      //       width: 1,
-                                      //     ),
-                                      //   ],
-                                      // )
-                                    ],
-                                  ),
+                                        )
+
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.spaceBetween,
+                                        //   children: [
+                                        //     Padding(
+                                        //       padding: EdgeInsets.only(
+                                        //           left: Utils.width! < 380
+                                        //               ? 7
+                                        //               : Utils.width! < 395
+                                        //                   ? 10
+                                        //                   : 15.0),
+                                        //       child: CustomText(
+                                        //         text: 'HOUR',
+                                        //         fontSize: 12,
+                                        //       ),
+                                        //     ),
+                                        //     Padding(
+                                        //       padding: const EdgeInsets.only(
+                                        //           left: 5.0),
+                                        //       child: CustomText(
+                                        //         text: 'MINUTE',
+                                        //         fontSize: 12,
+                                        //       ),
+                                        //     ),
+                                        //     Padding(
+                                        //       padding: const EdgeInsets.only(
+                                        //         left: 3.0,
+                                        //       ),
+                                        //       child: CustomText(
+                                        //         text: 'SECOND',
+                                        //         fontSize: 12,
+                                        //         maxLines: 1,
+                                        //       ),
+                                        //     ),
+                                        //     SizedBox(
+                                        //       width: 1,
+                                        //     ),
+                                        //   ],
+                                        // )
+                                      ],
+                                    );
+                                  }),
                                 ),
                               ],
                             )

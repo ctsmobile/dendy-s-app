@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dendy_app/controllers/uploadImagesController.dart';
 import 'package:dendy_app/controllers/uploadImagesViewController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
@@ -162,24 +163,35 @@ class UploadeImagesViewScreen extends StatelessWidget {
               child: CupertinoButton(
                 onPressed: controller.isUploadImageLoading.value
                     ? null
-                    : () {
-                        if (GetStorage().read('finishJob') == true) {
-                          if (controller.filePaths.isEmpty) {
-                            if (!Get.isSnackbarOpen) {
-                              showSnackBar(
-                                  'Please upload atleat one final picture');
-                            }
-                          } else {
-                            controller.finishJobApi();
-                          }
+                    : () async {
+                        final connectivityResult =
+                            await Connectivity().checkConnectivity();
+
+                        if (connectivityResult
+                            .contains(ConnectivityResult.none)) {
+                          showSnackBar(
+                            'Please check your internet connection!',
+                            titleText: 'Network Error',
+                          );
                         } else {
-                          if (controller.filePaths.isEmpty) {
-                            if (!Get.isSnackbarOpen) {
-                              showSnackBar(
-                                  'Please upload atleat one initial picture');
+                          if (GetStorage().read('finishJob') == true) {
+                            if (controller.filePaths.isEmpty) {
+                              if (!Get.isSnackbarOpen) {
+                                showSnackBar(
+                                    'Please upload atleat one final picture');
+                              }
+                            } else {
+                              controller.finishJobApi();
                             }
                           } else {
-                            controller.startJobApi();
+                            if (controller.filePaths.isEmpty) {
+                              if (!Get.isSnackbarOpen) {
+                                showSnackBar(
+                                    'Please upload atleat one initial picture');
+                              }
+                            } else {
+                              controller.startJobApi();
+                            }
                           }
                         }
                       },

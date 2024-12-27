@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dendy_app/controllers/activeJobController.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
@@ -80,13 +81,22 @@ class CommonBottomBar extends StatelessWidget {
         height: Utils.height! / 7,
         width: Utils.width! / 7,
       ),
-      onTap: () {
-        if (Get.isRegistered<ActiveJobController>()) {
-          Get.toNamed(navigationPath);
+      onTap: () async {
+        final connectivityResult = await Connectivity().checkConnectivity();
+
+        if (connectivityResult.contains(ConnectivityResult.none)) {
+          showSnackBar(
+            'Please check your internet connection!',
+            titleText: 'Network Error',
+          );
         } else {
-          Get.offAllNamed(navigationPath.replaceAll(
-              RouteConstant.activeJobDetailsScreen,
-              RouteConstant.activeJobListScreen));
+          if (Get.isRegistered<ActiveJobController>()) {
+            Get.toNamed(navigationPath);
+          } else {
+            Get.offAllNamed(navigationPath.replaceAll(
+                RouteConstant.activeJobDetailsScreen,
+                RouteConstant.activeJobListScreen));
+          }
         }
       },
     );

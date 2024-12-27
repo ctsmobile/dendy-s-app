@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new
+// ignore_for_file: unnecessary_new, prefer_const_constructors
 
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:flutter/foundation.dart';
@@ -63,14 +63,19 @@ String getTimeDifference(String startDate) {
   Duration difference = currentDate.difference(givenDate);
 
   // Extract hours, minutes, and seconds from the Duration
+  // int days = difference.inDays;
+  int days = 0;
+  print('days$days');
   int hours = difference.inHours.remainder(12);
   int minutes = difference.inMinutes.remainder(60);
   int seconds = difference.inSeconds.remainder(60);
 
   // Format the time difference as HH:mm:ss
-  String formattedDifference = '${hours.toString().padLeft(2, '0')} : '
-      '${minutes.toString().padLeft(2, '0')} : '
-      '${seconds.toString().padLeft(2, '0')}';
+  String formattedDifference =
+      '${days.toString().padLeft(2, '0')} days ${hours.toString().padLeft(2, '0')} Hours ${minutes.toString().padLeft(2, '0')} Min ${seconds.toString().padLeft(2, '0')} Sec';
+  // '${hours.toString().padLeft(2, '0')} : '
+  //     '${minutes.toString().padLeft(2, '0')} : '
+  //     '${seconds.toString().padLeft(2, '0')}';
 
   return formattedDifference;
 }
@@ -99,11 +104,18 @@ Future<void> requestStoragePermission() async {
   }
 }
 
-showSnackBar(String message, {Color backgroundColor = redColor}) {
+showSnackBar(String message,
+    {Color backgroundColor = redColor, String? titleText}) {
   if (!Get.isSnackbarOpen) {
     Get.snackbar('', message,
         backgroundColor: backgroundColor,
-        titleText: SizedBox.shrink(),
+        titleText: titleText != null
+            ? Text(
+                titleText,
+                style:
+                    TextStyle(color: whiteColor, fontWeight: FontWeight.bold),
+              )
+            : SizedBox.shrink(),
         dismissDirection: DismissDirection.horizontal,
         colorText: whiteColor);
   }
