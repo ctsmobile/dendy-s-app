@@ -30,7 +30,8 @@ class UploadImageController extends GetxController {
   var isUploadImageLoading = false.obs;
   var showImage = false.obs;
   late PainterController imageController;
-
+  final commentController = TextEditingController();
+  FocusNode focusNodes1 = FocusNode();
   var file = File("").obs;
   var fileName = "".obs;
   ui.Image? backgroundImage;
@@ -48,10 +49,8 @@ class UploadImageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
- Future.delayed(const Duration(milliseconds: 250), () {
-    
-        showImage.value = true;
-    
+    Future.delayed(const Duration(milliseconds: 250), () {
+      showImage.value = true;
     });
     print("object");
     filePaths.value = [];
@@ -273,6 +272,7 @@ class UploadImageController extends GetxController {
           DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
       // params.fields.add(MapEntry('job_end_time', jobEndTime));
       request.fields['job_end_time'] = jobEndTime;
+      request.fields['comment'] = commentController.text;
       var token = GetStorage().read('access_token');
       print("token: $token");
 

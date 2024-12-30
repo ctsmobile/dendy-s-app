@@ -63,8 +63,8 @@ String getTimeDifference(String startDate) {
   Duration difference = currentDate.difference(givenDate);
 
   // Extract hours, minutes, and seconds from the Duration
-  // int days = difference.inDays;
-  int days = 0;
+  int days = difference.inDays;
+  // int days = 0;
   print('days$days');
   int hours = difference.inHours.remainder(12);
   int minutes = difference.inMinutes.remainder(60);
@@ -123,7 +123,10 @@ showSnackBar(String message,
 
 void launchURL(Uri url) async {
   if (await canLaunchUrl(url)) {
-    await launchUrl(url);
+    await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    );
   } else {
     throw 'Could not launch $url';
   }

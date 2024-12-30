@@ -182,7 +182,7 @@ class PendingDetailsScreen extends StatelessWidget {
                                               ),
                                               onTap: () {
                                                 launchURL(Uri.parse(
-                                                    'https://www.google.com/maps/search/?api=1&query=${controller.pendingJobDetails.customer.lat.toString()},${controller.pendingJobDetails.customer.lng.toString()}'));
+                                                    'https://www.google.com/maps/search/?api=1&query=${controller.pendingJobDetails.jobLat.toString()},${controller.pendingJobDetails.jobLng.toString()}'));
                                               },
                                             ),
                                           ],
