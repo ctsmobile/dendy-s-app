@@ -156,34 +156,42 @@ class UploadeImagesViewScreen extends StatelessWidget {
                             },
                           );
                         }),
-                    SizedBox(
-                      height: Utils.height! / 30,
-                    ),
-                    CustomText(
-                      text: 'Add a comment',
-                      textColor: purpleColor,
-                    ),
-                    SizedBox(
-                      height: Utils.height! / 100,
-                    ),
-                    Container(
-                      height: Utils.height! / 9,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: blackColor, width: 1),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: TextFormField(
-                        controller: controller.commentController,
-                        focusNode: controller.focusNodes1,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(
-                            10.0,
-                          ),
-                        ),
-                        maxLines: 10,
-                      ),
-                    ),
+                    GetStorage().read('finishJob') == true
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: Utils.height! / 30,
+                              ),
+                              CustomText(
+                                text: 'Add a comment',
+                                textColor: purpleColor,
+                              ),
+                              SizedBox(
+                                height: Utils.height! / 100,
+                              ),
+                              Container(
+                                height: Utils.height! / 9,
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: blackColor, width: 1),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: TextFormField(
+                                  controller: controller.commentController,
+                                  focusNode: controller.focusNodes1,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.all(
+                                      10.0,
+                                    ),
+                                  ),
+                                  maxLines: 10,
+                                ),
+                              ),
+                            ],
+                          )
+                        : SizedBox(),
                     SizedBox(
                       height: Utils.height! / 30,
                     ),
