@@ -19,12 +19,18 @@ class PendingJobsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return pendingJobListModel!.pendingJob.isEmpty
-        ? Center(
-            child: CustomText(
-              text: isCompletedJobs
-                  ? 'No completed job found!'
-                  : 'No pending job found!',
-              textColor: purpleColor,
+        ? SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: MediaQuery.of(context).size.height - 230,
+              child: Center(
+                child: CustomText(
+                  text: isCompletedJobs
+                      ? 'No completed job found!'
+                      : 'No pending job found!',
+                  textColor: purpleColor,
+                ),
+              ),
             ),
           )
         : ListView.separated(

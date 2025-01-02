@@ -48,10 +48,17 @@ class ActiveJobListScreen extends StatelessWidget {
                             await controller.getActiveJobDetails();
                           },
                           child: controller.activeJobModel.value.data.isEmpty
-                              ? Center(
-                                  child: CustomText(
-                                    text: 'No Active job found!',
-                                    textColor: purpleColor,
+                              ? SingleChildScrollView(
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height -
+                                        120,
+                                    child: Center(
+                                      child: CustomText(
+                                        text: 'No Active job found!',
+                                        textColor: purpleColor,
+                                      ),
+                                    ),
                                   ),
                                 )
                               : ListView.separated(
