@@ -3,7 +3,6 @@
 import 'package:dendy_app/controllers/loginScreenController.dart';
 import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
-import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
