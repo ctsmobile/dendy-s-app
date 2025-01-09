@@ -91,8 +91,10 @@ class CommonBottomBar extends StatelessWidget {
           );
         } else {
           if (Get.isRegistered<ActiveJobController>()) {
+            print("nnn");
             Get.toNamed(navigationPath);
           } else {
+            print("677");
             Get.offAllNamed(navigationPath.replaceAll(
                 RouteConstant.activeJobDetailsScreen,
                 RouteConstant.activeJobListScreen));

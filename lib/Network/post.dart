@@ -56,8 +56,13 @@ class Post {
           final int statusCode = response.statusCode;
 
           if (statusCode < 200 || statusCode > 400) {
-            Get.snackbar('$statusCode:', res.toString(),
-                backgroundColor: redColor, colorText: whiteColor);
+            if (jsonDecode(res) is Map &&
+                jsonDecode(res).containsKey('message')) {
+              String errorMessage = (jsonDecode(res)['message']).toString();
+              showSnackBar(errorMessage);
+            } else {
+              showSnackBar(res);
+            }
             return 'Error';
           }
 
@@ -115,13 +120,14 @@ class Post {
             await GetStorage().remove('access_token');
             await GetStorage().remove('jobId');
           }
-          // print("hello url3");
-          // print('fgfg$statusCode $res');
           if (statusCode < 200 || statusCode > 400) {
-            // showSnackBar(context: context, text: response.body);
-            // print('mess${response.body}');
-            Get.snackbar('${apiUrl}\nstatusCode:', statusCode.toString(),
-                backgroundColor: redColor, colorText: whiteColor);
+            if (jsonDecode(res) is Map &&
+                jsonDecode(res).containsKey('message')) {
+              String errorMessage = (jsonDecode(res)['message']).toString();
+              showSnackBar(errorMessage);
+            } else {
+              showSnackBar(res);
+            }
             return 'Error';
           }
 
