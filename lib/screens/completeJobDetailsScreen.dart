@@ -431,6 +431,10 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                     .jobDetailsModel
                                                                     .data
                                                                     .employees
+                                                                    .where((employee) =>
+                                                                        employee
+                                                                            .jobuser !=
+                                                                        null)
                                                                     .length,
                                                                 separatorBuilder:
                                                                     (context,
@@ -447,6 +451,19 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                     (BuildContext
                                                                             context,
                                                                         int index) {
+                                                                  final filteredEmployees = controller
+                                                                      .jobDetailsModel
+                                                                      .data
+                                                                      .employees
+                                                                      .where((employee) =>
+                                                                          employee
+                                                                              .jobuser !=
+                                                                          null)
+                                                                      .toList();
+
+                                                                  final employee =
+                                                                      filteredEmployees[
+                                                                          index];
                                                                   return Row(
                                                                     children: [
                                                                       Image
@@ -466,14 +483,14 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                         children: [
                                                                           CustomText(
                                                                             text:
-                                                                                controller.jobDetailsModel.data.employees[index].jobuser.name.toString(),
+                                                                                employee.jobuser!.name.toString(),
                                                                             maxLines:
                                                                                 1,
                                                                             textOverflow:
                                                                                 TextOverflow.ellipsis,
                                                                           ),
                                                                           CustomText(
-                                                                            text: controller.jobDetailsModel.data.employees[index].crewLead == 1
+                                                                            text: employee.crewLead == 1
                                                                                 ? ' (Team Lead)'
                                                                                 : '',
                                                                             maxLines:

@@ -13,13 +13,11 @@ class PendingJobListModel {
   bool status;
   String message;
   List<PendingJobs> pendingJob;
-  Error error;
 
   PendingJobListModel({
     required this.status,
     required this.message,
     required this.pendingJob,
-    required this.error,
   });
 
   factory PendingJobListModel.fromJson(Map<String, dynamic> json) =>
@@ -30,7 +28,6 @@ class PendingJobListModel {
             ? []
             : List<PendingJobs>.from(
                 json["data"].map((x) => PendingJobs.fromJson(x))),
-        error: Error.fromJson(json["error"]),
       );
 }
 
@@ -181,7 +178,7 @@ class User {
   int request_status;
   dynamic createdAt;
   dynamic updatedAt;
-  Jobuser jobuser;
+  Jobuser? jobuser;
 
   User({
     required this.id,
@@ -202,17 +199,8 @@ class User {
       request_status: json["request_status"],
       createdAt: json["created_at"],
       updatedAt: json["updated_at"],
-      jobuser: Jobuser.fromJson(json["jobuser"]));
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "job_id": jobId,
-        "employee_id": employeeId,
-        "crew_lead": crewLead,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "jobuser": jobuser.toJson(),
-      };
+      jobuser:
+          json["jobuser"] == null ? null : Jobuser.fromJson(json["jobuser"]));
 }
 
 class Jobuser {

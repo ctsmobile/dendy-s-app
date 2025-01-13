@@ -196,7 +196,7 @@ class Employees {
   int crewLead;
   dynamic createdAt;
   dynamic updatedAt;
-  Jobuser jobuser;
+  Jobuser? jobuser;
 
   Employees({
     required this.id,
@@ -215,18 +215,9 @@ class Employees {
         crewLead: json["crew_lead"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        jobuser: Jobuser.fromJson(json["jobuser"]),
+        jobuser:
+            json["jobuser"] == null ? null : Jobuser.fromJson(json["jobuser"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "job_id": jobId,
-        "employee_id": employeeId,
-        "crew_lead": crewLead,
-        "created_at": createdAt,
-        "jobuser": jobuser.toJson(),
-        "updated_at": updatedAt,
-      };
 }
 
 class Jobuser {

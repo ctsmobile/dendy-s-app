@@ -201,8 +201,10 @@ class PendingDetailsScreen extends StatelessWidget {
                                           children: [
                                             ListView.separated(
                                                 itemCount: controller
-                                                    .pendingJobDetails
-                                                    .employees
+                                                    .pendingJobDetails.employees
+                                                    .where((employee) =>
+                                                        employee.jobuser !=
+                                                        null)
                                                     .length,
                                                 separatorBuilder:
                                                     (context, index) {
@@ -216,6 +218,18 @@ class PendingDetailsScreen extends StatelessWidget {
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
+                                                  final filteredEmployees =
+                                                      controller
+                                                          .pendingJobDetails
+                                                          .employees
+                                                          .where((employee) =>
+                                                              employee
+                                                                  .jobuser !=
+                                                              null)
+                                                          .toList();
+
+                                                  final employee =
+                                                      filteredEmployees[index];
                                                   return Row(
                                                     children: [
                                                       Image.asset(
@@ -233,23 +247,15 @@ class PendingDetailsScreen extends StatelessWidget {
                                                         child: Row(
                                                           children: [
                                                             CustomText(
-                                                              text: controller
-                                                                  .pendingJobDetails
-                                                                  .employees[
-                                                                      index]
-                                                                  .jobuser
-                                                                  .name
+                                                              text: employee
+                                                                  .jobuser!.name
                                                                   .toString(),
                                                               maxLines: 2,
                                                               textOverflow:
                                                                   TextOverflow
                                                                       .ellipsis,
                                                             ),
-                                                            controller
-                                                                        .pendingJobDetails
-                                                                        .employees[
-                                                                            index]
-                                                                        .crewLead ==
+                                                            employee.crewLead ==
                                                                     1
                                                                 ? Flexible(
                                                                     child:
@@ -271,11 +277,7 @@ class PendingDetailsScreen extends StatelessWidget {
                                                                   Utils.width! /
                                                                       90,
                                                             ),
-                                                            controller
-                                                                        .pendingJobDetails
-                                                                        .employees[
-                                                                            index]
-                                                                        .request_status ==
+                                                            employee.request_status ==
                                                                     1
                                                                 ? Padding(
                                                                     padding: const EdgeInsets
@@ -289,10 +291,7 @@ class PendingDetailsScreen extends StatelessWidget {
                                                                           greenColor,
                                                                     ),
                                                                   )
-                                                                : controller
-                                                                            .pendingJobDetails
-                                                                            .employees[index]
-                                                                            .request_status ==
+                                                                : employee.request_status ==
                                                                         2
                                                                     ? Padding(
                                                                         padding: const EdgeInsets

@@ -447,6 +447,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                               .data[controller
                                                                                   .iindex.value]
                                                                               .employees
+                                                                              .where((employee) =>
+                                                                                  employee.jobuser !=
+                                                                                  null)
                                                                               .length,
                                                                           separatorBuilder:
                                                                               (context,
@@ -461,6 +464,11 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                               NeverScrollableScrollPhysics(),
                                                                           itemBuilder:
                                                                               (BuildContext context, int employeesIndex) {
+                                                                            final filteredEmployees =
+                                                                                controller.activeJobModel.value.data[controller.iindex.value].employees.where((employee) => employee.jobuser != null).toList();
+
+                                                                            final employee =
+                                                                                filteredEmployees[employeesIndex];
                                                                             return Row(
                                                                               children: [
                                                                                 Image.asset(
@@ -474,12 +482,12 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                                 Row(
                                                                                   children: [
                                                                                     CustomText(
-                                                                                      text: controller.activeJobModel.value.data[controller.iindex.value].employees[employeesIndex].jobuser.name.toString(),
+                                                                                      text: employee.jobuser!.name.toString(),
                                                                                       maxLines: 1,
                                                                                       textOverflow: TextOverflow.ellipsis,
                                                                                     ),
                                                                                     CustomText(
-                                                                                      text: controller.activeJobModel.value.data[controller.iindex.value].employees[employeesIndex].crewLead == 1 ? ' (Team Lead)' : '',
+                                                                                      text: employee.crewLead == 1 ? ' (Team Lead)' : '',
                                                                                       maxLines: 1,
                                                                                       textColor: purpleColor,
                                                                                       textOverflow: TextOverflow.ellipsis,
