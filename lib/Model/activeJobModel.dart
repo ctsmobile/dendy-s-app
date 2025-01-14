@@ -15,21 +15,20 @@ class ActiveJobModel {
   bool status;
   String message;
   List<ActiveJob> data;
-  Error? error;
 
   ActiveJobModel({
     required this.status,
     required this.message,
     required this.data,
-    required this.error,
   });
 
   factory ActiveJobModel.fromJson(Map<String, dynamic> json) => ActiveJobModel(
-        status: json["status"],
-        message: json["message"],
-        data: List<ActiveJob>.from(
-            json["data"].map((x) => ActiveJob.fromJson(x))),
-        error: Error.fromJson(json["error"]),
+        status: json["status"] ?? false,
+        message: json["message"].toString(),
+        data: (json["data"] == null || json["data"].isEmpty)
+            ? []
+            : List<ActiveJob>.from(
+                json["data"].map((x) => ActiveJob.fromJson(x))),
       );
 }
 

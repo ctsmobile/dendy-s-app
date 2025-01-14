@@ -29,8 +29,8 @@ class ViewAllImagesScreen extends StatelessWidget {
               GridView.builder(
                   shrinkWrap: true,
                   itemCount: controller.forInitialImages.value
-                      ? controller.jobDetailsModel.data.startimage.length
-                      : controller.jobDetailsModel.data.endimage.length,
+                      ? controller.jobDetailsModel.data!.startimage.length
+                      : controller.jobDetailsModel.data!.endimage.length,
                   padding: EdgeInsets.only(
                     top: 0,
                   ),
@@ -56,8 +56,8 @@ class ViewAllImagesScreen extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             child: CachedNetworkImage(
                               imageUrl: controller.forInitialImages.value
-                                  ? 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.startimage[index].imageUrl}'
-                                  : 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.endimage[index].imageUrl}',
+                                  ? 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data!.startimage[index].imageUrl}'
+                                  : 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data!.endimage[index].imageUrl}',
                               fit: BoxFit.cover,
                               width: Utils.width! / 4,
                               height: Utils.height! / 7.3,
@@ -91,8 +91,8 @@ class ViewAllImagesScreen extends StatelessWidget {
                                           child: CachedNetworkImage(
                                             imageUrl: controller
                                                     .forInitialImages.value
-                                                ? 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.startimage[index].imageUrl}'
-                                                : 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data.endimage[index].imageUrl}',
+                                                ? 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data!.startimage[index].imageUrl}'
+                                                : 'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data!.endimage[index].imageUrl}',
                                             fit: BoxFit.cover,
                                             placeholder: (context, url) =>
                                                 Center(

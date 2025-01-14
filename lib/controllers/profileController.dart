@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:dendy_app/Model/loginModel.dart';
 import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
@@ -30,15 +31,17 @@ class ProfileController extends GetxController {
   Future logout() async {
     isLogoutTap.value = true;
     await logoutApi().then((auth) {
-      if (auth['status'] != true) {
-        showSnackBar(auth['message']);
-      } else {
-        Get.offAllNamed(RouteConstant.loginScreen);
+      if (auth != null) {
+        if (auth.status != true) {
+          Get.offAllNamed(RouteConstant.loginScreen);
+        } else {
+          Get.offAllNamed(RouteConstant.loginScreen);
+        }
       }
     });
   }
 
-  Future logoutApi() async {
+  Future<LoginModel?> logoutApi() async {
     try {
       isDataLoading(true);
 
@@ -49,7 +52,11 @@ class ProfileController extends GetxController {
       )
           .then((dynamic res) async {
         print("logout$res");
-        return res!;
+        if (res == 'Error') {
+          return LoginModel.fromJson({});
+        } else {
+          return LoginModel.fromJson(res!);
+        }
       });
     } catch (e) {
       log('Error in logout is $e');

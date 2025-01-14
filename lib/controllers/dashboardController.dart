@@ -38,14 +38,20 @@ class DashboardController extends GetxController {
     await getPendingJobListApi().then((pendingJob) async {
       if (pendingJob != null) {
         if (!pendingJob.status) {
-          showSnackBar(pendingJob.message);
+          isDataLoading.value = false;
+          pendingJobListModel = pendingJob;
+          completedJobListModel = pendingJob;
+          showSnackBar(pendingJob.message.toString());
         } else {
           pendingJobListModel = pendingJob;
           await FirebaseAPI().initNotifications();
           await getCompletedJobListApi().then((completeJob) {
             if (completeJob != null) {
               if (!completeJob.status) {
-                showSnackBar(completeJob.message);
+                print("bvbbv");
+                isDataLoading.value = false;
+                completedJobListModel = completeJob;
+                showSnackBar(completeJob.message.toString());
               } else {
                 completedJobListModel = completeJob;
               }
@@ -68,7 +74,11 @@ class DashboardController extends GetxController {
       )
           .then((dynamic res) async {
         print("pendingJob$res");
-        return PendingJobListModel.fromJson(res!);
+        if (res == 'Error') {
+          return PendingJobListModel.fromJson({});
+        } else {
+          return PendingJobListModel.fromJson(res!);
+        }
       });
     } catch (e) {
       log('Error in pendingJob is $e');
@@ -86,7 +96,11 @@ class DashboardController extends GetxController {
       )
           .then((dynamic res) async {
         print("completedJob$res");
-        return PendingJobListModel.fromJson(res!);
+        if (res == 'Error') {
+          return PendingJobListModel.fromJson({});
+        } else {
+          return PendingJobListModel.fromJson(res!);
+        }
       });
     } catch (e) {
       log('Error in completedJob is $e');

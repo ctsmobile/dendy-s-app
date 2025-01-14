@@ -11,7 +11,7 @@ PendingJobListModel pendingJobListModelFromJson(String str) =>
 
 class PendingJobListModel {
   bool status;
-  String message;
+  String? message;
   List<PendingJobs> pendingJob;
 
   PendingJobListModel({
@@ -20,15 +20,17 @@ class PendingJobListModel {
     required this.pendingJob,
   });
 
-  factory PendingJobListModel.fromJson(Map<String, dynamic> json) =>
-      PendingJobListModel(
-        status: json["status"],
-        message: json["message"],
-        pendingJob: json["data"].isEmpty
-            ? []
-            : List<PendingJobs>.from(
-                json["data"].map((x) => PendingJobs.fromJson(x))),
-      );
+  factory PendingJobListModel.fromJson(Map<String, dynamic> json) {
+    print("aas${json["data"]}");
+    return PendingJobListModel(
+      status: json["status"] ?? false,
+      message: json["message"],
+      pendingJob: (json["data"] == null || json["data"].isEmpty)
+          ? []
+          : List<PendingJobs>.from(
+              json["data"].map((x) => PendingJobs.fromJson(x))),
+    );
+  }
 }
 
 class PendingJobs {

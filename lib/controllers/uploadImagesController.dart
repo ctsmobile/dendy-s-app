@@ -209,10 +209,16 @@ class UploadImageController extends GetxController {
         Get.offAllNamed(RouteConstant.activeJobListScreen);
         return responseBody;
       } else {
-        log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
+        log("BODYg DATA UPLOAD PHOTO: ${responseBody['message']}");
         showSnackBar(
           responseBody['message'],
         );
+        if (responseBody['message'].contains('Unauthenticated')) {
+          await GetStorage().erase();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Get.offAndToNamed(RouteConstant.loginScreen);
+          });
+        }
       }
     } catch (e) {
       log('Error while getting data: $e');
@@ -295,6 +301,12 @@ class UploadImageController extends GetxController {
         showSnackBar(
           responseBody['message'],
         );
+        if (responseBody['message'].contains('Unauthenticated')) {
+          await GetStorage().erase();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Get.offAndToNamed(RouteConstant.loginScreen);
+          });
+        }
       }
     } catch (e) {
       log('Error while getting data: $e');

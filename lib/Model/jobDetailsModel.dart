@@ -11,23 +11,20 @@ JobDetailsModel jobDetailsModelFromJson(String str) =>
 
 class JobDetailsModel {
   bool status;
-  String message;
-  Data data;
-  Error error;
+  String? message;
+  Data? data;
 
   JobDetailsModel({
     required this.status,
     required this.message,
     required this.data,
-    required this.error,
   });
 
   factory JobDetailsModel.fromJson(Map<String, dynamic> json) =>
       JobDetailsModel(
-        status: json["status"],
+        status: json["status"] ?? false,
         message: json["message"],
-        data: Data.fromJson(json["data"]),
-        error: Error.fromJson(json["error"]),
+        data: (json["data"] == null) ? null : Data.fromJson(json["data"]),
       );
 }
 

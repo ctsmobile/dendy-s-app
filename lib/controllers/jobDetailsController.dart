@@ -32,8 +32,8 @@ class JobDetailsController extends GetxController {
     await getJobDetailsApi().then((jobDetails) {
       if (jobDetails != null) {
         if (!jobDetails.status) {
-          showSnackBar(jobDetails.message);
-
+          showSnackBar(jobDetails.message.toString());
+          jobDetailsModel = jobDetails;
           isDataLoading.value = false;
         } else {
           jobDetailsModel = jobDetails;
@@ -58,7 +58,11 @@ class JobDetailsController extends GetxController {
       )
           .then((dynamic res) async {
         print("jobDetails$res");
-        return JobDetailsModel.fromJson(res!);
+        if (res == 'Error') {
+          return JobDetailsModel.fromJson({});
+        } else {
+          return JobDetailsModel.fromJson(res!);
+        }
       });
     } catch (e) {
       log('Error in jobDetails is $e');

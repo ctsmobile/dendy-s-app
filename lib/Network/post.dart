@@ -50,7 +50,7 @@ class Post {
                   'Authorization': 'Bearer $token'
                 },
         )
-            .then((response) {
+            .then((response) async {
           print("response.body${response.body}");
           final dynamic res = response.body;
           final int statusCode = response.statusCode;
@@ -59,6 +59,12 @@ class Post {
             if (jsonDecode(res) is Map &&
                 jsonDecode(res).containsKey('message')) {
               String errorMessage = (jsonDecode(res)['message']).toString();
+              if (errorMessage.contains('Unauthenticated')) {
+                await GetStorage().erase();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Get.offAndToNamed(RouteConstant.loginScreen);
+                });
+              }
               showSnackBar(errorMessage);
             } else {
               showSnackBar(res);
@@ -115,15 +121,18 @@ class Post {
           final dynamic res = response.body;
           final int statusCode = response.statusCode;
           if (url.contains('logout')) {
-            await GetStorage().remove('fcmtoken');
-            await GetStorage().remove('user_id');
-            await GetStorage().remove('access_token');
-            await GetStorage().remove('jobId');
+            await GetStorage().erase();
           }
           if (statusCode < 200 || statusCode > 400) {
             if (jsonDecode(res) is Map &&
                 jsonDecode(res).containsKey('message')) {
               String errorMessage = (jsonDecode(res)['message']).toString();
+              if (errorMessage.contains('Unauthenticated')) {
+                await GetStorage().erase();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Get.offAndToNamed(RouteConstant.loginScreen);
+                });
+              }
               showSnackBar(errorMessage);
             } else {
               showSnackBar(res);

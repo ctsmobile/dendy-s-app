@@ -9,7 +9,7 @@ LoginModel loginModelFromJson(String str) =>
 
 class LoginModel {
   bool status;
-  String message;
+  String? message;
   Data? data;
   String? token;
 
@@ -21,7 +21,7 @@ class LoginModel {
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        status: json["status"],
+        status: json["status"] ?? false,
         message: json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         token: json["token"],

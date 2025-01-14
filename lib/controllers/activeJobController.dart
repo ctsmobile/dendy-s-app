@@ -12,7 +12,7 @@ import 'package:get_storage/get_storage.dart';
 class ActiveJobController extends GetxController {
   var isDataLoading = false.obs;
   var activeJobModel =
-      ActiveJobModel(data: [], error: null, message: "null", status: false).obs;
+      ActiveJobModel(data: [], message: "null", status: false).obs;
   var iindex = 0.obs;
   var onlyOne = false.obs;
   @override
@@ -66,7 +66,11 @@ class ActiveJobController extends GetxController {
       )
           .then((dynamic res) async {
         print("active$res");
-        return ActiveJobModel.fromJson(res!);
+        if (res == 'Error') {
+          return ActiveJobModel.fromJson({});
+        } else {
+          return ActiveJobModel.fromJson(res!);
+        }
       });
     } catch (e) {
       log('Error in active is $e');

@@ -2,7 +2,6 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dendy_app/controllers/uploadImagesController.dart';
-import 'package:dendy_app/controllers/uploadImagesViewController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';

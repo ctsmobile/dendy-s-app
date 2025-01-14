@@ -81,7 +81,7 @@ class LoginScreenController extends GetxController {
           .then((auth) {
         if (auth != null) {
           if (!auth.status) {
-            showSnackBar(auth.message);
+            showSnackBar(auth.message.toString());
 
             isLoginTap.value = false;
           } else {

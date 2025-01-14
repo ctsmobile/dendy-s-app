@@ -41,7 +41,7 @@ class PendingJobDetailsController extends GetxController {
     await acceptJobApi(forReject: forReject).then((acceptJobResponse) {
       if (acceptJobResponse != null) {
         if (!acceptJobResponse.status) {
-          showSnackBar(acceptJobResponse.message);
+          showSnackBar(acceptJobResponse.message.toString());
 
           if (forReject) {
             isDeclineTap.value = false;
@@ -53,7 +53,7 @@ class PendingJobDetailsController extends GetxController {
             showSnackBar('Job declined successfully !',
                 backgroundColor: purpleColor);
           } else {
-            showSnackBar(acceptJobResponse.message,
+            showSnackBar(acceptJobResponse.message.toString(),
                 backgroundColor: purpleColor);
           }
 
