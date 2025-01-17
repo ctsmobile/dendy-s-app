@@ -44,8 +44,7 @@ class ActiveJob {
   String? jobLat;
   String? jobLng;
   String? status;
-  DateTime createdAt;
-  DateTime updatedAt;
+
   Customer customer;
   List<Task> tasks;
   List<User> employees;
@@ -62,8 +61,6 @@ class ActiveJob {
     required this.jobLat,
     required this.jobLng,
     required this.status,
-    required this.createdAt,
-    required this.updatedAt,
     required this.customer,
     required this.tasks,
     required this.employees,
@@ -75,7 +72,7 @@ class ActiveJob {
         team_lead: json["team_lead"],
         date: json["date"] == null
             ? null
-            : DateFormat('dd-MM-yyyy').format(DateTime.parse(json["date"])),
+            : DateFormat('MM-dd-yyyy').format(DateTime.parse(json["date"])),
         time: json["time"],
         customerId: json["customer_id"],
         jobLocation: json["job_location"],
@@ -83,8 +80,6 @@ class ActiveJob {
         jobLat: json["job_lat"],
         jobLng: json["job_lng"],
         status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
         customer: Customer.fromJson(json["customer"]),
         tasks: List<Task>.from(json["tasks"].map((x) => Task.fromJson(x))),
         employees:
@@ -100,9 +95,6 @@ class Customer {
   String? location;
   String? lat;
   String? lng;
-  String? createdAt;
-  String? wholeCreatedAt;
-  String? updatedAt;
 
   Customer({
     required this.id,
@@ -112,9 +104,6 @@ class Customer {
     required this.location,
     required this.lat,
     required this.lng,
-    required this.createdAt,
-    required this.wholeCreatedAt,
-    required this.updatedAt,
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
@@ -125,15 +114,6 @@ class Customer {
         location: json["location"],
         lat: json["lat"],
         lng: json["lng"],
-        wholeCreatedAt: json["created_at"].toString(),
-        createdAt: json["created_at"] == null
-            ? null
-            : DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(json["created_at"])),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(json["updated_at"])),
       );
 }
 

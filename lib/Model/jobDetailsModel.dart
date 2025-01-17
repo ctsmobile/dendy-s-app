@@ -83,7 +83,7 @@ class Data {
         name: json["name"],
         date: json["date"] == null
             ? null
-            : DateFormat('dd-MM-yyyy').format(DateTime.parse(json["date"])),
+            : DateFormat('MM-dd-yyyy').format(DateTime.parse(json["date"])),
         time: json["time"],
         customerId: json["customer_id"],
         jobLocation: json["job_location"],
@@ -245,9 +245,6 @@ class Customer {
   String location;
   dynamic lat;
   dynamic lng;
-  String? createdAt;
-  String? wholeCreatedAt;
-  String? updatedAt;
 
   Customer({
     required this.id,
@@ -257,9 +254,6 @@ class Customer {
     required this.location,
     required this.lat,
     required this.lng,
-    required this.createdAt,
-    required this.wholeCreatedAt,
-    required this.updatedAt,
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
@@ -270,15 +264,6 @@ class Customer {
         location: json["location"],
         lat: json["lat"],
         lng: json["lng"],
-        wholeCreatedAt: json["created_at"].toString(),
-        createdAt: json["created_at"] == null
-            ? null
-            : DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(json["created_at"])),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(json["updated_at"])),
       );
 }
 

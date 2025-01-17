@@ -76,10 +76,10 @@ class PendingJobs {
         team_lead: json["team_lead"],
         date: json["date"] == null
             ? null
-            : DateFormat('dd-MM-yyyy').format(DateTime.parse(json["date"])),
+            : DateFormat('MM-dd-yyyy').format(DateTime.parse(json["date"])),
         job_end_time: json["job_end_time"] == null
             ? null
-            : DateFormat('dd-MM-yyyy')
+            : DateFormat('MM-dd-yyyy')
                 .format(DateTime.parse(json["job_end_time"])),
         time: json["time"],
         customerId: json["customer_id"],
@@ -104,8 +104,6 @@ class Customer {
   String? location;
   String? lat;
   String? lng;
-  String? createdAt;
-  String? updatedAt;
 
   Customer({
     required this.id,
@@ -115,8 +113,6 @@ class Customer {
     required this.location,
     required this.lat,
     required this.lng,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
@@ -127,14 +123,6 @@ class Customer {
         location: json["location"],
         lat: json["lat"],
         lng: json["lng"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(json["created_at"])),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateFormat('dd-MM-yyyy')
-                .format(DateTime.parse(json["updated_at"])),
       );
 }
 

@@ -32,6 +32,7 @@ class FirebaseAPI {
   }
 
   void handleMessage(RemoteMessage? message) {
+    print("gv${message}");
     if (message == null) return;
 
     if (message.notification != null) {
@@ -70,6 +71,7 @@ class FirebaseAPI {
 
     await localNotifications.initialize(settings,
         onDidReceiveNotificationResponse: (response) {
+      print("response$response");
       if (response.payload != null) {
         final message = RemoteMessage.fromMap(jsonDecode(response.payload!));
         handleMessage(message);

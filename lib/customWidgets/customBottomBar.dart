@@ -39,7 +39,7 @@ class CommonBottomBar extends StatelessWidget {
                   ),
             index == 1
                 ? _commonTabWithIndex(
-                    imagePath: '${baseImagePath}active2.png',
+                    imagePath: '${baseImagePath}active.png',
                   )
                 : _commonTab(
                     imagePath: '${baseImagePath}active2.png',
