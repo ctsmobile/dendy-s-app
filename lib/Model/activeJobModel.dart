@@ -72,7 +72,7 @@ class ActiveJob {
         team_lead: json["team_lead"],
         date: json["date"] == null
             ? null
-            : DateFormat('MM-dd-yyyy').format(DateTime.parse(json["date"])),
+            : DateFormat('MM/dd/yyyy').format(DateTime.parse(json["date"])),
         time: json["time"],
         customerId: json["customer_id"],
         jobLocation: json["job_location"],

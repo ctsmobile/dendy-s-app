@@ -76,10 +76,10 @@ class PendingJobs {
         team_lead: json["team_lead"],
         date: json["date"] == null
             ? null
-            : DateFormat('MM-dd-yyyy').format(DateTime.parse(json["date"])),
+            : DateFormat('MM/dd/yyyy').format(DateTime.parse(json["date"])),
         job_end_time: json["job_end_time"] == null
             ? null
-            : DateFormat('MM-dd-yyyy')
+            : DateFormat('MM/dd/yyyy')
                 .format(DateTime.parse(json["job_end_time"])),
         time: json["time"],
         customerId: json["customer_id"],
