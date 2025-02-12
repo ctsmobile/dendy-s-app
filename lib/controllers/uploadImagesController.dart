@@ -164,7 +164,7 @@ class UploadImageController extends GetxController {
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
-              "https://dendyapp.chawtechsolutions.ch/api/job/startjob/$jobId"));
+              "http://dandyshoodcleaningapp.com/api/job/startjob/$jobId"));
       for (int i = 0; i < xFiles.length; i++) {
         // var filePath = filePaths[i].path;
 
@@ -241,7 +241,7 @@ class UploadImageController extends GetxController {
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
-              "https://dendyapp.chawtechsolutions.ch/api/job/completejob/$jobId"));
+              "http://dandyshoodcleaningapp.com/api/job/completejob/$jobId"));
       for (int i = 0; i < xFiles.length; i++) {
         // var fileName = fileNames[i]; // Get the file name
         // var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,

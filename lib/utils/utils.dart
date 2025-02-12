@@ -21,7 +21,9 @@ String getSystemTime() {
   return new DateFormat("HH : mm : ss").format(now);
 }
 
-const String baseUrl = 'https://dendyapp.chawtechsolutions.ch/api/';
+// const String baseUrl = 'https://dendyapp.chawtechsolutions.ch/api/';
+const String baseUrl = 'http://dandyshoodcleaningapp.com/api/';
+
 bool checkSameDate(String date) {
   print("date$date");
   // Parse the given date string into a DateTime object
