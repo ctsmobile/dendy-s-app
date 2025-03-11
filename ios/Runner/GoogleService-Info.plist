@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dendyapp.dendyapp</string>
+	<string>com.dendyapp.dendyappp</string>
 	<key>PROJECT_ID</key>
 	<string>dendyapp-1ec3a</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:520035837998:ios:571f1065519a3452c497bf</string>
+	<string>1:520035837998:ios:851330b548c711d3c497bf</string>
 </dict>
 </plist>
