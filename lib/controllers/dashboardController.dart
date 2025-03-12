@@ -14,6 +14,7 @@ class DashboardController extends GetxController {
   var isDataLoading = false.obs;
   late PendingJobListModel pendingJobListModel;
   late PendingJobListModel completedJobListModel;
+  late PendingJobListModel expectedJobListModel;
   late PendingJobs pendingJobDetails;
   late PendingJobs completeJobDetails;
   var initialIndex = 0;
@@ -45,18 +46,30 @@ class DashboardController extends GetxController {
         } else {
           pendingJobListModel = pendingJob;
           await FirebaseAPI().initNotifications();
-          await getCompletedJobListApi().then((completeJob) {
-            if (completeJob != null) {
-              if (!completeJob.status) {
+          await getExpectedJobListApi().then((expectedJob) async {
+            if (expectedJob != null) {
+              if (!expectedJob.status) {
                 print("bvbbv");
-                isDataLoading.value = false;
-                completedJobListModel = completeJob;
-                showSnackBar(completeJob.message.toString());
+
+                expectedJobListModel = expectedJob;
+                showSnackBar(expectedJob.message.toString());
               } else {
-                completedJobListModel = completeJob;
+                expectedJobListModel = expectedJob;
+                await getCompletedJobListApi().then((completeJob) {
+                  if (completeJob != null) {
+                    if (!completeJob.status) {
+                      print("bvbbv");
+                      isDataLoading.value = false;
+                      completedJobListModel = completeJob;
+                      showSnackBar(completeJob.message.toString());
+                    } else {
+                      completedJobListModel = completeJob;
+                    }
+                  }
+                  isDataLoading.value = false;
+                });
               }
             }
-            isDataLoading.value = false;
           });
         }
       } else {
@@ -82,6 +95,28 @@ class DashboardController extends GetxController {
       });
     } catch (e) {
       log('Error in pendingJob is $e');
+    } finally {
+      // isDataLoading(false);
+    }
+  }
+
+  Future<PendingJobListModel?> getExpectedJobListApi() async {
+    try {
+      Post post = Post();
+      return await post
+          .get(
+        'job/list/pending',
+      )
+          .then((dynamic res) async {
+        print("ExpectedJob$res");
+        if (res == 'Error') {
+          return PendingJobListModel.fromJson({});
+        } else {
+          return PendingJobListModel.fromJson(res!);
+        }
+      });
+    } catch (e) {
+      log('Error in ExpectedJob is $e');
     } finally {
       // isDataLoading(false);
     }

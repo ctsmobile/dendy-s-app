@@ -11,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../routes.dart';
 
@@ -110,9 +109,8 @@ class UploadeImagesViewScreen extends StatelessWidget {
                                   ),
                             onTap: () {
                               if (index == 0) {
-                                controller.onImageButtonPressed(
-                                  ImageSource.camera,
-                                );
+                                // controller.captureImage();
+                                Get.toNamed(RouteConstant.cameraPreviewScreen);
                               } else {
                                 showGeneralDialog(
                                   context: context,

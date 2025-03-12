@@ -599,7 +599,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                         child:
                                                             CachedNetworkImage(
                                                           imageUrl:
-                                                              'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data!.startimage[index].imageUrl}',
+                                                              'http://dandyshoodcleaningapp.com/public/${controller.jobDetailsModel.data!.startimage[index].imageUrl}',
                                                           fit: BoxFit.cover,
                                                           width:
                                                               Utils.width! / 4,
@@ -860,7 +860,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                         child:
                                                             CachedNetworkImage(
                                                           imageUrl:
-                                                              'https://dendyapp.chawtechsolutions.ch/public/${controller.jobDetailsModel.data!.endimage[index].imageUrl}',
+                                                              'http://dandyshoodcleaningapp.com/public/${controller.jobDetailsModel.data!.endimage[index].imageUrl}',
                                                           fit: BoxFit.cover,
                                                           width:
                                                               Utils.width! / 4,

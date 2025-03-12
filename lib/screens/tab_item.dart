@@ -20,6 +20,7 @@ class TabItem2 extends StatelessWidget {
               child: CustomText(
                 text: title,
                 textAlign: true,
+                fontSize: 14,
                 textColor: null,
                 maxLines: 2,
               ),

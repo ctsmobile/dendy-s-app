@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:dendy_app/bindings/dashboardBindings.dart';
 import 'package:dendy_app/bindings/loginBinding.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/screens/activeJobListScreen.dart';
+import 'package:dendy_app/screens/cameraPreview.dart';
 import 'package:dendy_app/screens/dashboardScreen.dart';
 import 'package:dendy_app/screens/completeJobDetailsScreen.dart';
 import 'package:dendy_app/screens/imageEditorScreen.dart';
@@ -12,7 +16,6 @@ import 'package:dendy_app/screens/pendingDetailsScreen.dart';
 import 'package:dendy_app/screens/activeJobDetailsScreen.dart';
 import 'package:dendy_app/screens/profileScreen.dart';
 import 'package:dendy_app/screens/splashScreen.dart';
-import 'dart:io';
 
 import 'package:dendy_app/screens/uploadImageScreen.dart';
 import 'package:dendy_app/screens/uploadImagesViewScreen.dart';
@@ -25,19 +28,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+late List<CameraDescription> cameras;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   // requestStoragePermission();
   await GetStorage.init();
   try {
-    await Firebase.initializeApp(
-        options: FirebaseOptions(
-      apiKey: 'AIzaSyBFUeb8FraO8sgbFavCGZQSiT3GToiofys',
-      appId: '1:520035837998:android:8f98eec543623eb7c497bf',
-      messagingSenderId: '520035837998',
-      projectId: 'dendyapp-1ec3a',
-      storageBucket: 'dendyapp-1ec3a.firebasestorage.app',
-    ));
+    if (Platform.isIOS) {
+      await Firebase.initializeApp(
+          //     options: FirebaseOptions(
+          //   apiKey: 'AIzaSyCl6OJq48zBZZrfhd8123x4-ghJ1aA04W8',
+          //   appId: '1:520035837998:ios:851330b548c711d3c497bf',
+          //   messagingSenderId: '520035837998',
+          //   projectId: 'dendyapp-1ec3a',
+          //   storageBucket: 'dendyapp-1ec3a.firebasestorage.app',
+          // )
+          );
+    } else {
+      await Firebase.initializeApp(
+          options: FirebaseOptions(
+        apiKey: 'AIzaSyBFUeb8FraO8sgbFavCGZQSiT3GToiofys',
+        appId: '1:520035837998:android:8f98eec543623eb7c497bf',
+        messagingSenderId: '520035837998',
+        projectId: 'dendyapp-1ec3a',
+        storageBucket: 'dendyapp-1ec3a.firebasestorage.app',
+      ));
+    }
   } catch (e) {
     // Handle the exception if it is already initialized
     if (e is FirebaseException && e.code == 'duplicate-app') {
@@ -148,6 +166,11 @@ List<GetPage> getPages = [
   GetPage(
     name: RouteConstant.imageEditorScreen,
     page: () => ImageEditorScreen(),
+    transition: Transition.noTransition,
+  ),
+  GetPage(
+    name: RouteConstant.cameraPreviewScreen,
+    page: () => CameraScreen(),
     transition: Transition.noTransition,
   ),
 ];

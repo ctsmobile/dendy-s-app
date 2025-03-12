@@ -12,4 +12,5 @@ class RouteConstant {
   static const String uploadImagesViewScreen = '/uploadImagesViewScreen';
   static const String viewAllImagesScreen = '/viewAllImagesScreen';
   static const String profileScreen = '/profileScreen';
+  static const String cameraPreviewScreen = '/cameraPreviewScreen';
 }

@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:dendy_app/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -25,6 +26,7 @@ class FirebaseAPI {
 
     final fcmToken = await firebaseMessaging.getToken();
     print("Token: $fcmToken");
+    // showSnackBar("fcmToken$fcmToken");
     await GetStorage().write('fcmtoken', fcmToken);
 
     await initLocalNotification();
@@ -33,6 +35,7 @@ class FirebaseAPI {
 
   void handleMessage(RemoteMessage? message) {
     print("gv${message}");
+    // showSnackBar("message$message");
     if (message == null) return;
 
     if (message.notification != null) {
@@ -72,6 +75,7 @@ class FirebaseAPI {
     await localNotifications.initialize(settings,
         onDidReceiveNotificationResponse: (response) {
       print("response$response");
+      // showSnackBar("response$response");
       if (response.payload != null) {
         final message = RemoteMessage.fromMap(jsonDecode(response.payload!));
         handleMessage(message);
@@ -107,6 +111,11 @@ class FirebaseAPI {
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
     FirebaseMessaging.onMessage.listen((message) {
       print("message$message");
+      // showSnackBar("message2$message");
+      // Check if the app is running on iOS and the notification is already being displayed
+      if (Platform.isIOS && message.notification != null) {
+        return; // Avoid showing duplicate notifications
+      }
       if (message.notification != null) {
         localNotifications.show(
           message.notification.hashCode,

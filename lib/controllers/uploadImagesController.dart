@@ -5,6 +5,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:camera/camera.dart';
+import 'package:dendy_app/main.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
@@ -16,7 +18,6 @@ import 'package:flutter_painter_v2/flutter_painter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:ui' as ui;
 import 'package:dio/dio.dart' as dio;
 import 'package:intl/intl.dart';
@@ -36,7 +37,9 @@ class UploadImageController extends GetxController {
   var fileName = "".obs;
   ui.Image? backgroundImage;
   FocusNode textFocusNode = FocusNode();
-  final ImagePicker _picker = ImagePicker();
+  // final ImagePicker _picker = ImagePicker();
+  late CameraController cameraController;
+
   late XFile? pickedFile;
   var filePaths = <File>[].obs;
   var xFiles = <Uint8List>[].obs;
@@ -46,13 +49,17 @@ class UploadImageController extends GetxController {
     ..color = Colors.red
     ..style = PaintingStyle.stroke
     ..strokeCap = StrokeCap.round;
+  var isCameraReady = false.obs;
+  var selectedCameraIndex = 0.obs;
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     Future.delayed(const Duration(milliseconds: 250), () {
       showImage.value = true;
     });
-    print("object");
+
+    initializeCamera(selectedCameraIndex.value);
     filePaths.value = [];
     fileNames.value = [];
     xFiles.value = [];
@@ -63,6 +70,30 @@ class UploadImageController extends GetxController {
   void dispose() {
     Get.delete<UploadImageController>();
     super.dispose();
+  }
+
+  Future<void> initializeCamera(int cameraIndex) async {
+    isCameraReady.value = false;
+    if (cameras.isEmpty) {
+      print("No cameras available");
+      return;
+    }
+
+    cameraController = CameraController(
+      cameras[cameraIndex],
+      ResolutionPreset.high,
+    );
+
+    await cameraController.initialize();
+
+    isCameraReady.value = true;
+  }
+
+  switchCamera() async {
+    selectedCameraIndex.value =
+        (selectedCameraIndex.value + 1) % cameras.length;
+
+    await initializeCamera(selectedCameraIndex.value);
   }
 
   paintImage() async {
@@ -104,22 +135,35 @@ class UploadImageController extends GetxController {
     update();
   }
 
-  Future<void> onImageButtonPressed(
-    ImageSource source,
-  ) async {
-    try {
-      pickedFile = await _picker.pickImage(
-        source: source,
-      );
-      // print("pickedFile${pickedFile!.name}");
-      // print("pickedFile${pickedFile!.path}");
-      // print("pickedFile${pickedFile!.mimeType}");
-      // print("pickedFile${await pickedFile!.length()}");
+  Future<void> captureImage() async {
+    if (!cameraController.value.isInitialized) {
+      return;
+    } else {
+      pickedFile = await cameraController.takePicture();
+      // print("Captured Image: ${pickedFile!.path}");
       if (pickedFile != null) {
         Get.toNamed(RouteConstant.imageEditorScreen);
       }
-    } catch (e) {}
+    }
+    // Navigate or save image as needed
   }
+
+  // Future<void> onImageButtonPressed(
+  //   ImageSource source,
+  // ) async {
+  //   try {
+  //     pickedFile = await _picker.pickImage(
+  //       source: source,
+  //     );
+  //     // print("pickedFile${pickedFile!.name}");
+  //     // print("pickedFile${pickedFile!.path}");
+  //     // print("pickedFile${pickedFile!.mimeType}");
+  //     // print("pickedFile${await pickedFile!.length()}");
+  //     if (pickedFile != null) {
+  //       Get.toNamed(RouteConstant.imageEditorScreen);
+  //     }
+  //   } catch (e) {}
+  // }
 
   void uploadImage(XFile image, String imageName) {
     isImageProcessing(true);
@@ -134,7 +178,7 @@ class UploadImageController extends GetxController {
       xFiles.add(uint8list);
       fileName.value = imageName;
 
-      print('Image name is: ${fileName.value}');
+      // print('Image name is: ${fileName.value}');
 
       file.value = File(image.path);
 
@@ -155,29 +199,17 @@ class UploadImageController extends GetxController {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
-      print("filePaths.length${xFiles.length}");
-      print("fileNames.length${fileNames}");
+      // print("filePaths.length${xFiles.length}");
+      // print("fileNames.length${fileNames}");
       // Iterate through selected images and add them to FormData
       var jobId = GetStorage().read('jobId').toString();
       // var jobId = '39';
-      print("jobId: $jobId");
+      // print("jobId: $jobId");
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
               "http://dandyshoodcleaningapp.com/api/job/startjob/$jobId"));
       for (int i = 0; i < xFiles.length; i++) {
-        // var filePath = filePaths[i].path;
-
-        // final tempDir = await getTemporaryDirectory();
-        // final filee = await File(filePaths[i].path)
-        //     .copy('${tempDir.path}/${fileNames[i]}');
-        // final filePathh = filee.path;
-        // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
-        // //     uri: filePaths[i].path);
-
-        // print("filePathg$filePathh");
-        // Uint8List byteData = await filePaths[i].readAsBytes();
-
         request.files.add(http.MultipartFile.fromBytes(
           'image[]',
           xFiles[i],
@@ -187,19 +219,19 @@ class UploadImageController extends GetxController {
       }
       String jobStartTime = DateFormat('dd-MM-yyyy HH:mm:ss')
           .format(DateTime.now().add(Duration(seconds: 2)));
-      print(jobStartTime);
+      // print(jobStartTime);
       request.fields['job_start_time'] = jobStartTime;
 
       //  params.fields.add(MapEntry('job_start_time', jobStartTime));
       var token = GetStorage().read('access_token');
-      print("token: $token");
+      // print("token: $token");
 
       request.headers['Authorization'] = 'Bearer $token';
 
       var streamResponse = await request.send();
       var response = await http.Response.fromStream(streamResponse);
 
-      print("response.data: ${response.body}");
+      // print("response.data: ${response.body}");
       var responseBody = jsonDecode(response.body);
 
       if (responseBody['status'] == true) {
@@ -232,47 +264,24 @@ class UploadImageController extends GetxController {
     try {
       isUploadImageLoading(true);
       // Prepare FormData to hold multiple images
-      print("xFiles.length${xFiles.length}");
-      print("fileNames.length${fileNames.length}");
+      // print("xFiles.length${xFiles.length}");
+      // print("fileNames.length${fileNames.length}");
       // Iterate through selected images and add them to FormData
       var jobId = GetStorage().read('jobId');
-      print("jobIdd: $jobId");
+      // print("jobIdd: $jobId");
 
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
               "http://dandyshoodcleaningapp.com/api/job/completejob/$jobId"));
       for (int i = 0; i < xFiles.length; i++) {
-        // var fileName = fileNames[i]; // Get the file name
-        // var multipartFile = await dio.MultipartFile.fromFile(filePaths[i].path,
-        //     filename: fileName);
-        // params.files
-        //     .add(MapEntry('image[]', multipartFile)); // Add image to FormData
-        // Store the file name
-        // var fileStream = http.ByteStream(filePaths[i].openRead());
-        // var fileLength = await filePaths[i].length();
-        // print("fileName$fileName");
-        // print("filePaths[i]${filePaths[i].path}");
-        // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
-        //     uri: filePaths[i].path);
-        // final tempDir = await getTemporaryDirectory();
-        // print("tempDir.path${tempDir.path}");
-        // final filee = await File(filePaths[i].path)
-        //     .copy('${tempDir.path}/${fileNames[i]}');
-        // final filePathh = filee.path;
-        // // String? filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
-        // //     uri: filePaths[i].path);
-
-//     var stream=   http.ByteStream(filePaths[i].openRead());
-// stream.cast();
-// var length=await filePaths[i].length();
         request.files.add(http.MultipartFile.fromBytes(
           'image[]', // Replace 'image' with the form field name expected by your API
           xFiles[i],
           filename: fileNames[i],
           contentType: MediaType('image', 'png'),
         ));
-        print(" request.files${request.files}");
+        // print(" request.files${request.files}");
       }
       String jobEndTime =
           DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
@@ -280,13 +289,13 @@ class UploadImageController extends GetxController {
       request.fields['job_end_time'] = jobEndTime;
       request.fields['comment'] = commentController.text;
       var token = GetStorage().read('access_token');
-      print("token: $token");
+      // print("token: $token");
 
       request.headers['Authorization'] = 'Bearer $token';
 
       var streamResponse = await request.send();
       var response = await http.Response.fromStream(streamResponse);
-      print("response.data: ${response}");
+      // print("response.data: ${response}");
 
       var responseBody = jsonDecode(response.body);
 
@@ -295,7 +304,7 @@ class UploadImageController extends GetxController {
         showSnackBar(responseBody['message'], backgroundColor: purpleColor);
 
         Get.offAllNamed(RouteConstant.dashboardScreen,
-            arguments: {"initialIndex": 1});
+            arguments: {"initialIndex": 2});
       } else {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
         showSnackBar(

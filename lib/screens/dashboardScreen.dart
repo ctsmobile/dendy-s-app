@@ -17,8 +17,12 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final DashboardController controller = Get.put(DashboardController());
     return Obx(() => DefaultTabController(
-          length: 2,
-          initialIndex: controller.initialIndex == 1 ? 1 : 0,
+          length: 3,
+          initialIndex: controller.initialIndex == 1
+              ? 1
+              : controller.initialIndex == 2
+                  ? 2
+                  : 0,
           child: Scaffold(
             backgroundColor: appThemeColor,
             appBar: AppBar(
@@ -33,7 +37,7 @@ class DashboardScreen extends StatelessWidget {
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(100),
                 child: Container(
-                  height: 60,
+                  height: 70,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   padding: const EdgeInsets.only(left: 10, right: 10),
@@ -74,9 +78,13 @@ class DashboardScreen extends StatelessWidget {
                     ),
                     labelColor: purpleColor,
                     unselectedLabelColor: grayColor,
+                    labelPadding: EdgeInsets.only(bottom: 0),
                     tabs: [
                       TabItem2(
                         title: 'Pending Jobs',
+                      ),
+                      TabItem2(
+                        title: 'Expected Jobs',
                       ),
                       TabItem2(
                         title: 'Completed Jobs',
@@ -103,6 +111,16 @@ class DashboardScreen extends StatelessWidget {
                           },
                           child: PendingJobsView(
                             pendingJobListModel: controller.pendingJobListModel,
+                          ),
+                        ),
+                        RefreshIndicator(
+                          color: purpleColor,
+                          onRefresh: () async {
+                            await controller.getPendingJobList();
+                          },
+                          child: PendingJobsView(
+                            pendingJobListModel:
+                                controller.expectedJobListModel,
                           ),
                         ),
                         RefreshIndicator(
