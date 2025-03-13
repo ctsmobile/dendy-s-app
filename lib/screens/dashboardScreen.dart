@@ -119,6 +119,7 @@ class DashboardScreen extends StatelessWidget {
                             await controller.getPendingJobList();
                           },
                           child: PendingJobsView(
+                            isExpectedJobs: true,
                             pendingJobListModel:
                                 controller.expectedJobListModel,
                           ),

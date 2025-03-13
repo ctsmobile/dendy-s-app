@@ -105,7 +105,7 @@ class DashboardController extends GetxController {
       Post post = Post();
       return await post
           .get(
-        'job/list/pending',
+        'job/list/expected',
       )
           .then((dynamic res) async {
         print("ExpectedJob$res");

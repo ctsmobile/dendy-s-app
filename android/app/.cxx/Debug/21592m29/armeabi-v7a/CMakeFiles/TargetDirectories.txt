@@ -1,0 +1,2 @@
+C:/Users/Dell/Downloads/dendy-app/android/app/.cxx/Debug/21592m29/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Dell/Downloads/dendy-app/android/app/.cxx/Debug/21592m29/armeabi-v7a/CMakeFiles/rebuild_cache.dir
