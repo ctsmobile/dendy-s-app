@@ -30,7 +30,7 @@ class PendingJobsView extends StatelessWidget {
               child: Center(
                 child: CustomText(
                   text: isExpectedJobs
-                      ? 'No Expected job found!'
+                      ? 'No Accepted job found!'
                       : isCompletedJobs
                           ? 'No completed job found!'
                           : 'No pending job found!',

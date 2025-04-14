@@ -152,9 +152,9 @@ class PendingDetailsScreen extends StatelessWidget {
                                             GestureDetector(
                                               child: Row(
                                                 crossAxisAlignment: controller
-                                                            .pendingJobDetails
-                                                            .customer
-                                                            .location
+                                                            .pendingJobDetails.
+                                                            jobLocation
+                                                            
                                                             .toString()
                                                             .length <
                                                         30
@@ -173,8 +173,8 @@ class PendingDetailsScreen extends StatelessWidget {
                                                     child: CustomText(
                                                       text: controller
                                                           .pendingJobDetails
-                                                          .customer
-                                                          .location
+                                                          
+                                                          .jobLocation
                                                           .toString(),
                                                     ),
                                                   ),

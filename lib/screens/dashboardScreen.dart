@@ -84,7 +84,7 @@ class DashboardScreen extends StatelessWidget {
                         title: 'Pending Jobs',
                       ),
                       TabItem2(
-                        title: 'Expected Jobs',
+                        title: 'Accepted Jobs',
                       ),
                       TabItem2(
                         title: 'Completed Jobs',

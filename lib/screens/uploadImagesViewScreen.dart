@@ -110,7 +110,7 @@ class UploadeImagesViewScreen extends StatelessWidget {
                             onTap: () {
                               if (index == 0) {
                                 // controller.captureImage();
-                                Get.toNamed(RouteConstant.cameraPreviewScreen);
+                                Get.back();
                               } else {
                                 showGeneralDialog(
                                   context: context,
