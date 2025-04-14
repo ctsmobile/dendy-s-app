@@ -304,7 +304,7 @@ class UploadImageController extends GetxController {
         showSnackBar(responseBody['message'], backgroundColor: purpleColor);
 
         Get.offAllNamed(RouteConstant.dashboardScreen,
-            arguments: {"initialIndex": 2});
+            arguments: {"initialIndex": 3});
       } else {
         log("BODY DATA UPLOAD PHOTO: ${responseBody['message']}");
         showSnackBar(

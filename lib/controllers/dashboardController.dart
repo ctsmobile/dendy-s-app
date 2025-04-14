@@ -5,13 +5,13 @@ import 'dart:developer';
 import 'package:dendy_app/Model/pendingJobListModel.dart';
 import 'package:dendy_app/Network/post.dart';
 import 'package:dendy_app/firebaseApi.dart';
-import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
   var isDataLoading = false.obs;
+  late PendingJobListModel newJobListModel;
+
   late PendingJobListModel pendingJobListModel;
   late PendingJobListModel completedJobListModel;
   late PendingJobListModel expectedJobListModel;
@@ -36,7 +36,20 @@ class DashboardController extends GetxController {
 
   Future getPendingJobList() async {
     isDataLoading.value = true;
-    await getPendingJobListApi().then((pendingJob) async {
+        await getNewJobListApi().then((newJob) async {
+      if (newJob != null) {
+
+            if (!newJob.status) {
+          isDataLoading.value = false;
+          newJobListModel = newJob;
+          pendingJobListModel = newJob;
+          expectedJobListModel = newJob;
+          completedJobListModel = newJob;
+          showSnackBar(newJob.message.toString());
+        }else{
+  newJobListModel = newJob;
+  await FirebaseAPI().initNotifications();
+  await getPendingJobListApi().then((pendingJob) async {
       if (pendingJob != null) {
         if (!pendingJob.status) {
           isDataLoading.value = false;
@@ -45,7 +58,7 @@ class DashboardController extends GetxController {
           showSnackBar(pendingJob.message.toString());
         } else {
           pendingJobListModel = pendingJob;
-          await FirebaseAPI().initNotifications();
+        
           await getExpectedJobListApi().then((expectedJob) async {
             if (expectedJob != null) {
               if (!expectedJob.status) {
@@ -76,8 +89,35 @@ class DashboardController extends GetxController {
         isDataLoading.value = false;
       }
     });
-  }
+        }
+      }
 
+        });
+
+
+    
+  }
+Future<PendingJobListModel?> getNewJobListApi() async {
+    try {
+      Post post = Post();
+      return await post
+          .get(
+        'job/list/new',
+      )
+          .then((dynamic res) async {
+        print("newJob$res");
+        if (res == 'Error') {
+          return PendingJobListModel.fromJson({});
+        } else {
+          return PendingJobListModel.fromJson(res!);
+        }
+      });
+    } catch (e) {
+      log('Error in new is $e');
+    } finally {
+      // isDataLoading(false);
+    }
+  }
   Future<PendingJobListModel?> getPendingJobListApi() async {
     try {
       Post post = Post();

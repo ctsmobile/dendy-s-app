@@ -13,11 +13,13 @@ import 'package:get_storage/get_storage.dart';
 class PendingJobsView extends StatelessWidget {
   final bool isCompletedJobs;
   final bool isExpectedJobs;
+  final bool isNewJobs;
   final PendingJobListModel? pendingJobListModel;
   const PendingJobsView(
       {super.key,
       this.pendingJobListModel,
       this.isExpectedJobs = false,
+      this.isNewJobs = false,
       this.isCompletedJobs = false});
 
   @override
@@ -31,7 +33,8 @@ class PendingJobsView extends StatelessWidget {
                 child: CustomText(
                   text: isExpectedJobs
                       ? 'No Accepted job found!'
-                      : isCompletedJobs
+                      : isNewJobs
+                      ? 'No job found!':isCompletedJobs
                           ? 'No completed job found!'
                           : 'No pending job found!',
                   textColor: purpleColor,

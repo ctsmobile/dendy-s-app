@@ -80,8 +80,9 @@ class Post {
         });
       } else {
         print("jjjj");
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.toNamed(RouteConstant.loginScreen);
+        WidgetsBinding.instance.addPostFrameCallback((_) async{
+            await GetStorage().erase();
+          Get.offAllNamed(RouteConstant.loginScreen);
           // Get.snackbar('Please Login!', 'You are not logged-in!',
           //     backgroundColor: primaryGradient2, colorText: whiteColor);
         });
@@ -148,8 +149,9 @@ class Post {
         });
       } else {
         print("jjjj");
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Get.toNamed(RouteConstant.loginScreen);
+        WidgetsBinding.instance.addPostFrameCallback((_) async{
+            await GetStorage().erase();
+          Get.offAllNamed(RouteConstant.loginScreen);
         });
       }
     }

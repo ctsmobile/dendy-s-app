@@ -17,12 +17,14 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final DashboardController controller = Get.put(DashboardController());
     return Obx(() => DefaultTabController(
-          length: 3,
+          length: 4,
           initialIndex: controller.initialIndex == 1
               ? 1
               : controller.initialIndex == 2
                   ? 2
-                  : 0,
+                  :controller.initialIndex == 3
+                  ? 3
+                  :  0,
           child: Scaffold(
             backgroundColor: appThemeColor,
             appBar: AppBar(
@@ -80,14 +82,17 @@ class DashboardScreen extends StatelessWidget {
                     unselectedLabelColor: grayColor,
                     labelPadding: EdgeInsets.only(bottom: 0),
                     tabs: [
-                      TabItem2(
-                        title: 'Pending Jobs',
+                          TabItem2(
+                        title: 'New\nJobs',
                       ),
                       TabItem2(
-                        title: 'Accepted Jobs',
+                        title: 'Pending\nJobs',
                       ),
                       TabItem2(
-                        title: 'Completed Jobs',
+                        title: 'Accepted\nJobs',
+                      ),
+                      TabItem2(
+                        title: 'Completed\nJobs',
                       ),
                     ],
                   ),
@@ -104,6 +109,16 @@ class DashboardScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: TabBarView(
                       children: [
+                               RefreshIndicator(
+                          color: purpleColor,
+                          onRefresh: () async {
+                            await controller.getPendingJobList();
+                          },
+                          child: PendingJobsView(
+                            pendingJobListModel: controller.newJobListModel,
+                            isNewJobs: true,
+                          ),
+                        ),
                         RefreshIndicator(
                           color: purpleColor,
                           onRefresh: () async {

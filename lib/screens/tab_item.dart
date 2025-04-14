@@ -15,6 +15,7 @@ class TabItem2 extends StatelessWidget {
       child: Tab(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+   
           children: [
             Expanded(
               child: CustomText(
