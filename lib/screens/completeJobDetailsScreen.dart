@@ -10,6 +10,7 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:timer_builder/timer_builder.dart';
 
 class CompleteJobDetailsScreen extends StatelessWidget {
@@ -58,6 +59,94 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+
+                                             Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                                'Clock-In Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+
+                                                                                                                                                      CustomText(
+                                                                        text:
+                                                                         '${DateFormat('MM/dd/yyyy').format(controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .jobStartTime!)}, ${converter24To12(DateFormat('HH:mm:ss').format(controller
+                                                                                  .jobDetailsModel
+                                                                                  .data!
+                                                                                  .jobStartTime!))}',
+                                                                         
+                                                                        textColor:
+                                                                            grayColor,
+                                                                            fontSize: 14,
+                                                                        maxLines:
+                                                                            1,
+                                                                        textOverflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
+                                                                            ],
+                                                                          ),
+
+
+                                                                          
+                                                                    ),
+                                                                    
+                                                                       Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                                            children: [
+
+                                                                               CustomText(
+                                                                                                                                                      text:
+                                                                                'Clock-Out Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                          '${DateFormat('MM/dd/yyyy').format(controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .jobEndTime)}, ${converter24To12(DateFormat('HH:mm:ss').format(controller
+                                                                                  .jobDetailsModel
+                                                                                  .data!
+                                                                                  .jobEndTime))}',
+                                                                                                                                                      textColor:
+                                                                                grayColor,
+                                                                                                                                                      maxLines:
+                                                                                1,fontSize: 14,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+                                                                            ],
+                                                                          ),
+                                                                    ),
+                                                                    SizedBox(width: 15,)]),
+
+                                                                    SizedBox(height: 20,),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 20.0),

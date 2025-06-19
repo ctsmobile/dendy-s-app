@@ -3,15 +3,18 @@
 import 'package:dendy_app/controllers/profileController.dart';
 import 'package:dendy_app/customWidgets/customAppBar.dart';
 import 'package:dendy_app/customWidgets/customBottomBar.dart';
+import 'package:dendy_app/customWidgets/customLoader.dart';
 import 'package:dendy_app/customWidgets/customText.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
+import 'package:dendy_app/utils/dateSelection.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -144,6 +147,51 @@ class ProfileScreen extends StatelessWidget {
                                       )
                                     ],
                                   ),
+
+                                   SizedBox(
+                                    height: 20,
+                                  ),
+                              Obx(()=>    GestureDetector(
+                                    child: Row(
+                                     
+                                      children: [
+                                        Image.asset(
+                                          '${baseImagePath}export.png',
+                                          height: Utils.height! / 20,
+                                          width: Utils.width! / 10,
+                                        ),
+                                        SizedBox(
+                                          width: Utils.width! / 20,
+                                        ),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: 'My Timestamp',
+                                            textColor: purpleColor,
+                                          ),
+                                        ),
+                                          SizedBox(
+                                          width: Utils.width! / 20,
+                                        ),
+                                      controller.isDataLoading.value?  Loader(color: purpleColor,):SizedBox()
+                                      ],
+                                    ),
+                                    onTap: (){
+                          
+  showDialog(
+    context: context,
+    builder: (_) => DateRangeDialog(
+      onDateRangeSelected: (start, end) {
+        print('Selected range: $start to $end');
+        controller.downloadCSVReport(DateFormat('MM/dd/yyyy').format(start),DateFormat('MM/dd/yyyy').format(end));
+        // Trigger your CSV download here if needed
+      },
+    ),
+  );
+
+
+                                      // controller.downloadCSVReport();
+                                    },
+                               ) ),
                                   SizedBox(
                                     height: Utils.height! / 3,
                                   ),
