@@ -18,7 +18,7 @@ class _DateRangeDialogState extends State<DateRangeDialog> {
 
   final firstDate = isStart
       ? DateTime(2000)
-      : (startDate != null ? startDate!.add(Duration(days: 1)) : DateTime(2000));
+      : ( startDate ?? DateTime(2000));
 
   final initialDate = isStart
       ? now
