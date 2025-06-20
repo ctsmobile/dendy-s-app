@@ -14,13 +14,21 @@ class _DateRangeDialogState extends State<DateRangeDialog> {
   DateTime? endDate;
 
   Future<void> selectDate(bool isStart) async {
-    final initialDate = DateTime.now();
-    final pickedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
+    final now = DateTime.now();
+
+  final firstDate = isStart
+      ? DateTime(2000)
+      : (startDate != null ? startDate!.add(Duration(days: 1)) : DateTime(2000));
+
+  final initialDate = isStart
+      ? now
+      : (now.isBefore(firstDate) ? firstDate : now); 
+  final pickedDate = await showDatePicker(
+    context: context,
+    initialDate: initialDate,
+    firstDate: firstDate,
+    lastDate: DateTime(2100),
+  );
     if (pickedDate != null) {
       setState(() {
         if (isStart) {

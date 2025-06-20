@@ -110,8 +110,8 @@ print('hhh$url');
       // Write the response body as bytes
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
-      print("ggg${response.body}");
-      print('CSV saved to $filePath');
+      // print("ggg${response.body}");
+      // print('CSV saved to $filePath');
       OpenFile.open(filePath);
     } else {
       print('Failed to download CSV. Status code: ${response.body}');
