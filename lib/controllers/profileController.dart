@@ -77,13 +77,13 @@ class ProfileController extends GetxController {
 
 Future<void> downloadCSVReport(String startDate, String endDate) async {
   // Ask for storage permission (required for Android)
-  if (Platform.isAndroid) {
-    var status = await Permission.storage.request();
-    if (!status.isGranted) {
-      print('Storage permission not granted');
-      return;
-    }
-  }
+  // if (Platform.isAndroid) {
+  //   var status = await Permission.storage.request();
+  //   if (!status.isGranted) {
+  //     print('Storage permission not granted');
+  //     return;
+  //   }
+  // }
 isDataLoading.value=true;
   final url = Uri.parse('${baseUrl}job/report/downloadCSV?startdate=$startDate&enddate=$endDate');
 

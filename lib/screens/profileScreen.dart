@@ -164,10 +164,19 @@ class ProfileScreen extends StatelessWidget {
                                           width: Utils.width! / 20,
                                         ),
                                         Flexible(
-                                          child: CustomText(
-                                            text: 'My Timestamp',
-                                            textColor: purpleColor,
-                                          ),
+                                          child: Container(
+                                                                                 
+                                                              // height: 50,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(10.0),
+                                                                  color: purpleColor),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: CustomText(
+                                                                  text: 'View My Timestamp',
+                                                                  textColor: whiteColor,
+                                                                ),
+                                                              ),),
                                         ),
                                           SizedBox(
                                           width: Utils.width! / 20,
