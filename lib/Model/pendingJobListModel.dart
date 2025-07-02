@@ -41,6 +41,7 @@ class PendingJobs {
   String? time;
   int customerId;
   String? jobLocation;
+  String? job_start_time;
   String? job_end_time;
   String? jobLat;
   String? jobLng;
@@ -55,6 +56,7 @@ class PendingJobs {
     required this.id,
     required this.name,
     required this.team_lead,
+    required this.job_start_time,
     required this.job_end_time,
     required this.date,
     required this.time,
@@ -81,6 +83,10 @@ class PendingJobs {
             ? null
             : DateFormat('MM/dd/yyyy')
                 .format(DateTime.parse(json["job_end_time"])),
+                  job_start_time: json["job_start_time"] == null
+            ? null
+            : DateFormat('MM/dd/yyyy')
+                .format(DateTime.parse(json["job_start_time"])),
         time: json["time"],
         customerId: json["customer_id"],
         jobLocation: json["job_location"],

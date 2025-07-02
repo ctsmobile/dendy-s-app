@@ -1011,20 +1011,18 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                               ) //
                             ],
                           ),
-                          Positioned(
+                     controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out!=null?SizedBox():     Positioned(
                             bottom: 36,
                             child: Container(
                               width: Utils.width! / 1.4,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  color: GetStorage().read('user_id') !=
-                                          controller
-                                              .activeJobModel
-                                              .value
-                                              .data[controller.iindex.value]
-                                              .team_lead
-                                      ? grayColor
-                                      : purpleColor),
+                                  color: purpleColor),
                               child: CupertinoButton(
                                 onPressed: () async {
                                   if (GetStorage().read('user_id') !=
@@ -1033,8 +1031,33 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                           .value
                                           .data[controller.iindex.value]
                                           .team_lead) {
-                                    showSnackBar(
-                                        'Only team lead can complete this job!');
+                                            if( controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in==null){
+
+
+                                                                                    controller.clockIn(  controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].id);
+
+
+
+
+                                                                                  }else{
+                                                                                       controller.clockIn(  controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].id, isClockIn: false);
+
+                                                                                  }
+
+
+
+                             
                                   } else {
                                     bool allChecked = controller
                                         .activeJobModel
@@ -1063,10 +1086,20 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                     }
                                   }
                                 },
-                                child: CustomText(
-                                  text: "Upload Completion Images",
+                                child:controller.isClockInTap.value?Loader(): CustomText(
+                                  text:(GetStorage().read('user_id') ==
+                                      controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value]
+                                          .team_lead) ? "Upload Completion Images":  ( controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in==null?'Clock-In':'Clock-Out'),
                                   textColor: appThemeColor,
-                                  fontSize: 20,
+                                  fontSize: 20.0,
                                   maxLines: 1,
                                   textOverflow: TextOverflow.ellipsis,
                                 ),

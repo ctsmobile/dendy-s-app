@@ -160,6 +160,8 @@ class User {
   int crewLead;
   dynamic createdAt;
   dynamic updatedAt;
+  dynamic clock_in;
+  dynamic clock_out;
   Jobuser? jobuser;
 
   User({
@@ -168,6 +170,8 @@ class User {
     required this.employeeId,
     required this.crewLead,
     required this.createdAt,
+    required this.clock_in,
+    required this.clock_out,
     required this.updatedAt,
     required this.jobuser,
   });
@@ -179,6 +183,8 @@ class User {
         crewLead: json["crew_lead"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
+        clock_in: json["clock_in"],
+        clock_out: json["clock_out"],
         jobuser:
             json["jobuser"] == null ? null : Jobuser.fromJson(json["jobuser"]),
       );

@@ -1,5 +1,6 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dendy_app/Model/activeJobModel.dart';
@@ -12,9 +13,11 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 
 class PendingJobDetailsController extends GetxController {
   var isAcceptTap = false.obs;
+  var isClockInTap = false.obs;
   var isDeclineTap = false.obs;
   var isAcceptDone = false.obs;
   late PendingJobs pendingJobDetails;
@@ -103,4 +106,58 @@ class PendingJobDetailsController extends GetxController {
       log('Error in acceptjob is $e');
     }
   }
+
+
+  Future clockIn() async {
+    isClockInTap.value = true;
+    await clockInApi().then((jobDetails) {
+      print("jobDetails$jobDetails");
+      if (jobDetails != null) {
+        if (!jobDetails['status']) {
+          showSnackBar(jobDetails['message'].toString());
+        
+          isClockInTap.value = false;
+        } else {
+            showSnackBar(jobDetails['message'].toString());
+       
+
+          isClockInTap.value = false;
+        }
+      } else {
+        isClockInTap.value = false;
+      }
+    });
+  }
+
+  Future clockInApi() async {
+    try {
+      Post post = Post();
+      var jobId = GetStorage().read('jobId').toString();
+ String jobClockInTime =
+          DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
+      print("jobId: $jobId $jobClockInTime");
+       Map data = {
+        'clock_in': jobClockInTime,
+     
+      };
+      return await post
+          .post(
+        'job/clockin/$jobId',
+        body: jsonEncode(data)
+      )
+          .then((dynamic res) async {
+        print("clockin$res");
+        if (res == 'Error') {
+          return res;
+        } else {
+       return res;
+        }
+      });
+    } catch (e) {
+      log('Error in clockInApi is $e');
+    } finally {
+      isClockInTap(false);
+    }
+  }
+
 }

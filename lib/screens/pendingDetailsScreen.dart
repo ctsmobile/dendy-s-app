@@ -520,47 +520,45 @@ class PendingDetailsScreen extends StatelessWidget {
                             height: 45,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                color: GetStorage().read('user_id') ==
-                                        controller.pendingJobDetails.team_lead
-                                    //     &&
-                                    // checkSameDate(controller.pendingJobDetails.date
-                                    //     .toString()
-                                    //     .replaceAll('-', ':'))
-                                    ? purpleColor
-                                    : grayColor),
+                                color: GetStorage().read('user_id') !=
+                                              controller
+                                                  .pendingJobDetails.team_lead && controller
+                                                  .pendingJobDetails.job_start_time==null?
+                                  grayColor:purpleColor
+                                 ),
                             child: CupertinoButton(
                               padding: EdgeInsets.zero,
                               onPressed:
-                                  // () async {
-                                  //   await GetStorage().remove('finishJob');
-                                  //   Get.toNamed(RouteConstant.uploadImageScreen);
-                                  // },
+                          
 
                                   GetStorage().read('user_id') ==
                                           controller.pendingJobDetails.team_lead
-                                      //     &&
-                                      // checkSameDate(controller.pendingJobDetails.date
-                                      //     .toString()
-                                      // .replaceAll('-', ':'))
+                                  
                                       ? () async {
                                           await GetStorage()
                                               .remove('finishJob');
                                           Get.toNamed(
                                               RouteConstant.uploadImageScreen);
                                         }
-                                      : GetStorage().read('user_id') !=
-                                              controller
-                                                  .pendingJobDetails.team_lead
-                                          ? () {
+                                      : 
+                                                 controller
+                                                  .pendingJobDetails.job_start_time==null
+                                          ? 
+                                          () {
                                               if (!Get.isSnackbarOpen) {
                                                 showSnackBar(
-                                                    'Only team lead can start the job');
+                                                    'Job is not started yet by team leader!');
                                               }
                                             }
-                                          : null,
+                                          : 
+                                          (){
+                                            controller.clockIn();
+                                          },
                               child: Center(
-                                child: Text(
-                                  'Start',
+                                child:controller.isClockInTap.value?Loader(): Text(
+                                  GetStorage().read('user_id') !=
+                                              controller
+                                                  .pendingJobDetails.team_lead?'Clock-In':'Start',
                                   style: GoogleFonts.amaranth(
                                     color: appThemeColor,
                                     fontSize: 20.0,

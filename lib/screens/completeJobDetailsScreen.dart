@@ -75,7 +75,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                             children: [
                                                                               CustomText(
                                                                                                                                                       text:
-                                                                                'Clock-In Time',
+                                                                                'Job Start Time',
                                                                                                                                                       textColor:
                                                                                 purpleColor,
                                                                                                                                                       maxLines:
@@ -117,7 +117,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
 
                                                                                CustomText(
                                                                                                                                                       text:
-                                                                                'Clock-Out Time',
+                                                                                'Job End Time',
                                                                                                                                                       textColor:
                                                                                 purpleColor,
                                                                                                                                                       maxLines:
@@ -1068,33 +1068,36 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                         ],
                                       ),
                                       child: Builder(builder: (context) {
-                                        String time = controller
-                                            .jobDetailsModel.data!.spentTime
-                                            .toString();
-                                        final regex = RegExp(
-                                            r'(\d+)\s*days\s*(\d+)\s*hours?\s*(\d+)\s*min',
-                                            caseSensitive: false);
+                                      String time = controller.jobDetailsModel.data!.spentTime.toString();
 
-                                        final match = regex.firstMatch(time);
-                                        String days = '';
-                                        String hours = '';
-                                        String minutes = '';
-                                        if (match != null) {
-                                          days = match
-                                              .group(1)!
-                                              .padLeft(2, '0'); // Keeps "01"
-                                          hours = match
-                                              .group(2)!
-                                              .padLeft(2, '0'); // Keeps "00"
-                                          minutes = match
-                                              .group(3)!
-                                              .padLeft(2, '0'); // Ke
+// Updated regex to match optional days, hours, and minutes
+final regex = RegExp(
+  r'(?:(\d+)\s*days?)?\s*(?:(\d+)\s*hours?)?\s*(?:(\d+)\s*min)?',
+  caseSensitive: false,
+);
 
-                                          print(
-                                              "Days: $days, Hours: $hours, Minutes: $minutes");
-                                        } else {
-                                          print("Invalid format");
-                                        }
+final match = regex.firstMatch(time);
+
+String days = '00';
+String hours = '00';
+String minutes = '00';
+
+if (match != null) {
+  if (match.group(1) != null) {
+    days = match.group(1)!.padLeft(2, '0');
+  }
+  if (match.group(2) != null) {
+    hours = match.group(2)!.padLeft(2, '0');
+  }
+  if (match.group(3) != null) {
+    minutes = match.group(3)!.padLeft(2, '0');
+  }
+
+  print("Days: $days, Hours: $hours, Minutes: $minutes");
+} else {
+  print("Invalid format");
+}
+
                                         return Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
