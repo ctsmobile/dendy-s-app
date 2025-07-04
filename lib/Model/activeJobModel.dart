@@ -163,6 +163,7 @@ class User {
   dynamic clock_in;
   dynamic clock_out;
   Jobuser? jobuser;
+   int request_status;
 
   User({
     required this.id,
@@ -172,6 +173,8 @@ class User {
     required this.createdAt,
     required this.clock_in,
     required this.clock_out,
+    required this.request_status,
+
     required this.updatedAt,
     required this.jobuser,
   });
@@ -182,6 +185,7 @@ class User {
         employeeId: json["employee_id"],
         crewLead: json["crew_lead"],
         createdAt: json["created_at"],
+             request_status: json["request_status"],
         updatedAt: json["updated_at"],
         clock_in: json["clock_in"],
         clock_out: json["clock_out"],

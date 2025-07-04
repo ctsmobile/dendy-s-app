@@ -194,6 +194,8 @@ class Employees {
   dynamic createdAt;
   dynamic updatedAt;
   Jobuser? jobuser;
+    dynamic clock_in;
+  dynamic clock_out;
 
   Employees({
     required this.id,
@@ -203,6 +205,8 @@ class Employees {
     required this.createdAt,
     required this.updatedAt,
     required this.jobuser,
+      required this.clock_in,
+    required this.clock_out,
   });
 
   factory Employees.fromJson(Map<String, dynamic> json) => Employees(
@@ -212,6 +216,8 @@ class Employees {
         crewLead: json["crew_lead"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
+         clock_in: json["clock_in"],
+        clock_out: json["clock_out"],
         jobuser:
             json["jobuser"] == null ? null : Jobuser.fromJson(json["jobuser"]),
       );

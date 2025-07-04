@@ -10,6 +10,7 @@ import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:timer_builder/timer_builder.dart';
 
@@ -147,6 +148,116 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                     SizedBox(width: 15,)]),
 
                                                                     SizedBox(height: 20,),
+
+
+
+                                                           GetStorage().read('user_id') ==
+                                          controller.jobDetailsModel.data!.teamLead ||    controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in==null||controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out==null?SizedBox():     Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                                'My Clock-In Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+
+                                                                                                                                                      CustomText(
+                                                                        text:
+                                                                         '${DateFormat('MM/dd/yyyy').format(DateTime.parse(controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in))}, ${converter24To12(DateFormat('HH:mm:ss').format(DateTime.parse(controller
+                                                                                  .jobDetailsModel
+                                                                                  .data!
+                                                                                  .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in)))}',
+                                                                         
+                                                                        textColor:
+                                                                            grayColor,
+                                                                            fontSize: 14,
+                                                                        maxLines:
+                                                                            1,
+                                                                        textOverflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
+                                                                            ],
+                                                                          ),
+
+
+                                                                          
+                                                                    ),
+                                                                    
+                                                                       Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                                            children: [
+
+                                                                               CustomText(
+                                                                                                                                                      text:
+                                                                                'My Clock-Out Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                          '${DateFormat('MM/dd/yyyy').format(DateTime.parse(controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out))}, ${converter24To12(DateFormat('HH:mm:ss').format(DateTime.parse(controller
+                                                                                  .jobDetailsModel
+                                                                                  .data!
+                                                                                  .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out)))}',
+                                                                                                                                                      textColor:
+                                                                                grayColor,
+                                                                                                                                                      maxLines:
+                                                                                1,fontSize: 14,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+                                                                            ],
+                                                                          ),
+                                                                    ),
+                                                                    SizedBox(width: 15,)]),
+
+                                                                    SizedBox(height:GetStorage().read('user_id') ==
+                                          controller.jobDetailsModel.data!.teamLead ?0: 20,),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 20.0),

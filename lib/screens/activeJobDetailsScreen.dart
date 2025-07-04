@@ -11,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:timer_builder/timer_builder.dart';
 
 import '../routes.dart';
@@ -77,6 +79,122 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+
+                                               Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                                'Job Start Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+
+                                                                                                                                                      CustomText(
+                                                                        text:
+                                                                         '${DateFormat('MM/dd/yyyy').format(DateTime.parse(controller
+                                                                              .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .job_start_time!))}, ${converter24To12(DateFormat('HH:mm:ss').format(DateTime.parse(controller
+                                                                              .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .job_start_time!)))}',
+                                                                         
+                                                                        textColor:
+                                                                            grayColor,
+                                                                            fontSize: 14,
+                                                                        maxLines:
+                                                                            1,
+                                                                        textOverflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
+                                                                            ],
+                                                                          ),
+
+
+                                                                          
+                                                                    ),]),
+
+                                                                    SizedBox(height: 20,),
+
+
+    // controller
+    //                                                                           .activeJobModel
+    //                                                                           .value.data[controller.iindex.value]
+    //                                                                           .employees.firstWhere((employee) => 
+    //                                                                               employee.employeeId ==
+    //                                                                               GetStorage().read('user_id')as int).clock_in==null?SizedBox():     Row(
+    //                                                               crossAxisAlignment:
+    //                                                                   CrossAxisAlignment
+    //                                                                       .start,
+    //                                                               mainAxisAlignment:
+    //                                                                   MainAxisAlignment
+    //                                                                       .spaceBetween,
+    //                                                               children: [
+    //                                                                 Expanded(
+    //                                                                   child:
+    //                                                                       Column(
+    //                                                                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                                                                         children: [
+    //                                                                           CustomText(
+    //                                                                                                                                                   text:
+    //                                                                             'My Clock-In Time',
+    //                                                                                                                                                   textColor:
+    //                                                                             purpleColor,
+    //                                                                                                                                                   maxLines:
+    //                                                                             1,
+    //                                                                                                                                                   textOverflow:
+    //                                                                             TextOverflow.ellipsis,
+    //                                                                                                                                                 ),
+
+    //                                                                                                                                                   CustomText(
+    //                                                                     text:
+    //                                                                      '${DateFormat('MM/dd/yyyy').format(DateTime.parse(controller.activeJobModel
+    //                                                                          .value.data[controller.iindex.value]
+                                                                              
+    //                                                                           .employees.firstWhere((employee) => 
+    //                                                                               employee.employeeId ==
+    //                                                                               GetStorage().read('user_id')as int).clock_in))}, ${converter24To12(DateFormat('HH:mm:ss').format(DateTime.parse(controller.activeJobModel
+    //                                                                                 .value.data[controller.iindex.value]
+                                                                                  
+    //                                                                               .employees.firstWhere((employee) => 
+    //                                                                               employee.employeeId ==
+    //                                                                               GetStorage().read('user_id')as int).clock_in)))}',
+                                                                         
+    //                                                                     textColor:
+    //                                                                         grayColor,
+    //                                                                         fontSize: 14,
+    //                                                                     maxLines:
+    //                                                                         1,
+    //                                                                     textOverflow:
+    //                                                                         TextOverflow.ellipsis,
+    //                                                                   ),
+    //                                                                         ],
+    //                                                                       ),
+
+
+                                                                          
+    //                                                                 ),
+                                                                    
+                                                                       
+    //                                                                 SizedBox(width: 15,)]),
+
+    //                                                                 SizedBox(height: 20,),
+
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 20.0),
@@ -513,6 +631,12 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
+                                       GetStorage().read('user_id') !=
+                                          controller.activeJobModel
+                                                    .value
+                                                    .data[
+                                                        controller.iindex.value].team_lead?
+                                                        SizedBox():      Column(children: [
                                             controller
                                                     .activeJobModel
                                                     .value
@@ -692,7 +816,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                   );
                                                 },
                                               ),
-                                            ),
+                                            )]),
                                             SizedBox(
                                               height: Utils.height! / 10,
                                             ),
@@ -1011,6 +1135,88 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                               ) //
                             ],
                           ),
+                          controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).request_status==0
+                      ?  Positioned(
+                            bottom: 36,
+                            child: Container(
+                              width: Utils.width! / 1.4,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: purpleColor),
+                              child:Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: redColor2),
+                            child: CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: controller.isDeclineTap.value
+                                  ? null
+                                  : () async {
+                                      controller.acceptJob(  controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].id,forReject: true);
+                                    },
+                              child: Center(
+                                child: controller.isDeclineTap.value
+                                    ? Loader()
+                                    : Text(
+                                        "Decline",
+                                        style: GoogleFonts.amaranth(
+                                          color: appThemeColor,
+                                          fontSize: 20.0,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            width: 100,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: greenColor),
+                            child: CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: controller.isAcceptTap.value
+                                  ? null
+                                  : () async {
+                                      await GetStorage()
+                                          .remove('finishJob');
+                                      controller.acceptJob(  controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value].id);
+                                    },
+                              child: Center(
+                                child: controller.isAcceptTap.value
+                                    ? Loader()
+                                    : Text(
+                                        'Accept',
+                                        style: GoogleFonts.amaranth(
+                                          color: appThemeColor,
+                                          fontSize: 20.0,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ],
+                            ))):
                      controller
                                           .activeJobModel
                                           .value
@@ -1023,7 +1229,9 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: purpleColor),
-                              child: CupertinoButton(
+                              child:
+                              CupertinoButton(
+                             
                                 onPressed: () async {
                                   if (GetStorage().read('user_id') !=
                                       controller
@@ -1086,7 +1294,10 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                     }
                                   }
                                 },
-                                child:controller.isClockInTap.value?Loader(): CustomText(
+                                child:
+                                    
+                                
+                                controller.isClockInTap.value?Loader(): CustomText(
                                   text:(GetStorage().read('user_id') ==
                                       controller
                                           .activeJobModel

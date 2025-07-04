@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dendy_app/Model/activeJobModel.dart';
+import 'package:dendy_app/Model/loginModel.dart';
 import 'package:dendy_app/Network/post.dart';
+import 'package:dendy_app/controllers/dashboardController.dart';
 import 'package:dendy_app/routes.dart';
 import 'package:dendy_app/utils/appcolors.dart';
 import 'package:dendy_app/utils/utils.dart';
@@ -15,7 +17,8 @@ import 'package:intl/intl.dart';
 class ActiveJobController extends GetxController {
   var isDataLoading = false.obs;
   var isClockInTap = false.obs;
-
+  var isDeclineTap = false.obs;
+  var isAcceptTap = false.obs;
   var activeJobModel =
       ActiveJobModel(data: [], message: "null", status: false).obs;
   var iindex = 0.obs;
@@ -147,5 +150,79 @@ String jobClockInTime =
       isClockInTap(false);
     }
   }
+Future acceptJob(int jobId,{bool forReject = false}) async {
+    if (forReject) {
+      isDeclineTap.value = true;
+    } else {
+      isAcceptTap.value = true;
+    }
+
+    await acceptJobApi(jobId,forReject: forReject).then((acceptJobResponse) {
+      if (acceptJobResponse != null) {
+        if (!acceptJobResponse.status) {
+          showSnackBar(acceptJobResponse.message.toString());
+
+          if (forReject) {
+            isDeclineTap.value = false;
+          } else {
+            isAcceptTap.value = false;
+          }
+        } else {
+          if (forReject) {
+            showSnackBar('Job declined successfully !',
+                backgroundColor: purpleColor);
+          } else {
+            showSnackBar(acceptJobResponse.message.toString(),
+                backgroundColor: purpleColor);
+          }
+
+          if (forReject) {
+            isDeclineTap.value = false;
+             Get.offAllNamed(
+                    RouteConstant.activeJobListScreen,
+                  );
+          } else {
+            isAcceptTap.value = false;
+   
+            for (var employee in  activeJobModel
+                                          .value
+                                          .data[iindex.value].employees) {
+              if (employee.employeeId == GetStorage().read('user_id')) {
+                employee.request_status =
+                    1; // Update request_status to desired value
+                break; // Exit loop once found and updated
+              }
+            }
+          }
+       
+        }
+      } else {
+        if (forReject) {
+          isDeclineTap.value = false;
+        } else {
+          isAcceptTap.value = false;
+        }
+      }
+    });
+  }
+
+  Future<LoginModel?> acceptJobApi(int jobId,{bool forReject = false}) async {
+    try {
+      Post post = Post();
+      // var jobId = '101';
+      print("jobId: $jobId");
+      return await post
+          .post(
+        'job/${forReject ? 'rejectjob' : 'acceptjob'}/$jobId',
+      )
+          .then((dynamic res) async {
+        print("acceptjob$res");
+        return LoginModel.fromJson(res!);
+      });
+    } catch (e) {
+      log('Error in acceptjob is $e');
+    }
+  }
+
 
 }

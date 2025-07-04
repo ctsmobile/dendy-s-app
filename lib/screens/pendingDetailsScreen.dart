@@ -547,7 +547,7 @@ class PendingDetailsScreen extends StatelessWidget {
                                           () {
                                               if (!Get.isSnackbarOpen) {
                                                 showSnackBar(
-                                                    'Job is not started yet by team leader!');
+                                                    'Job is not started yet by crew leader!');
                                               }
                                             }
                                           : 
