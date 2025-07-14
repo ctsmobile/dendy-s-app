@@ -421,7 +421,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                   ),
                                                                   GestureDetector(
                                                                     child: Row(
-                                                                      crossAxisAlignment: controller.activeJobModel.value.data[controller.iindex.value].customer.location.toString().length <
+                                                                      crossAxisAlignment: controller.activeJobModel.value.data[controller.iindex.value].jobLocation.toString().length <
                                                                               30
                                                                           ? CrossAxisAlignment
                                                                               .center
@@ -444,7 +444,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                           child:
                                                                               CustomText(
                                                                             text:
-                                                                                controller.activeJobModel.value.data[controller.iindex.value].customer.location.toString(),
+                                                                                controller.activeJobModel.value.data[controller.iindex.value].jobLocation.toString(),
                                                                           ),
                                                                         ),
                                                                       ],
@@ -452,7 +452,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                                                     onTap: () {
                                                                       launchURL(
                                                                           Uri.parse(
-                                                                              'https://www.google.com/maps/search/?api=1&query=${controller.activeJobModel.value.data[controller.iindex.value].customer.lat.toString()},${controller.activeJobModel.value.data[controller.iindex.value].customer.lng.toString()}'));
+                                                                              'https://www.google.com/maps/search/?api=1&query=${controller.activeJobModel.value.data[controller.iindex.value].jobLat.toString()},${controller.activeJobModel.value.data[controller.iindex.value].jobLng.toString()}'));
                                                                     },
                                                                   ),
                                                                 ],

@@ -490,7 +490,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                                 GestureDetector(
                                                                   child: Row(
-                                                                    crossAxisAlignment: controller.jobDetailsModel.data!.customer.location.toString().length <
+                                                                    crossAxisAlignment: controller.jobDetailsModel.data!.jobLocation.toString().length <
                                                                             30
                                                                         ? CrossAxisAlignment
                                                                             .center
@@ -516,8 +516,8 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                           text: controller
                                                                               .jobDetailsModel
                                                                               .data!
-                                                                              .customer
-                                                                              .location
+                                                                              .jobLocation
+                                                                              
                                                                               .toString(),
                                                                         ),
                                                                       ),
@@ -526,7 +526,7 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                                                   onTap: () {
                                                                     launchURL(Uri
                                                                         .parse(
-                                                                            'https://www.google.com/maps/search/?api=1&query=${controller.jobDetailsModel.data!.customer.lat.toString()},${controller.jobDetailsModel.data!.customer.lng.toString()}'));
+                                                                            'https://www.google.com/maps/search/?api=1&query=${controller.jobDetailsModel.data!.jobLat.toString()},${controller.jobDetailsModel.data!.jobLng.toString()}'));
                                                                   },
                                                                 ),
                                                               ],
