@@ -196,6 +196,8 @@ class Employees {
   Jobuser? jobuser;
     dynamic clock_in;
   dynamic clock_out;
+  String spentTime;
+
 
   Employees({
     required this.id,
@@ -205,6 +207,7 @@ class Employees {
     required this.createdAt,
     required this.updatedAt,
     required this.jobuser,
+    required this.spentTime,
       required this.clock_in,
     required this.clock_out,
   });
@@ -215,6 +218,8 @@ class Employees {
         employeeId: json["employee_id"],
         crewLead: json["crew_lead"],
         createdAt: json["created_at"],
+        spentTime: json["spent_time"],
+
         updatedAt: json["updated_at"],
          clock_in: json["clock_in"],
         clock_out: json["clock_out"],

@@ -131,6 +131,127 @@ class ActiveJobDetailsScreen extends StatelessWidget {
 
                                                                     SizedBox(height: 20,),
 
+                                                                  GetStorage().read('user_id') ==
+                                      controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value]
+                                          .team_lead ||  controller
+                                                                              .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in==null?SizedBox():  Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                                'My Clock-In Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+
+                                                                                                                                                      CustomText(
+                                                                        text:
+                                                                         '${DateFormat('MM/dd/yyyy').format(DateTime.parse(controller
+                                                                              .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in.toString()))}, ${converter24To12(DateFormat('HH:mm:ss').format(DateTime.parse(controller
+                                                                              .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in.toString())))}',
+                                                                         
+                                                                        textColor:
+                                                                            grayColor,
+                                                                            fontSize: 14,
+                                                                        maxLines:
+                                                                            1,
+                                                                        textOverflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
+                                                                            ],
+                                                                          ),
+
+
+                                                                          
+                                                                    ),
+                                                                    controller
+                                                                               .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out==null?SizedBox():  Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                                            children: [
+
+                                                                               CustomText(
+                                                                                                                                                      text:
+                                                                                'My Clock-Out Time',
+                                                                                                                                                      textColor:
+                                                                                purpleColor,
+                                                                                                                                                      maxLines:
+                                                                                1,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+                                                                              CustomText(
+                                                                                                                                                      text:
+                                                                          '${DateFormat('MM/dd/yyyy').format(DateTime.parse(controller
+                                                                               .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out))}, ${converter24To12(DateFormat('HH:mm:ss').format(DateTime.parse(controller
+                                                                                .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                                  
+                                                                                  .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out)))}',
+                                                                                                                                                      textColor:
+                                                                                grayColor,
+                                                                                                                                                      maxLines:
+                                                                                1,fontSize: 14,
+                                                                                                                                                      textOverflow:
+                                                                                TextOverflow.ellipsis,
+                                                                                                                                                    ),
+                                                                            ],
+                                                                          ),
+                                                                    ),
+                                                                    SizedBox(width: 15,)]),
+
+                                                                      GetStorage().read('user_id') ==
+                                      controller
+                                          .activeJobModel
+                                          .value
+                                          .data[controller.iindex.value]
+                                          .team_lead || controller
+                                                                              .activeJobModel.value
+                                                                              .data[controller.iindex.value]
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in==null?SizedBox():  SizedBox(height: 20,),
+
 
     // controller
     //                                                                           .activeJobModel
@@ -917,15 +1038,45 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                               MainAxisAlignment.center,
                                           children: [
                                             TimerBuilder.periodic(
-                                                Duration(seconds: 1),
+                                                Duration(seconds: 1,),
                                                 builder: (context) {
-                                              String time = getTimeDifference(
+                                                   String time;
+                                                  if( controller
+                                                      .activeJobModel
+                                                      .value
+                                                      .data[controller
+                                                          .iindex.value]
+                                                      .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in==null || controller
+                                                      .activeJobModel
+                                                      .value
+                                                      .data[controller
+                                                          .iindex.value]
+                                                      .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_out!=null)
+                                                                                  {
+
+                                                                                      time = getTimeDifference(
+                                                  controller
+                                                      .activeJobModel
+                                                      .value
+                                                      .data[controller
+                                                          .iindex.value].
+                                                      job_start_time!);
+
+                                                                                  }else{
+
+                                               time = getTimeDifference(
                                                   controller
                                                       .activeJobModel
                                                       .value
                                                       .data[controller
                                                           .iindex.value]
-                                                      .job_start_time!);
+                                                      .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).clock_in);}
                                               print("ttt$time");
                                               final regex = RegExp(
                                                   r"(\d+)\s+days\s+(\d+)\s+Hours\s+(\d+)\s+Min\s+(\d+)\s+Sec",
@@ -1223,7 +1374,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                           .data[controller.iindex.value].employees.firstWhere((employee) => 
                                                                                   employee.employeeId ==
                                                                                   GetStorage().read('user_id')as int).clock_out!=null?SizedBox():     Positioned(
-                            bottom: 36,
+                            bottom: 32,
                             child: Container(
                               width: Utils.width! / 1.4,
                               decoration: BoxDecoration(
@@ -1251,7 +1402,7 @@ class ActiveJobDetailsScreen extends StatelessWidget {
                                           .activeJobModel
                                           .value
                                           .data[controller.iindex.value].id);
-
+                                  
 
 
 

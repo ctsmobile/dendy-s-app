@@ -1179,7 +1179,13 @@ class CompleteJobDetailsScreen extends StatelessWidget {
                                         ],
                                       ),
                                       child: Builder(builder: (context) {
-                                      String time = controller.jobDetailsModel.data!.spentTime.toString();
+                                              String time = controller
+                                                                              .jobDetailsModel
+                                                                              .data!
+                                                                              .employees.firstWhere((employee) => 
+                                                                                  employee.employeeId ==
+                                                                                  GetStorage().read('user_id')as int).spentTime.toString();
+                                  
 
 // Updated regex to match optional days, hours, and minutes
 final regex = RegExp(

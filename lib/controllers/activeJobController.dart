@@ -88,7 +88,7 @@ class ActiveJobController extends GetxController {
 
    Future clockIn(int jobId,{bool isClockIn=true}) async {
     isClockInTap.value = true;
-    await clockInApi(jobId, isClockIn: isClockIn).then((clockInResponse) {
+    await clockInApi(jobId, isClockIn: isClockIn).then((clockInResponse) async{
       print("clockInResponse$clockInResponse");
       if (clockInResponse != null) {
         if (!clockInResponse['status']) {
@@ -97,22 +97,24 @@ class ActiveJobController extends GetxController {
           isClockInTap.value = false;
         } else {
             showSnackBar(clockInResponse['message'].toString(), backgroundColor: purpleColor);
-String jobClockInTime =
-          DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
+// String jobClockInTime =
+//           DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
             if(isClockIn){
-            
-      activeJobModel
-                                          .value
-                                          .data[iindex.value].employees.firstWhere((employee) => 
-                                                                                  employee.employeeId ==
-                                                                                  GetStorage().read('user_id')as int).clock_in=jobClockInTime;}
+               await  getActiveJobDetails();
+                   isClockInTap.value = false;
+            }
+      // activeJobModel
+      //                                     .value
+      //                                     .data[iindex.value].employees.firstWhere((employee) => 
+      //                                                                             employee.employeeId ==
+      //                                                                             GetStorage().read('user_id')as int).clock_in=jobClockInTime;}
                                                                                   else{
                                                                                      
                                                                                     Get.offAllNamed(RouteConstant.dashboardScreen,
            );
                                                                                   }
 
-          isClockInTap.value = false;
+      
         }
       } else {
         isClockInTap.value = false;
